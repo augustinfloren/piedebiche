@@ -5,7 +5,7 @@ function piedebiche_support () {
     add_theme_support('title-tag');
 }
 
-// Image à la une
+// Images à la une
 add_theme_support('post-thumbnails');
 
 // Style
