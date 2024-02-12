@@ -1,8 +1,10 @@
 <?php 
 get_header();
 
+piedebiche_player_show();
 piedebiche_carrousel_photo_show();
 piedebiche_carrousel_video_show();
+
 
 // ========== AGENDA CONCERTS ==========
 
@@ -29,7 +31,6 @@ if ($query->have_posts()) {
                 <h3>$salle</h3>
                 <h3>$pays</h3>
                 <a href='" . esc_url($lien) . "'>Infos</a>
-                
               </div>";
     }
     // Réinitialiser les données de la requête

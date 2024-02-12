@@ -1,0 +1,36 @@
+.castos-player .player__podcast-title {
+    display: none;
+}
+.castos-player .episode-title {
+    font-family: 'karrik-regular', sans-serif !important;
+    font-size: 10px;
+}
+
+.castos-player .play-pause-controls {
+    background: none;
+}
+
+.castos-player .play-progress .play-pause-controls .play-btn{
+    /* background: none; */
+    mask-image: none;
+    background-image: url("../images/playbtn.png");
+    background-size: 21px auto; 
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0);
+    background-position: center;
+}
+
+.castos-player .play-progress .play-pause-controls .pause-btn {
+    /* background: none;  */
+    background-image: url("../images/pausebtn.png");
+    background-size: 17px auto; 
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0);
+    background-position: center;
+    /* background-size: contain; */
+}
+
+.castos-player.light-mode .player {
+    background: black;
+}
+
