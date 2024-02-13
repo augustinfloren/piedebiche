@@ -33,7 +33,7 @@ function piedebiche_player_init() {
         'public'=> true,
         'publicity_queryable' => false,
         'labels' => $pdb_player_labels,
-        'menu_icon' => 'dashicons-format-gallery',
+        'menu_icon' => 'dashicons-format-audio',
         'capability_type' => 'post',
         'supports' => array('title'),
     ));
@@ -103,10 +103,15 @@ function piedebiche_player_show($limit = 10) {
     echo '<div id="piedebiche-player">'; 
     while($tracks->have_posts()) {
         $tracks->the_post();
-        echo '<audio controls>';
-        echo '<source src="' . esc_url(get_post_meta(get_the_ID(), '_audio_file', true)) . '" type="audio/mpeg">';
-        echo 'Your browser does not support the audio element.';
-        echo '</audio>';
+        the_title('<h2>', '</h2>');
+        echo 
+        '
+        <h3></h3>
+        <audio controls class="pdb-track">;
+        <source src="' . esc_url(get_post_meta(get_the_ID(), '_audio_file', true)) . '" type="audio/mpeg">
+        Your browser does not support the audio element.;
+        </audio>
+        ';
     }
     echo '</div>';
 }

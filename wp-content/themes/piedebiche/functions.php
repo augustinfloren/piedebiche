@@ -26,9 +26,9 @@ function piedebiche_scripts() {
 // ========== INCLUDES ==========
 
 // Page d'administration
-require_once get_template_directory() . '/includes/administration-page.php';
+require_once get_template_directory() . '/includes-functions/administration-page.php';
 // Concerts
-require_once get_template_directory() . '/includes/concerts-posts.php';
+require_once get_template_directory() . '/includes-functions/concerts-posts.php';
 
 // ========== ACTIONS ==========
 

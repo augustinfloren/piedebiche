@@ -1,42 +1,39 @@
-<?php 
-get_header();
+<?php get_header(); ?>
+<!-- piedebiche_player_show(); -->
+<!-- piedebiche_carrousel_photo_show(); -->
+<!-- piedebiche_carrousel_video_show(); -->
 
-piedebiche_player_show();
-piedebiche_carrousel_photo_show();
-piedebiche_carrousel_video_show();
+<!-- ========== MAIN ========== -->
 
+    <div class="sections section1">
+        <div class="pdb-video-container">
+            <video autoplay muted loop id="pdb-video">
+                <source src="<?php echo get_template_directory_uri() . '/public/videos/pdb-video-bg.mp4'; ?>" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
 
-// ========== AGENDA CONCERTS ==========
+    <div class="sections section2">
 
-// Récupération posts concerts
-$query = new WP_Query([
-    'post_type' => 'pdb_concert',
-    'posts_per_page' => 10, // Nombre de publications à afficher
-]);
+    </div>
 
-// Récupération champs
-if ($query->have_posts()) {
-    while ($query->have_posts()) {
-        $query->the_post();
-        $date = get_field('date');
-        $heure = get_field('heure');
-        $salle = get_field('salle');
-        $ville = get_field('ville');
-        $pays = get_field('pays');
-        $lien = get_field('lien');
-        // Affichage du contenu
-        echo "<div> 
-                <h3>$date</h3>
-                <h3>$heure</h3>
-                <h3>$salle</h3>
-                <h3>$pays</h3>
-                <a href='" . esc_url($lien) . "'>Infos</a>
-              </div>";
-    }
-    // Réinitialiser les données de la requête
-    wp_reset_postdata();
-} else {
-    echo 'Aucun concert trouvé.';
-}
+    <div class="sections section3">
 
-get_footer(); 
+    </div>
+
+    <div class="sections section4">
+
+    </div>
+
+    <div class="sections section5">
+
+    </div>
+
+    <div class="sections section6">
+
+    </div>
+
+<?php // require_once get_template_directory() . '/includes-home/concerts.php'; // Agenda Concerts?> 
+
+<?php get_footer(); ?>
