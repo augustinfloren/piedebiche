@@ -42,14 +42,38 @@ body {
 }
 
 #pdb-logo {
-    width: 500px;
+    width: 690px;
 }
 
 #pdb-main-menu {
     z-index: 1;
     position: fixed;
-    right: 5%;
-    top: 50%;
+    right: 10%;
+    top: 40%;
+    text-transform: uppercase;
+}
+
+#pdb-main-menu ul{
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#pdb-main-menu ul li a {
+    font-family: "karrik-italic", sans-serif;
+    font-size: 35px;
+    background-color: white;
+    padding: 0px 6px;
+}
+
+#pdb-main-menu > ul > li:first-child {
+    transform: rotate(-8deg);
+}
+
+#pdb-main-menu > ul > li:nth-child(2) {
+    transform: rotate(-5deg);
 }
 
 /* ========== Main ========== */
