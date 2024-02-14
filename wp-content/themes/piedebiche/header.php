@@ -9,17 +9,17 @@
 <body>
     <div class="container">
         <header>
-            <div id="pdb-logo-container">
+            <a href="#pdb-home" id="pdb-logo-container">
                 <img id="pdb-logo" src="<?php echo get_template_directory_uri() . '/public/images/pdb-logo.png';?>" alt="Logo de piedebiche">
-            </div>
+            </a>
             <nav id="pdb-main-menu">
                 <ul>
-                    <li><a href="#">Musique</a></li>
-                    <li><a href="#">Vidéos</a></li>
-                    <li><a href="#">Photos</a></li>
-                    <li><a href="#">Concerts</a></li>
+                    <li><a href="#pdb-music">Musique</a></li>
+                    <li><a href="#pdb-videos">Vidéos</a></li>
+                    <li><a href="#pdb-photos">Photos</a></li>
+                    <li><a href="#pdb-concerts">Concerts</a></li>
                     <li><a href="#">Merch</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#pdb-contact">Contact</a></li>
                     <li><a href="#">Pro</a></li>
                 </ul>
             </nav>

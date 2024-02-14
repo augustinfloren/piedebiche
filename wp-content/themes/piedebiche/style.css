@@ -2,6 +2,10 @@
 Theme Name: piedebiche
 */
 
+:root {
+    --mint-white: #eaf3f4;
+}
+
 @font-face {
     font-family: 'karrik-regular';
     src: url("public/fonts/karrik-regular.ttf") format("truetype"),
@@ -20,6 +24,9 @@ Theme Name: piedebiche
 	font-style: italic;
 }
 
+html {
+}
+
 body {
     font-family: 'karrik-regular', sans-serif;
 }
@@ -29,9 +36,12 @@ body {
     height: 100vh;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
 }
 
 /* ========== Header ========== */
+
+/* Logo */
 
 #pdb-logo-container {
     z-index: 1;
@@ -45,12 +55,18 @@ body {
     width: 690px;
 }
 
+/* Menu */
+
 #pdb-main-menu {
     z-index: 1;
     position: fixed;
     right: 10%;
     top: 40%;
     text-transform: uppercase;
+}
+
+#pdb-main-menu a {
+    /* transition: all 0.2s ease-in-out; */
 }
 
 #pdb-main-menu ul{
@@ -61,19 +77,47 @@ body {
     gap: 20px;
 }
 
-#pdb-main-menu ul li a {
+#pdb-main-menu ul li {
     font-family: "karrik-italic", sans-serif;
     font-size: 35px;
-    background-color: white;
+    background-color: var(--mint-white);
     padding: 0px 6px;
 }
 
+#pdb-main-menu ul li:hover {
+    background-color: transparent;
+    color: var(--mint-white);
+    filter: blur(2px);
+}
+
 #pdb-main-menu > ul > li:first-child {
-    transform: rotate(-8deg);
+    transform: rotate(-2deg);
 }
 
 #pdb-main-menu > ul > li:nth-child(2) {
-    transform: rotate(-5deg);
+    transform: rotate(1deg);
+    align-self: start;
+}
+
+#pdb-main-menu > ul > li:nth-child(3) {
+    transform: rotate(3deg);
+}
+
+#pdb-main-menu > ul > li:nth-child(5) {
+    transform: rotate(-2deg);
+}
+
+#pdb-main-menu > ul > li:nth-child(7) {
+}
+
+#pdb-main-menu > ul > li:nth-child(7) {
+    background: none;
+    border: 1px solid var(--mint-white);
+    color: var(--mint-white);
+}
+
+#pdb-main-menu > ul > li:nth-child(7):hover {
+    border: none;
 }
 
 /* ========== Main ========== */
