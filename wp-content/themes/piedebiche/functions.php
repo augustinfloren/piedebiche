@@ -8,19 +8,16 @@ function piedebiche_support () {
 // Images à la une
 add_theme_support('post-thumbnails');
 
-// Style
+// Styles et Scripts
 function piedebiche_register_assets () {
-  // Enregistrement du style de réinitialisation en premier
+  // Enregistrement du style de réinitialisation
   wp_enqueue_style('reset', get_template_directory_uri() . '/public/css/reset.css', array(), '1.0.0', 'all');
-  // Enregistrement du style principal avec comme dépendance le style de réinitialisation
+  // Enregistrement du style principal
   wp_enqueue_style('style', get_stylesheet_uri(), array('reset'), '1.0.0', 'all');
-  // Enregistrement du style du lecteur audio avec comme dépendance le style de réinitialisation
+  // Enregistrement du style du lecteur audio
   wp_enqueue_style('player', get_template_directory_uri() . '/public/css/player.css', array('reset'), '1.0.0', 'all');
-}
-
-// Scripts
-function piedebiche_scripts() {
-  wp_enqueue_script('piedebiche', get_template_directory_uri() . '/assets/js/piedebiche.js', array('jquery'), '1.0.0', true);
+  // Enregistrement du script principal
+  wp_enqueue_script('piedebiche', get_template_directory_uri() . '/public/js/pdb.js', array(), '1.0.0', true);
 }
 
 // ========== INCLUDES ==========

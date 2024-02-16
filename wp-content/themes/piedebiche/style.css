@@ -58,8 +58,8 @@ body {
 #pdb-main-menu {
     z-index: 1;
     position: fixed;
-    right: 10%;
-    top: 40%;
+    left: 7%;
+    top: 30%;
     text-transform: uppercase;
 }
 
@@ -71,40 +71,52 @@ body {
     gap: 15px;
 }
 
-#pdb-main-menu ul li {
+#pdb-main-menu ul li a {
+    display: block;
     font-family: "karrik-italic", sans-serif;
     font-size: 35px;
     background-color: var(--mint-white);
     padding: 0px 6px;
 }
 
-#pdb-main-menu ul li:hover {
+#pdb-main-menu ul li a:hover {
     background-color: transparent;
     color: var(--mint-white);
     filter: blur(2px);
 }
 
-#pdb-main-menu > ul > li:first-child {
+#pdb-main-menu ul li .active {
+    background-color: transparent;
+    color: var(--mint-white);
+    filter: blur(2px);
+}
+
+#pdb-main-menu > ul > li:first-child > a {
     transform: rotate(-1deg);
     margin-left: 10px;
 }
 
-#pdb-main-menu > ul > li:nth-child(2) {
+#pdb-main-menu > ul > li:nth-child(2) > a {
     transform: rotate(1deg);
-    align-self: start;
+    margin-right: 60px;
 }
 
-#pdb-main-menu > ul > li:nth-child(3) {
+#pdb-main-menu > ul > li:nth-child(3) > a {
     transform: rotate(2deg);
     margin-right: 20px;
 }
 
-#pdb-main-menu > ul > li:nth-child(5) {
+#pdb-main-menu > ul > li:nth-child(5) > a {
+    transform: rotate(-1deg);
+    margin-right: 10px;
+}
+
+#pdb-main-menu > ul > li:nth-child(6) > a {
     transform: rotate(-1deg);
     margin-right: 20px;
 }
 
-#pdb-main-menu > ul > li:nth-child(7) {
+#pdb-main-menu > ul > li:nth-child(7) > a {
     background: none;
     border: 1px solid var(--mint-white);
     color: var(--mint-white);
@@ -112,7 +124,7 @@ body {
     margin-right: 40px;
 }
 
-#pdb-main-menu > ul > li:nth-child(7):hover {
+#pdb-main-menu > ul > li:nth-child(7) > a:hover {
     border: none;
 }
 
