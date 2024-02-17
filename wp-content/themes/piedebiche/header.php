@@ -9,9 +9,11 @@
 <body>
     <div class="container">
         <header>
-            <a href="#pdb-home" id="pdb-logo-container">
-                <img id="pdb-logo" src="<?php echo get_template_directory_uri() . '/public/images/pdb-logo.png';?>" alt="Logo de piedebiche">
-            </a>
+            <div id="pdb-logo-container">
+                <a href="#pdb-home">
+                    <img id="pdb-logo" src="<?php echo get_template_directory_uri() . '/public/images/pdb-logo.png';?>" alt="Logo de piedebiche">
+                </a>
+            </div>
             <nav id="pdb-main-menu">
                 <ul>
                     <li><a href="#pdb-music">Musique</a></li>
