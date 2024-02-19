@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title><?php bloginfo('name'); ?></title>
     <?php wp_head() ?>
 </head>
@@ -14,7 +15,11 @@
                     <img id="pdb-logo" src="<?php echo get_template_directory_uri() . '/public/images/pdb-logo.png';?>" alt="Logo de piedebiche">
                 </a>
             </div>
+            <button id="pdb-burger">
+                <div id="pdb-burger-bar"></div>
+            </button>
             <nav id="pdb-main-menu">
+                </ul>
                 <ul>
                     <li><a href="#pdb-music">Musique</a></li>
                     <li><a href="#pdb-videos">Vidéos</a></li>
@@ -23,6 +28,5 @@
                     <li><a href="#">Merch</a></li>
                     <li><a href="#pdb-contact">Contact</a></li>
                     <li><a href="#">Pro</a></li>
-                </ul>
             </nav>
         </header>

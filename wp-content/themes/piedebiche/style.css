@@ -79,13 +79,13 @@ body {
     padding: 0px 6px;
 }
 
-#pdb-main-menu ul li a:hover {
+/* #pdb-main-menu ul li a:hover {
     background-color: transparent;
     color: var(--mint-white);
     filter: blur(2px);
-}
+} */
 
-#pdb-main-menu ul li .active {
+#pdb-main-menu ul li a.active {
     background-color: transparent;
     color: var(--mint-white);
     filter: blur(2px);
@@ -226,24 +226,109 @@ audio::-webkit-media-controls-timeline {
     background-color: #007bff; /* Couleur de remplissage */
 }
 
+/* ========== Menu responsive ========== */
+
+#pdb-burger {
+    position: fixed;
+    z-index: 98;
+    right: 5vw;
+    top: 2vh;
+    display: none;
+    width: 55px;
+    cursor: pointer;
+
+    appearance: none;
+    background: none;
+    outline: none;
+    border: none;
+}
+
+#pdb-burger-bar, #pdb-burger:after, #pdb-burger:before{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 8px;
+    background-color: white;
+    margin: 8px 0px;
+    transition: 0.4s;
+}
+
+#pdb-burger.active:before{
+    transform: rotate(-45deg) translate(-14px, 13px);
+}
+
+#pdb-burger.active:after{
+    transform: rotate(45deg) translate(-9px, -8px);
+}
+
+#pdb-burger.active #pdb-burger-bar{
+    opacity: 0;
+}
+
+#pdb-main-menu ul.active {
+    display: flex;
+}
+
 @media (max-height: 700px) {
     #pdb-logo {
       max-width: 500px;
     }
   }
 
-/* @media (max-width: 480px) {
-} */
-
 @media (max-width: 700px) {
+
+    #pdb-player {
+        grid-column: col-start 3 / span 8;
+        grid-row: col-start 4 / span 6;
+    }
+
+}
+
+@media (max-width: 900px) {
 
     #pdb-logo {
         width: 70vw;
         margin-right: 15vw;
     }
 
-    #pdb-player {
-        grid-column: col-start 3 / span 8;
-        grid-row: col-start 4 / span 6;
+    #pdb-burger {
+        display: block;
+    }
+
+    #pdb-main-menu {
+        left: 50%;
+        top: 19%;
+        transform: translate(-50%);
+    }
+
+    #pdb-main-menu ul {
+        display: none;
+        gap: 29px;
+    }
+
+    #pdb-main-menu ul li a {
+        font-size: 43px;
+    }
+
+}
+
+@media (max-width: 450px) {
+    #pdb-burger {
+        width: 45px;
+        right: 3%;
+        top: 2%;
+    }
+
+    #pdb-burger-bar, #pdb-burger:after, #pdb-burger:before{
+        height: 6px;
+        margin: 6px 0px;
+    }
+
+    #pdb-burger.active:before{
+        transform: rotate(-45deg) translate(-9px, 7px);
+    }
+    
+    #pdb-burger.active:after{
+        transform: rotate(45deg) translate(-9px, -8px);
     }
 }
