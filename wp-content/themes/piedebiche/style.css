@@ -79,12 +79,6 @@ body {
     padding: 0px 6px;
 }
 
-/* #pdb-main-menu ul li a:hover {
-    background-color: transparent;
-    color: var(--mint-white);
-    filter: blur(2px);
-} */
-
 #pdb-main-menu ul li a.active {
     background-color: transparent;
     color: var(--mint-white);
@@ -188,43 +182,6 @@ body {
 }
 
 /* ========== Audio Player ========== */
-
-/* Styles généraux du lecteur audio */
-audio {
-    width: 100%; /* Largeur du lecteur audio */
-    margin-bottom: 20px; /* Marge inférieure */
-}
-
-/* Barre de progression */
-audio::-webkit-media-controls-timeline {
-    background-color: #f2f2f2; /* Couleur de fond */
-}
-
-/* Boutons de contrôle (lecture, pause, etc.) */
-audio::-webkit-media-controls-play-button,
-audio::-webkit-media-controls-pause-button,
-audio::-webkit-media-controls-mute-button,
-audio::-webkit-media-controls-volume-slider {
-    background-color: #007bff; /* Couleur de fond */
-    color: #fff; /* Couleur de police */
-}
-
-/* Barre de volume */
-audio::-webkit-media-controls-volume-slider {
-    background-color: #ccc; /* Couleur de fond */
-}
-
-/* Barre de progression de la lecture */
-audio::-webkit-media-controls-current-time-display,
-audio::-webkit-media-controls-time-remaining-display {
-    color: #007bff; /* Couleur du texte */
-}
-
-/* Barre de progression de la lecture (élément de remplissage) */
-audio::-webkit-media-controls-play-button:before,
-audio::-webkit-media-controls-timeline {
-    background-color: #007bff; /* Couleur de remplissage */
-}
 
 /* ========== Menu responsive ========== */
 

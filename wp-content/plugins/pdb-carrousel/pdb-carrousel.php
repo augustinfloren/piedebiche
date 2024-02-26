@@ -13,8 +13,9 @@ add_action("add_meta_boxes","piedebiche_carrousel_metaboxes_photo");
 add_action("do_meta_boxes", "piedebiche_event_metaboxes_photo");
 add_action('manage_edit-slide_photo_columns', 'piedebiche_carrousel_columnfilter');
 add_action('manage_posts_custom_column', 'piedebiche_carrousel_column');
+ 
+// ========== Paramètres carrousels photo et video administration ==========
 
-// Paramètres carrousel photo administration
 function piedebiche_carrousels_init() {
 
     $photo_labels = array(
@@ -67,7 +68,9 @@ function piedebiche_carrousels_init() {
     ));
 }
 
-// Vignette Carrousel
+// ========== Carrousel Photo ==========
+
+// Vignette administration Carrousel photo
 function piedebiche_carrousel_columnfilter($columns) {
     $thumb = array('thumbnail' => 'Image');
     $columns = array_slice($columns, 0, 1) + $thumb + array_slice($columns, 1, null);
@@ -79,36 +82,6 @@ function piedebiche_carrousel_column($column) {
     if ($column == 'thumbnail') {
         echo edit_post_link(get_the_post_thumbnail($post->ID, 'thumbnail'), null, null, $post->ID);
     } 
-}
-
-// Hook Metabox lien
-function piedebiche_carrousel_metaboxes() {
-    add_meta_box('piedebiche_carrousel', 'Lien', 'piedebiche_carrousel_metabox', 'slide_video', 'normal', 'high') ;
-}
-
-// Metabox pour gérer le lien
-function piedebiche_carrousel_metabox($object) {
-    wp_nonce_field('piedebiche_carrousel', 'piedebiche_carrousel_nonce'); // Token pour éviter XSS
-    ?>
-    <div class="meta-box-item-content">
-        <input type="text" name="piedebiche_carrousel_link" style="width:100%;" value="<?= esc_attr(get_post_meta($object->ID, '_link', true)); ?>">
-    </div>
-    <?php
-}
-
-// Sauvegarde de la metabox lien
-function piedebiche_carrousel_savepost($post_id, $post) {
-    
-    if(!isset($_POST['piedebiche_carrousel_link']) || !wp_verify_nonce($_POST['piedebiche_carrousel_nonce'], 'piedebiche_carrousel')) {
-        return $post_id;
-    }
-
-    $type = get_post_type_object($post->post_type);
-    if(current_user_can($type->cap->edit_post)) {
-        return $post_id;
-    }
-
-    update_post_meta($post_id,'_link', $_POST['piedebiche_carrousel_link']);
 }
 
 // Modification de la metabox image mis en avant
@@ -126,11 +99,43 @@ function piedebiche_event_metaboxes_photo() {
 	);
 }
 
-// Affichage du Carrousel
+// ========== Carrousel Vidéo ==========
+
+// Hook Metabox lien vidéo
+function piedebiche_carrousel_metaboxes() {
+    add_meta_box('piedebiche_carrousel', 'Lien', 'piedebiche_carrousel_metabox', 'slide_video', 'normal', 'high') ;
+}
+
+// Metabox pour gérer le lien vidéo
+function piedebiche_carrousel_metabox($object) {
+    wp_nonce_field('piedebiche_carrousel', 'piedebiche_carrousel_nonce'); // Token pour éviter XSS
+    ?>
+    <div class="meta-box-item-content">
+        <input type="text" name="piedebiche_carrousel_link" style="width:100%;" value="<?= esc_attr(get_post_meta($object->ID, '_link', true)); ?>">
+    </div>
+    <?php
+}
+
+// Sauvegarde de la metabox lien vidéo
+function piedebiche_carrousel_savepost($post_id, $post) {
+    
+    if(!isset($_POST['piedebiche_carrousel_link']) || !wp_verify_nonce($_POST['piedebiche_carrousel_nonce'], 'piedebiche_carrousel')) {
+        return $post_id;
+    }
+
+    $type = get_post_type_object($post->post_type);
+    if(current_user_can($type->cap->edit_post)) {
+        return $post_id;
+    }
+
+    update_post_meta($post_id,'_link', $_POST['piedebiche_carrousel_link']);
+}
+ 
+// ========== Affichage du Carrousel ==========
 function piedebiche_carrousel_photo_show($limit = 10) {
     wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel.js'); // Chargement JS
     $slides = new WP_query("post_type=slide_photo&posts_per_page=$limit"); 
-    echo '<div id="piedebiche-carrousel-photo">'; 
+    echo '<div id="pdb-carrousel-photo">'; 
     while($slides->have_posts()) {
         $slides->the_post();
         global $post;
@@ -143,7 +148,7 @@ function piedebiche_carrousel_photo_show($limit = 10) {
 function piedebiche_carrousel_video_show($limit = 10) {
     wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel.js'); // Chargement JS
     $slides = new WP_query("post_type=slide_video&posts_per_page=$limit"); 
-    echo '<div id="piedebiche-carrousel-video">'; 
+    echo '<div id="pdb-carrousel-video">'; 
     while($slides->have_posts()) {
         $slides->the_post();
         global $post;

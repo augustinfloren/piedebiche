@@ -15,7 +15,7 @@
     </div>
 
     <div class="sections section2" id="pdb-music">
-        <div id="pdb-player"></div>
+        <?php piedebiche_player_show() ?>
     </div>
 
     <div class="sections section3" id="pdb-videos">

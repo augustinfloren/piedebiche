@@ -10,7 +10,7 @@ add_action('add_meta_boxes', 'piedebiche_player_metaboxes');
 add_action('init', 'piedebiche_player_init');
 add_action('save_post', 'piedebiche_register_player_metaboxes', 10 ,2);
 
-// Paramètres Player administration
+// ========== Paramètres Player administration ==========
 function piedebiche_player_init() {
 
     $pdb_player_labels = array(
@@ -39,7 +39,7 @@ function piedebiche_player_init() {
     ));
 }
 
-// Metaboxes Player 
+// ========== Metaboxes Player ==========
 function piedebiche_player_metaboxes() {
     add_meta_box('piedebiche_player', 'Morceau', 'piedebiche_player_metabox', 'pdb_track', 'normal', 'high') ;
 }
@@ -93,25 +93,73 @@ function piedebiche_register_player_metaboxes($post_id, $post) {
     update_post_meta($post_id,'_audio_file', $_POST['piedebiche_audio_file']);
 }
 
-// Affichage du Player
+$pdb_tracks = array(); // Création du tableau contenant les morceaux
+
+// ========== Affichage du Player ==========
 function piedebiche_player_show($limit = 10) {
-    $tracks = new WP_query(array(
+
+    wp_enqueue_script('pdb-player', plugins_url().'/pdb-player/js/pdb-player.js'); // Chargement JS
+    include(plugin_dir_path(__FILE__) . 'pdb-player-template.php'); // Chargement HTML
+
+    $tracks = new WP_Query(array(
         'post_type' => 'pdb_track',
         'posts_per_page' => $limit,
     )); 
     
-    echo '<div id="piedebiche-player">'; 
-    while($tracks->have_posts()) {
+    // Création d'un tableau d'objet avec contenant les morceaux 
+    class AudioTrack { // Création d'une classe
+        public $title;
+        public $url;
+        
+        function __construct($prop1, $prop2) {
+            $this->title = $prop1;
+            $this->url = $prop2;
+        }
+    }
+
+
+    while($tracks->have_posts()) { // Récupération des données des morceaux 
         $tracks->the_post();
-        the_title('<h2>', '</h2>');
-        echo 
-        '
-        <h3></h3>
-        <audio controls class="pdb-track">;
-        <source src="' . esc_url(get_post_meta(get_the_ID(), '_audio_file', true)) . '" type="audio/mpeg">
-        Your browser does not support the audio element.;
-        </audio>
-        ';
+        $track_title = get_the_title();
+        $track_url = esc_url(get_post_meta(get_the_ID(), '_audio_file', true));
+        
+        $pdb_track = new AudioTrack($track_title, $track_url); // Création de l'objet 
+        
+        $pdb_tracks[] = $pdb_track; // Ajout de l'objet dans le tableau 
+    }
+
+    // Template HTML d'un morceau
+    function generate_track($url) {
+        ?>
+
+        <div class="pdb-track">
+            <div class="time-bar">
+                <input type="range" class="pdb-track-bar" min="0" value="0">
+                <span class="elapsed">0:00</span> <span class="track-time">1:00</span>
+            </div> 
+            <div>
+                <audio src="<?= $url ?>"></audio>
+                <img class="pdb-track-play-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/play-btn.png'?>" alt="play button">
+
+                <img class="pdb-track-pause-btn" src="/public/images/pause-btn.png" alt="pause button">
+            </div>
+            <div class="volume-bar">
+                <img src="/public/images/sound-btn.png" alt="volume button" class="volume-btn">
+                <input type="range" class="track-volume" min="0" max="1" value ="1" step="0.1"> 
+            </div>
+        </div>
+        
+        <?php
+    }
+        
+    // Générer les morceaux
+    echo '<div id="pdb-player">';
+    foreach ($pdb_tracks as $pdb_track) {
+        generate_track($pdb_track->url);
     }
     echo '</div>';
+
+
+    wp_localize_script('pdb-player', 'audio_tracks', $audio_tracks); // Envoie des données au fichier js
+
 }
