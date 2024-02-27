@@ -181,8 +181,6 @@ body {
     object-fit: cover; 
 }
 
-/* ========== Audio Player ========== */
-
 /* ========== Menu responsive ========== */
 
 #pdb-burger {
@@ -232,15 +230,6 @@ body {
     }
   }
 
-@media (max-width: 700px) {
-
-    #pdb-player {
-        grid-column: col-start 3 / span 8;
-        grid-row: col-start 4 / span 6;
-    }
-
-}
-
 @media (max-width: 900px) {
 
     #pdb-logo {
@@ -265,6 +254,11 @@ body {
 
     #pdb-main-menu ul li a {
         font-size: 43px;
+    }
+
+    #pdb-player {
+        grid-column: col-start 3 / span 8;
+        grid-row: col-start 4 / span 6;
     }
 
 }
