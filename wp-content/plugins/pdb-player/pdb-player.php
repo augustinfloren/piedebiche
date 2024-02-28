@@ -53,10 +53,14 @@ function piedebiche_player_init() {
 // ========== Metaboxes Player ==========
 
 function piedebiche_player_metaboxes() {
-    add_meta_box('piedebiche_player', 'Morceau', 'piedebiche_player_metabox', 'pdb_track', 'normal', 'high') ;
+    // metabox ajout de morceau
+    add_meta_box('piedebiche_player_track', 'Morceau', 'piedebiche_player_track_metabox', 'pdb_track', 'normal', 'high') ; 
+    // metabox titre de l'album
+    add_meta_box('piedebiche_player_album_title', 'Album', 'piedebiche_player_album_title_metabox', 'pdb_track', 'normal', 'high') ;
 }
 
-function piedebiche_player_metabox($object) {
+// Paramètres de la metabox Ajout de morceau 
+function piedebiche_player_track_metabox($object) {
     wp_nonce_field('piedebiche_player', 'piedebiche_player_nonce'); // Token pour éviter XSS
     ?>
     <div class="meta-box-item-content">
@@ -92,22 +96,41 @@ function piedebiche_player_metabox($object) {
     <?php
 }
 
-function piedebiche_register_player_metaboxes($post_id, $post) {
-    if (!isset($_POST['piedebiche_audio_file']) || !wp_verify_nonce($_POST['piedebiche_player_nonce'], 'piedebiche_player')) {
-        return $post_id;
-    }
-
-    $type = get_post_type_object($post->post_type);
-    if(current_user_can($type->cap->edit_post)) {
-        return $post_id;
-    }
-
-    update_post_meta($post_id,'_audio_file', $_POST['piedebiche_audio_file']);
+// Paramètres de la metabox Titre de l'album
+function piedebiche_player_album_title_metabox($object) {
+    $album_title = get_post_meta($object->ID, 'album_title', true);
+    ?>
+    <label for="album_title">Titre de l'album :</label>
+    <input type="text" id="album_title" name="album_title" value="<?php echo esc_attr($album_title); ?>" />
+    <?php
 }
 
-$pdb_tracks = array(); // Création du tableau contenant les morceaux
+// Enregistrement des metaboxes
+function piedebiche_register_player_metaboxes($post_id, $post) {
+    // Vérifier le nonce pour éviter les attaques CSRF
+    if (!isset($_POST['piedebiche_player_nonce']) || !wp_verify_nonce($_POST['piedebiche_player_nonce'], 'piedebiche_player')) {
+        return $post_id;
+    }
+
+    // Vérifier les autorisations de l'utilisateur
+    if (!current_user_can('edit_post', $post_id)) {
+        return $post_id;
+    }
+
+    // Sauvegarde des données pour la metabox "Morceau"
+    if (isset($_POST['piedebiche_audio_file'])) {
+        update_post_meta($post_id, '_audio_file', sanitize_text_field($_POST['piedebiche_audio_file']));
+    }
+
+    // Sauvegarde des données pour la metabox "Titre de l'album"
+    if (isset($_POST['album_title'])) {
+        update_post_meta($post_id, 'album_title', sanitize_text_field($_POST['album_title']));
+    }
+}
 
 // ========== Affichage du Player ==========
+
+$pdb_tracks = array(); // Création du tableau contenant les morceaux
 
 function piedebiche_player_show($limit = 10) {
 
@@ -120,10 +143,12 @@ function piedebiche_player_show($limit = 10) {
     class AudioTrack { // Création d'une classe
         public $title;
         public $url;
+        public $album_title;
         
-        function __construct($prop1, $prop2) {
+        function __construct($prop1, $prop2, $prop3) {
             $this->title = $prop1;
             $this->url = $prop2;
+            $this->album_title = $prop3;
         }
     }
 
@@ -131,32 +156,63 @@ function piedebiche_player_show($limit = 10) {
         $tracks->the_post();
         $track_title = get_the_title();
         $track_url = esc_url(get_post_meta(get_the_ID(), '_audio_file', true));
+        $album_title = get_post_meta(get_the_ID(), 'album_title', true);
         
-        $pdb_track = new AudioTrack($track_title, $track_url); // Création de l'objet 
+        $pdb_track = new AudioTrack($track_title, $track_url, $album_title); // Création de l'objet 
         
         $pdb_tracks[] = $pdb_track; // Ajout de l'objet dans le tableau 
     }
 
+    function generate_player() {
+        ?>
+
+        <div id="pdb-player-controls-container">
+
+            <audio id="pdb-player-audio" src="#"></audio>
+
+            <h2 id="pdb-player-title">Empty</h2>
+            <h3 id="pdb-player-album-title">Empty</h3>
+
+            <div id="pdb-player-time-bar-container">
+                <div id="pdb-player-time-container">
+                    <span id="pdb-player-time">1:00</span>
+                    <span id="pdb-player-elapsed">0:00</span> 
+                </div>
+                <input type="range" id="pdb-player-time-bar" min="0" value="0">
+            </div>
+
+            <div id="pdb-player-controls">
+                <div id="pdb-player-time-controls">
+                    <img id="pdb-player-backward-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/backward-btn.png'?>" alt="backward button">
+        
+                    <img id="pdb-player-play-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/play-btn.png'?>" alt="play button">
+        
+                    <img id="pdb-player-pause-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/pause-btn.png'?>" alt="pause button">
+        
+                    <img id="pdb-player-forward-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/forward-btn.png'?>" alt="forward button">
+                </div>
+    
+                <div id="pdb-player-volume">
+                    <img src="<?= plugin_dir_url(__FILE__) . 'public/images/sound-btn.png'?>" alt="volume button" id="pdb-volume-btn" class=" pdb-player-btn">
+                    <input type="range" id="pdb-track-volume-bar" min="0" max="1" value ="1" step="0.1"> 
+                </div>
+            </div>
+        </div>
+
+        <?php
+    }
+
     // Template HTML d'un morceau
-    function generate_track($url, $title) {
+    function generate_track($url, $title, $album_title) {
         ?>
 
         <div class="pdb-track">
-            <h2 class="pdb-track-title"> <?= $title ?> </h2>
-            <div class="pdb-track-time-container">
-                <input type="range" class="pdb-track-time-bar" min="0" value="0">
-                <span class="pdb-track-elapsed">0:00</span> 
+            <audio src="<?= $url ?>"></audio>
+            <div class="pdb-track-title-container">
+                <h2 class="pdb-track-title"> <?= $title ?> </h2>
                 <span class="pdb-track-time">1:00</span>
-            </div> 
-            <div class="pdb-track-audio">
-                <audio src="<?= $url ?>"></audio>
-                <img class="pdb-track-play-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/play-btn.png'?>" alt="play button">
-                <img class="pdb-track-pause-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/pause-btn.png'?>" alt="pause button">
             </div>
-            <div class="pdb-track-volume">
-                <img src="<?= plugin_dir_url(__FILE__) . 'public/images/sound-btn.png'?>" alt="volume button" class="volume-btn">
-                <input type="range" class="pdb-track-volume-bar" min="0" max="1" value ="1" step="0.1"> 
-            </div>
+            <h3 class="pdb-track-album-title"> <?= $album_title ?> </h3>
         </div>
         
         <?php
@@ -164,9 +220,13 @@ function piedebiche_player_show($limit = 10) {
         
     // Générer les morceaux
     echo '<div id="pdb-player">';
+
+    generate_player();
+
     foreach ($pdb_tracks as $pdb_track) {
-        generate_track($pdb_track->url, $pdb_track->title);
+        generate_track($pdb_track->url, $pdb_track->title, $pdb_track->album_title);
     }
+
     echo '</div>';
 
 }

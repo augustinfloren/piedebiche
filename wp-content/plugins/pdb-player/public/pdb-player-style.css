@@ -1,6 +1,12 @@
 /* ========== Audio Player ========== */
 
-.pdb-track-pause-btn {
+.pdb-player-btn {
+    transform: scale(0.5);
+}
+
+#pdb-player-pause-btn {
     display: none;
 }
+
+
 
