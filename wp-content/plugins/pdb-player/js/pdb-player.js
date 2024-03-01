@@ -1,15 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
-
-    // Récupère les morceaux du plugin dans le dom
-    const pdbTracks = document.querySelectorAll(".pdb-track");
-
-    // const tracksArray = Array.from(pdbTracks); // Converti la NodeList en tableau
     
-    // Récupère les elem du player du plugin dans le dom
+    // Player
     const player = document.getElementById("pdb-player");
     const playerControlsContainer = document.getElementById("pdb-player-controls-container");
     const currentAudio = document.getElementById("pdb-player-audio");
-
     // Infos du player
     let playerTitle = document.querySelector("#pdb-player-title");
     let playerAlbumTitle = document.querySelector("#pdb-player-album-title");
@@ -17,21 +11,20 @@ document.addEventListener("DOMContentLoaded", function() {
     let playerBar = player.querySelector("#pdb-player-time-bar");
     let elapsedTime = player.querySelector("#pdb-player-elapsed");
     let volumeBar = player.querySelector("#pdb-player-volume-bar");
-
     // Contrôles du player
     const playBtn = player.querySelector("#pdb-player-play-btn");
     const pauseBtn = player.querySelector("#pdb-player-pause-btn");
     const backwardBtn = player.querySelector("#pdb-player-backward-btn");
     const forwardBtn = player.querySelector("#pdb-player-forward-btn");
 
+    // Tracks
+    const pdbTracks = document.querySelectorAll(".pdb-track");
+
     // Tableau des morceaux
     let tracksArray = [];
 
     // Compteur pour les fonctions forward et backward
     let trackCounter = 0;
-
-    // Compteur pour vérifier que les metadonnées sont bein chargées
-    let metadataLoadedCount = 0;
 
     // Formatage de la durée du morceau
     function buildDuration(duration) {
@@ -41,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return minutes + ":" + seconds;
     }
 
-    pdbTracks.forEach((track) => {
+    pdbTracks.forEach((track, index) => {
 
         let audio = track.querySelector("audio");
         let duration;
@@ -53,13 +46,8 @@ document.addEventListener("DOMContentLoaded", function() {
             duration = audio.duration;
             trackObject.duration = duration;
             trackObject.durationBuilded = buildDuration(duration);
-            metadataLoadedCount++; // Incrémente le compteur de métadonnées chargées
-
-            // Vérifie si toutes les métadonnées sont chargées avant de mettre à jour l'affichage du lecteur
-            if (metadataLoadedCount === pdbTracks.length) {
-                updatePlayerDisplay();
-            }
-
+            trackTime.innerText = buildDuration(duration);
+            updatePlayerDisplay();
         });
         
         // Extraction des infos et de l'audio du morceau
@@ -76,6 +64,14 @@ document.addEventListener("DOMContentLoaded", function() {
         trackObject.albumTitle = albumTitle;
         tracksArray.push(trackObject);
 
+        // Au clic sur une track de la liste du player
+        track.addEventListener("click", () => {
+            trackCounter = index;
+            // Mise à jour player et lecture
+            updatePlayerDisplay();
+            playTrack();
+        });
+
     });
     
     // Masquer le player si aucun morceau
@@ -83,84 +79,87 @@ document.addEventListener("DOMContentLoaded", function() {
         player.style.display = "none";
     }
 
-    // Etat initial du player
+    // Initialisation du player
     function updatePlayerDisplay() {
         playerBar.max = tracksArray[trackCounter].duration;
         playerTitle.innerText = tracksArray[trackCounter].title;
         playerAlbumTitle.innerText = tracksArray[trackCounter].albumTitle;
         playerTime.innerText = tracksArray[trackCounter].durationBuilded;
         currentAudio.src = tracksArray[trackCounter].src;
+
+        // backward btn
+        if (trackCounter === 0) {
+            backwardBtn.style.opacity = "0.5"; 
+            backwardBtn.removeEventListener("click", backwardTrack);
+        } else {
+            backwardBtn.style.opacity = "initial"; 
+            backwardBtn.addEventListener("click", backwardTrack); 
+        }
+
+        // forward btn
+        if (trackCounter === tracksArray.length - 1) {
+            forwardBtn.style.opacity = "0.5"; 
+            forwardBtn.removeEventListener("click", forwardTrack); 
+        } else {
+            forwardBtn.style.opacity = "initial"; 
+            forwardBtn.addEventListener("click", forwardTrack);
+        }
+    }
+        
+    // Bouton play
+    function playTrack() {
+        currentAudio.play();
+        pauseBtn.style.display = "initial";
+        playBtn.style.display = "none";
     }
 
+    // Bouton pause
+    function stopTrack() {
+        currentAudio.pause();
+        playBtn.style.display = "initial";
+        this.style.display = "none";
+    }
+
+    // Bouton forward
+    function forwardTrack() {
+        if (trackCounter < tracksArray.length - 1) {
+            trackCounter++;
+            updatePlayerDisplay();
+            playTrack();
+        }
+    }
+
+    // Bouton backward
+    function backwardTrack() {
+        if (trackCounter > 0) {
+            trackCounter--;
+            updatePlayerDisplay();
+            playTrack();
+        }
+    }
+
+    // Bouton Volume 
+    volumeBar.addEventListener("input", function() {
+        currentAudio.volume = this.value;
+    });
+    
+    // Ajout des écouteurs sur les boutons
+    forwardBtn.addEventListener("click", forwardTrack);
+    backwardBtn.addEventListener("click", backwardTrack);
+    playBtn.addEventListener("click", playTrack);
+    pauseBtn.addEventListener("click", stopTrack);
+
     // Player Bar 
-        // Temps écoulé
-        currentAudio.addEventListener("timeupdate", function() {
-            playerBar.value = this.currentTime;
-            elapsedTime.textContent = buildDuration(this.currentTime);
-        });
+    // Temps écoulé
+    currentAudio.addEventListener("timeupdate", function() {
+        playerBar.value = this.currentTime;
+        elapsedTime.textContent = buildDuration(this.currentTime);
+    });
 
-        // Déplacement curseur de la time bar
-        playerBar.addEventListener("input", function() {
-            currentAudio.currentTime = this.value;
-            elapsedTime.textContent = buildDuration(this.value);
-        });
-
-        // Bouton forward
-        function forwardTrack() {
-            if (trackCounter < tracksArray.length - 1) {
-                trackCounter++;
-                updatePlayerDisplay();
-                backwardBtn.style.opacity = "initial"; 
-                backwardBtn.addEventListener("click", backwardTrack); 
-
-                currentAudio.play();
-                pauseBtn.style.display = "initial";
-                playBtn.style.display = "none";
-            }
-            if (trackCounter === tracksArray.length - 1) {
-                forwardBtn.style.opacity = "0.5"; 
-                forwardBtn.removeEventListener("click", forwardTrack); 
-            }
-        }
-
-        // Bouton backward
-        function backwardTrack() {
-            if (trackCounter > 0) {
-                trackCounter--;
-                updatePlayerDisplay();
-                forwardBtn.style.opacity = "initial"; 
-                forwardBtn.addEventListener("click", forwardTrack); 
-
-                currentAudio.play();
-                pauseBtn.style.display = "initial";
-                playBtn.style.display = "none";
-            }
-            if (trackCounter === 0) {
-                backwardBtn.style.opacity = "0.5"; 
-                backwardBtn.removeEventListener("click", backwardTrack);
-            }
-        }
-
-        forwardBtn.addEventListener("click", forwardTrack);
-        backwardBtn.addEventListener("click", backwardTrack);
-
-        // Bouton play
-        playBtn.addEventListener("click", () => {
-            currentAudio.play();
-            pauseBtn.style.display = "initial";
-            playBtn.style.display = "none";
-        })
-
-        // Bouton pause
-        pauseBtn.addEventListener("click", function() {
-            currentAudio.pause();
-            playBtn.style.display = "initial";
-            this.style.display = "none";
-        });
-
-        // Volume 
-        volumeBar.addEventListener("input", function() {
-            currentAudio.volume = this.value;
-        });
+    // Déplacement curseur de la time bar
+    playerBar.addEventListener("input", function() {
+        currentAudio.currentTime = this.value;
+        elapsedTime.textContent = buildDuration(this.value);
+    });
 
 });

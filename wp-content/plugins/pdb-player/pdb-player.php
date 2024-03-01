@@ -175,8 +175,8 @@ function piedebiche_player_show($limit = 10) {
 
             <div id="pdb-player-time-bar-container">
                 <div id="pdb-player-time-container">
-                    <span id="pdb-player-time"></span>
-                    <span id="pdb-player-elapsed"></span> 
+                    <span id="pdb-player-elapsed">0:00</span> 
+                    <span id="pdb-player-time">0:00</span>
                 </div>
                 <input type="range" id="pdb-player-time-bar" min="0" value="0">
             </div>
