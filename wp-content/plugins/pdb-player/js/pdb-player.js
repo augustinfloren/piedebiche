@@ -20,19 +20,21 @@ document.addEventListener("DOMContentLoaded", function() {
     // Tracks
     const pdbTracks = document.querySelectorAll(".pdb-track");
 
-    // Tableau des morceaux
+    // Tableau des pistes
     let tracksArray = [];
 
-    // Compteur pour les fonctions forward et backward
+    // Numéro des pistes jouées dans la liste
     let trackCounter = 0;
 
-    // Formatage de la durée du morceau
+    // Formatage de la durée du pistes
     function buildDuration(duration) {
         let minutes = Math.floor(duration / 60);
         let seconds = Math.floor(duration %60);
         seconds = String(seconds).padStart(2, "0"); // Si moins de deux caractères, ajoute un zéro à la place
         return minutes + ":" + seconds;
     }
+
+    // ========== Récupération des pistes ==========
 
     pdbTracks.forEach((track, index) => {
 
@@ -41,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let trackObject = {};
         let trackTime = track.querySelector(".pdb-track-time");
         
-        // Récupération et affichage de la durée d'un morceau Après le chargement des métadonnées
+        // Récupération et affichage de la durée d'une piste Après le chargement des métadonnées
         audio.addEventListener('loadedmetadata', function() { 
             duration = audio.duration;
             trackObject.duration = duration;
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
             updatePlayerDisplay();
         });
         
-        // Extraction des infos et de l'audio du morceau
+        // Extraction des infos et de l'audio d'une piste
         let titleElem = track.querySelector(".pdb-track-title");
         let albumTitleElem = track.querySelector(".pdb-track-album-title");
         
@@ -58,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let title = titleElem.textContent.trim();
         let albumTitle = albumTitleElem.textContent.trim();
 
-        // Ajouts des morceaux avec leurs infos dans le tableau
+        // Ajouts des pistes avec leurs infos dans le tableau
         trackObject.src = audio.src;
         trackObject.title = title;
         trackObject.albumTitle = albumTitle;
@@ -73,13 +75,14 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
     });
+
+    // ========== Initialisation du player ==========
     
-    // Masquer le player si aucun morceau
+    // Masquer le player si aucune pistes
     if (tracksArray.length <= 0) {
         player.style.display = "none";
     }
 
-    // Initialisation du player
     function updatePlayerDisplay() {
         playerBar.max = tracksArray[trackCounter].duration;
         playerTitle.innerText = tracksArray[trackCounter].title;

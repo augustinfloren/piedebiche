@@ -170,8 +170,8 @@ function piedebiche_player_show($limit = 10) {
 
             <audio id="pdb-player-audio" src="#"></audio>
 
-            <h2 id="pdb-player-title"></h2>
-            <h3 id="pdb-player-album-title"></h3>
+            <h4 id="pdb-player-title"></h4>
+            <p id="pdb-player-album-title"></p>
 
             <div id="pdb-player-time-bar-container">
                 <div id="pdb-player-time-container">
@@ -182,7 +182,7 @@ function piedebiche_player_show($limit = 10) {
             </div>
 
             <div id="pdb-player-controls">
-                <div id="pdb-player-time-controls">
+                <div id="pdb-player-play-controls">
                     <img id="pdb-player-backward-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/backward-btn.png'?>" alt="backward button">
         
                     <img id="pdb-player-play-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/play-btn.png'?>" alt="play button">
@@ -209,10 +209,10 @@ function piedebiche_player_show($limit = 10) {
         <div class="pdb-track">
             <audio src="<?= $url ?>"></audio>
             <div class="pdb-track-title-container">
-                <h2 class="pdb-track-title"> <?= $title ?> </h2>
+                <h4 class="pdb-track-title"> <?= $title ?> </h4>
                 <span class="pdb-track-time">1:00</span>
             </div>
-            <h3 class="pdb-track-album-title"> <?= $album_title ?> </h3>
+            <p class="pdb-track-album-title"> <?= $album_title ?> </p>
         </div>
         
         <?php
