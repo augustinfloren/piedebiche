@@ -30,34 +30,37 @@ document.addEventListener("DOMContentLoaded", function() {
     // Compteur pour les fonctions forward et backward
     let trackCounter = 0;
 
+    // Compteur pour vérifier que les metadonnées sont bein chargées
+    let metadataLoadedCount = 0;
+
+    // Formatage de la durée du morceau
+    function buildDuration(duration) {
+        let minutes = Math.floor(duration / 60);
+        let seconds = Math.floor(duration %60);
+        seconds = String(seconds).padStart(2, "0"); // Si moins de deux caractères, ajoute un zéro à la place
+        return minutes + ":" + seconds;
+    }
+
     pdbTracks.forEach((track) => {
 
         let audio = track.querySelector("audio");
         let duration;
         let trackObject = {};
         let trackTime = track.querySelector(".pdb-track-time");
-        // let trackBar = track.querySelector(".pdb-track-time-bar");
-        // let elapsed = track.querySelector(".pdb-track-elapsed");
-        // let volumeBar = track.querySelector(".pdb-track-volume-bar");
         
         // Récupération et affichage de la durée d'un morceau Après le chargement des métadonnées
-        audio.addEventListener('loadedmetadata', async function() { 
+        audio.addEventListener('loadedmetadata', function() { 
             duration = audio.duration;
-            trackObject.duration = buildDuration(duration);
-            // trackBar.max = duration;
+            trackObject.duration = duration;
+            trackObject.durationBuilded = buildDuration(duration);
+            metadataLoadedCount++; // Incrémente le compteur de métadonnées chargées
+
             // Vérifie si toutes les métadonnées sont chargées avant de mettre à jour l'affichage du lecteur
-            if (tracksArray.length === pdbTracks.length) {
+            if (metadataLoadedCount === pdbTracks.length) {
                 updatePlayerDisplay();
             }
+
         });
-        
-        // Formatage de la durée du morceau
-        function buildDuration(duration) {
-            let minutes = Math.floor(duration / 60);
-            let seconds = Math.floor(duration %60);
-            seconds = String(seconds).padStart(2, "0"); // Si moins de deux caractères, ajoute un zéro à la place
-            return minutes + ":" + seconds;
-        }
         
         // Extraction des infos et de l'audio du morceau
         let titleElem = track.querySelector(".pdb-track-title");
@@ -72,118 +75,92 @@ document.addEventListener("DOMContentLoaded", function() {
         trackObject.title = title;
         trackObject.albumTitle = albumTitle;
         tracksArray.push(trackObject);
-            
-        // Bouton play
-        // playBtn.addEventListener("click", function() {
-        //     audio.play();
-            // audio.volume = volumeBar.value;
-        //     pauseBtn.style.display = "initial";
-        //     this.style.display = "none";
-        // });
-        
-        // Bouton pause
-        // pauseBtn.addEventListener("click", function() {
-        //     audio.pause();
-        //     playBtn.style.display = "initial";
-        //     this.style.display = "none";
-        // });
-
-        // Bouton forward
-        // forwardBtn.addEventListener("click", function() {
-        // });
-        
-        // Temps écoulé
-        // audio.addEventListener("timeupdate", function() {
-        //     trackBar.value = this.currentTime;
-        //     elapsed.textContent = buildDuration(this.currentTime);
-        // });
-
-        // Déplacement curseur de la time bar
-        // trackBar.addEventListener("input", function() {
-        //     elapsed.textContent = buildDuration(this.value);
-        //     audio.currentTime = this.value;
-        // });
-
-        // Volume 
-        // volumeBar.addEventListener("input", function() {
-        //     audio.volume = this.value;
-        // });
 
     });
     
     // Masquer le player si aucun morceau
     if (tracksArray.length <= 0) {
         player.style.display = "none";
-    } else {
-        // Mise à jour du player après chargement des metadonées des morceaux
-        if (tracksArray.length === pdbTracks.length) {
-            updatePlayerDisplay();
-        }
-        // Etat initial de backward
-        backwardBtn.style.opacity = "0.5"; 
-        backwardBtn.removeEventListener("click", backwardTrack); 
     }
 
     // Etat initial du player
     function updatePlayerDisplay() {
-        console.log(tracksArray[trackCounter].duration)
+        playerBar.max = tracksArray[trackCounter].duration;
         playerTitle.innerText = tracksArray[trackCounter].title;
         playerAlbumTitle.innerText = tracksArray[trackCounter].albumTitle;
-        playerTime.innerText = tracksArray[trackCounter].duration;
+        playerTime.innerText = tracksArray[trackCounter].durationBuilded;
         currentAudio.src = tracksArray[trackCounter].src;
     }
 
-    // Bouton forward
-    function forwardTrack() {
-        if (trackCounter < tracksArray.length - 1) {
-            trackCounter++;
-            currentAudio.src = tracksArray[trackCounter].src;
-            backwardBtn.style.opacity = "initial"; 
-            backwardBtn.addEventListener("click", backwardTrack); 
+    // Player Bar 
+        // Temps écoulé
+        currentAudio.addEventListener("timeupdate", function() {
+            playerBar.value = this.currentTime;
+            elapsedTime.textContent = buildDuration(this.currentTime);
+        });
 
+        // Déplacement curseur de la time bar
+        playerBar.addEventListener("input", function() {
+            currentAudio.currentTime = this.value;
+            elapsedTime.textContent = buildDuration(this.value);
+        });
+
+        // Bouton forward
+        function forwardTrack() {
+            if (trackCounter < tracksArray.length - 1) {
+                trackCounter++;
+                updatePlayerDisplay();
+                backwardBtn.style.opacity = "initial"; 
+                backwardBtn.addEventListener("click", backwardTrack); 
+
+                currentAudio.play();
+                pauseBtn.style.display = "initial";
+                playBtn.style.display = "none";
+            }
+            if (trackCounter === tracksArray.length - 1) {
+                forwardBtn.style.opacity = "0.5"; 
+                forwardBtn.removeEventListener("click", forwardTrack); 
+            }
+        }
+
+        // Bouton backward
+        function backwardTrack() {
+            if (trackCounter > 0) {
+                trackCounter--;
+                updatePlayerDisplay();
+                forwardBtn.style.opacity = "initial"; 
+                forwardBtn.addEventListener("click", forwardTrack); 
+
+                currentAudio.play();
+                pauseBtn.style.display = "initial";
+                playBtn.style.display = "none";
+            }
+            if (trackCounter === 0) {
+                backwardBtn.style.opacity = "0.5"; 
+                backwardBtn.removeEventListener("click", backwardTrack);
+            }
+        }
+
+        forwardBtn.addEventListener("click", forwardTrack);
+        backwardBtn.addEventListener("click", backwardTrack);
+
+        // Bouton play
+        playBtn.addEventListener("click", () => {
             currentAudio.play();
             pauseBtn.style.display = "initial";
             playBtn.style.display = "none";
-        }
-        if (trackCounter === tracksArray.length - 1) {
-            forwardBtn.style.opacity = "0.5"; 
-            forwardBtn.removeEventListener("click", forwardTrack); 
-        }
-    }
+        })
 
-    // Bouton backward
-    function backwardTrack() {
-        if (trackCounter > 0) {
-            trackCounter--;
-            currentAudio.src = tracksArray[trackCounter].src;
-            forwardBtn.style.opacity = "initial"; 
-            forwardBtn.addEventListener("click", forwardTrack); 
+        // Bouton pause
+        pauseBtn.addEventListener("click", function() {
+            currentAudio.pause();
+            playBtn.style.display = "initial";
+            this.style.display = "none";
+        });
 
-            currentAudio.play();
-            pauseBtn.style.display = "initial";
-            playBtn.style.display = "none";
-        }
-        if (trackCounter === 0) {
-            backwardBtn.style.opacity = "0.5"; 
-            backwardBtn.removeEventListener("click", backwardTrack);
-        }
-    }
-
-    forwardBtn.addEventListener("click", forwardTrack);
-    backwardBtn.addEventListener("click", backwardTrack);
-
-    // Bouton play
-    playBtn.addEventListener("click", () => {
-        currentAudio.play();
-        pauseBtn.style.display = "initial";
-        playBtn.style.display = "none";
-    })
-
-    // Bouton pause
-    pauseBtn.addEventListener("click", function() {
-        currentAudio.pause();
-        playBtn.style.display = "initial";
-        this.style.display = "none";
-    });
+        // Volume 
+        volumeBar.addEventListener("input", function() {
+            currentAudio.volume = this.value;
+        });
 
 });

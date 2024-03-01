@@ -170,13 +170,13 @@ function piedebiche_player_show($limit = 10) {
 
             <audio id="pdb-player-audio" src="#"></audio>
 
-            <h2 id="pdb-player-title">Empty</h2>
-            <h3 id="pdb-player-album-title">Empty</h3>
+            <h2 id="pdb-player-title"></h2>
+            <h3 id="pdb-player-album-title"></h3>
 
             <div id="pdb-player-time-bar-container">
                 <div id="pdb-player-time-container">
-                    <span id="pdb-player-time">1:00</span>
-                    <span id="pdb-player-elapsed">0:00</span> 
+                    <span id="pdb-player-time"></span>
+                    <span id="pdb-player-elapsed"></span> 
                 </div>
                 <input type="range" id="pdb-player-time-bar" min="0" value="0">
             </div>
@@ -194,7 +194,7 @@ function piedebiche_player_show($limit = 10) {
     
                 <div id="pdb-player-volume">
                     <img src="<?= plugin_dir_url(__FILE__) . 'public/images/sound-btn.png'?>" alt="volume button" id="pdb-volume-btn" class=" pdb-player-btn">
-                    <input type="range" id="pdb-track-volume-bar" min="0" max="1" value ="1" step="0.1"> 
+                    <input type="range" id="pdb-player-volume-bar" min="0" max="1" value ="1" step="0.1"> 
                 </div>
             </div>
         </div>
