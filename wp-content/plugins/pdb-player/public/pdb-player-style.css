@@ -3,6 +3,7 @@
 :root {
     /* Couleurs */
     --mint-white: #eaf3f4;
+    --grey: #b4b4b4;
     /* Texte */
     --h1-size: 67.32px;
     --h2-size: 50.5px;
@@ -16,27 +17,40 @@
 
 #pdb-player h4 {
     font-size: var(--h4-size);
+    color: var(--mint-white);
 }
 
 #pdb-player p, #pdb-player span {
     font-size: var(--p-size);
+    color: var(--grey);
 }
 
 p {
     font-size: 1rem;
 }
 
-/* ========== Player ========== */
+/* ========== Player Container ========== */
 
 #pdb-player {
     text-transform: uppercase;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding: 0.8rem;
 }
 
 #pdb-player > * {
     width: 100%;
+}
+
+/* ========== Texte Player ========== */
+
+#pdb-player-title {
+    margin-bottom: 0.1rem;
+}
+
+#pdb-player-album-title {
+    margin-bottom: 1rem;
 }
 
 /* ========== Contrôles du player ========== */
@@ -53,6 +67,37 @@ p {
     width: 100%;
 }
 
+#pdb-player-time-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Barre de lecture */
+#pdb-player-time-bar {
+    width: 100%;
+    height: 7px;
+
+    -webkit-appearance: none; 
+    appearance: none;
+    border-radius: 0px; 
+    outline: none; 
+    overflow: hidden;
+
+    background: var(--grey);
+}
+
+#pdb-player-time-bar::-webkit-slider-thumb {
+    height: 0px;
+    width: 0px;
+    border: none;
+  }
+
+#pdb-player-time-bar::-moz-range-thumb {
+    height: 0px;
+    width: 0px;
+    border: none;
+}
+  
 #pdb-player-controls-container {
     display: flex;
     flex-direction: row;
@@ -71,10 +116,6 @@ p {
 }
 
 #pdb-player-volume {
-}
-
-#pdb-player-time-bar {
-    width: 100%;
 }
 
 

@@ -152,7 +152,7 @@ body {
 }
 
 #pdb-player {
-    background-color: #007bff;
+    background-color: #000000;
     grid-column: col-start 4 / span 6;
     grid-row: col-start 4 / span 6;
 }

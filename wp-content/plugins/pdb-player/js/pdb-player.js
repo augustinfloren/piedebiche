@@ -157,12 +157,30 @@ document.addEventListener("DOMContentLoaded", function() {
     currentAudio.addEventListener("timeupdate", function() {
         playerBar.value = this.currentTime;
         elapsedTime.textContent = buildDuration(this.currentTime);
+
+        const progress = (this.currentTime / Math.round(playerBar.max)) * 100;
+
+        playerBar.style.background = `linear-gradient(to right, var(--mint-white) ${progress}%, #ccc ${progress}%)`;
+
+        if (trackCounter < tracksArray.length - 1) {
+            if (this.currentTime >= playerBar.max) {
+                trackCounter ++;
+                updatePlayerDisplay();
+                playTrack();
+            }
+        }
     });
+
+    const playerThumbBar = document.querySelector('#pdb-player-time-bar::-webkit-slider-thumb');
 
     // Déplacement curseur de la time bar
     playerBar.addEventListener("input", function() {
         currentAudio.currentTime = this.value;
         elapsedTime.textContent = buildDuration(this.value);
+
+        const progress = (this.value / Math.round(playerBar.max)) * 100;
+
+        playerBar.style.background = `linear-gradient(to right, var(--mint-white) ${progress}%, #ccc ${progress}%)`;
     });
 
 });
