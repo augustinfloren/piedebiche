@@ -84,13 +84,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function updatePlayerDisplay() {
+        // Changement des infos du player 
         playerBar.max = tracksArray[trackCounter].duration;
         playerTitle.innerText = tracksArray[trackCounter].title;
         playerAlbumTitle.innerText = tracksArray[trackCounter].albumTitle;
         playerTime.innerText = tracksArray[trackCounter].durationBuilded;
         currentAudio.src = tracksArray[trackCounter].src;
 
-        // backward btn
+        // Désactivation backward btn si pas de piste avant
         if (trackCounter === 0) {
             backwardBtn.style.opacity = "0.5"; 
             backwardBtn.removeEventListener("click", backwardTrack);
@@ -99,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
             backwardBtn.addEventListener("click", backwardTrack); 
         }
 
-        // forward btn
+        // Désactivation forward btn si pas de piste après
         if (trackCounter === tracksArray.length - 1) {
             forwardBtn.style.opacity = "0.5"; 
             forwardBtn.removeEventListener("click", forwardTrack); 
@@ -120,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function stopTrack() {
         currentAudio.pause();
         playBtn.style.display = "initial";
-        this.style.display = "none";
+        pauseBtn.style.display = "none";
     }
 
     // Bouton forward
@@ -158,12 +159,19 @@ document.addEventListener("DOMContentLoaded", function() {
         playerBar.value = this.currentTime;
         elapsedTime.textContent = buildDuration(this.currentTime);
 
+        // Création de la barre de progression avec un dégradé appliqué au curseur de l'input range
         const progress = (this.currentTime / Math.round(playerBar.max)) * 100;
-
         playerBar.style.background = `linear-gradient(to right, var(--mint-white) ${progress}%, #ccc ${progress}%)`;
 
-        if (trackCounter < tracksArray.length - 1) {
-            if (this.currentTime >= playerBar.max) {
+        // Quand la barre de progression arrive au bout de la piste
+        if (this.currentTime >= playerBar.max) {
+            // Si la playlist et finie, stopper la lecture et retourner sur la piste 1
+            if (trackCounter >= tracksArray.length - 1) {
+                trackCounter = 0;
+                stopTrack();
+                updatePlayerDisplay();
+            // Sinon, jouer la piste suivante
+            } else {
                 trackCounter ++;
                 updatePlayerDisplay();
                 playTrack();
@@ -171,16 +179,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    const playerThumbBar = document.querySelector('#pdb-player-time-bar::-webkit-slider-thumb');
-
     // Déplacement curseur de la time bar
     playerBar.addEventListener("input", function() {
         currentAudio.currentTime = this.value;
         elapsedTime.textContent = buildDuration(this.value);
-
-        const progress = (this.value / Math.round(playerBar.max)) * 100;
-
-        playerBar.style.background = `linear-gradient(to right, var(--mint-white) ${progress}%, #ccc ${progress}%)`;
     });
 
 });
