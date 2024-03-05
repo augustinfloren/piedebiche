@@ -5,14 +5,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const playerControlsContainer = document.getElementById("pdb-player-controls-container");
     const currentAudio = document.getElementById("pdb-player-audio");
     // Infos du player
-    let playerTitle = document.querySelector("#pdb-player-title");
-    let playerAlbumTitle = document.querySelector("#pdb-player-album-title");
+    let playerTitle = player.querySelector("#pdb-player-title");
+    let playerAlbumTitle = player.querySelector("#pdb-player-album-title");
     let playerTime = player.querySelector("#pdb-player-time");
     let playerBar = player.querySelector("#pdb-player-time-bar");
     let elapsedTime = player.querySelector("#pdb-player-elapsed");
     let volumeBar = player.querySelector("#pdb-player-volume-bar");
     let volumeBtn = player.querySelector("#pdb-volume-btn");
     let muteBtn = player.querySelector("#pdb-mute-btn");
+    // let playlist = document.querySelector("#pdb-track-container");
     // Contrôles du player
     const playBtn = player.querySelector("#pdb-player-play-btn");
     const pauseBtn = player.querySelector("#pdb-player-pause-btn");
@@ -111,6 +112,8 @@ document.addEventListener("DOMContentLoaded", function() {
             forwardBtn.addEventListener("click", forwardTrack);
         }
     }
+
+    // ========== Contrôles lecture ==========
         
     // Bouton play
     function playTrack() {
@@ -144,6 +147,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    // Ajout des écouteurs sur les boutons
+    forwardBtn.addEventListener("click", forwardTrack);
+    backwardBtn.addEventListener("click", backwardTrack);
+    playBtn.addEventListener("click", playTrack);
+    pauseBtn.addEventListener("click", stopTrack);
+
+    // ========== Volume ==========
+
     // Bouton Volume 
     let inputValue;
     let inputVolume = 100;
@@ -156,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
         currentAudio.volume = 0;
     }
 
-    volumeBar.style.background = `linear-gradient(to right, var(--mint-white) 100%, var(--grey) 100%)`;
+    volumeBar.style.background = `linear-gradient(to right, var(--mint-white) 100%, var(--dark-grey) 100%)`;
 
     volumeBar.addEventListener("input", function() {
         volumeBtn.style.display = "initial";
@@ -164,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
         inputValue = this.value;
         currentAudio.volume = this.value;
         inputVolume = this.value / Math.round(volumeBar.max) * 100;
-        volumeBar.style.background = `linear-gradient(to right, var(--mint-white) ${inputVolume}%, var(--grey) ${inputVolume}%)`;
+        volumeBar.style.background = `linear-gradient(to right, var(--mint-white) ${inputVolume}%, var(--dark-grey) ${inputVolume}%)`;
 
         if(inputVolume === 0) {
             muteAudio();
@@ -190,18 +201,13 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             currentAudio.volume = inputValue;
         };
-        volumeBar.style.background = `linear-gradient(to right, var(--mint-white) ${inputVolume}%, var(--grey) ${inputVolume}%)`
+        volumeBar.style.background = `linear-gradient(to right, var(--mint-white) ${inputVolume}%, var(--dark-grey) ${inputVolume}%)`
         volumeBtn.style.display = "initial";
         muteBtn.style.display = "none";
     });
-    
-    // Ajout des écouteurs sur les boutons
-    forwardBtn.addEventListener("click", forwardTrack);
-    backwardBtn.addEventListener("click", backwardTrack);
-    playBtn.addEventListener("click", playTrack);
-    pauseBtn.addEventListener("click", stopTrack);
 
-    // Player Bar 
+    // ========== Barre de lecture ==========
+
     // Temps écoulé
     currentAudio.addEventListener("timeupdate", function() {
         playerBar.value = this.currentTime;
@@ -209,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Création de la barre de progression avec un dégradé appliqué au curseur de l'input range
         const progress = (this.currentTime / Math.round(playerBar.max)) * 100;
-        playerBar.style.background = `linear-gradient(to right, var(--mint-white) ${progress}%, var(--grey) ${progress}%)`;
+        playerBar.style.background = `linear-gradient(to right, var(--mint-white) ${progress}%, var(--dark-grey) ${progress}%)`;
 
         // Quand la barre de progression arrive au bout de la piste
         if (this.currentTime >= playerBar.max) {
@@ -232,5 +238,10 @@ document.addEventListener("DOMContentLoaded", function() {
         currentAudio.currentTime = this.value;
         elapsedTime.textContent = buildDuration(this.value);
     });
+
+    // ========== Fade in tracks ==========
+    
+    
+    
 
 });

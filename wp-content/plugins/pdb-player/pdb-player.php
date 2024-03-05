@@ -207,7 +207,7 @@ function piedebiche_player_show($limit = 10) {
         <div class="pdb-track">
             <audio src="<?= $url ?>"></audio>
             <div class="pdb-track-title-container">
-                <h4 class="pdb-track-title"> <?= $title ?> </h4>
+                <h5 class="pdb-track-title"> <?= $title ?> </h5>
                 <span class="pdb-track-time">1:00</span>
             </div>
             <p class="pdb-track-album-title"> <?= $album_title ?> </p>
@@ -221,9 +221,13 @@ function piedebiche_player_show($limit = 10) {
 
     generate_player();
 
+    echo '<div id="pdb-track-container">';
+
     foreach ($pdb_tracks as $pdb_track) {
         generate_track($pdb_track->url, $pdb_track->title, $pdb_track->album_title);
     }
+
+    echo '</div>';
 
     echo '</div>';
 
