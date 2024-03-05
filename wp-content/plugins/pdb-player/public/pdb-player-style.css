@@ -29,18 +29,26 @@ p {
     font-size: 1rem;
 }
 
-/* ========== Player Container ========== */
+/* ========== Player Containers ========== */
 
 #pdb-player {
     text-transform: uppercase;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 0.8rem;
 }
 
 #pdb-player > * {
     width: 100%;
+}
+  
+#pdb-player-controls-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: rgb(117, 87, 87);
+    
+    padding: 0.8rem;
 }
 
 /* ========== Texte Player ========== */
@@ -49,19 +57,7 @@ p {
     margin-bottom: 0.1rem;
 }
 
-#pdb-player-album-title {
-    margin-bottom: 1rem;
-}
-
 /* ========== Contrôles du player ========== */
-
-.pdb-player-btn {
-    transform: scale(0.3);
-}
-
-#pdb-player-pause-btn {
-    display: none;
-}
 
 #pdb-player-controls-container > * {
     width: 100%;
@@ -70,53 +66,130 @@ p {
 #pdb-player-time-container {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
-/* Barre de lecture */
+/* ========== Barre de lecture ========== */
+
+#pdb-player-time-bar-container {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
 #pdb-player-time-bar {
+    -webkit-appearance: none; 
+    appearance: none;
+
     width: 100%;
     height: 7px;
 
-    -webkit-appearance: none; 
-    appearance: none;
     border-radius: 0px; 
     outline: none; 
     overflow: hidden;
-
+    margin: 0px;
     background: var(--grey);
+
+    /* padding: 5px 0px; */
+    margin: 5px 0px;
 }
 
-#pdb-player-time-bar::-webkit-slider-thumb {
+/* Inputs range (lecture, volume) */
+
+#pdb-player-time-bar:hover, #pdb-player-volume-bar:hover{
+    cursor: pointer;
+}
+
+#pdb-player-time-bar::-webkit-slider-thumb, #pdb-player-volume-bar::-webkit-slider-thumb{
     height: 0px;
     width: 0px;
     border: none;
   }
 
-#pdb-player-time-bar::-moz-range-thumb {
+#pdb-player-time-bar::-moz-range-thumb, #pdb-player-volume-bar::-moz-range-thumb {
     height: 0px;
     width: 0px;
     border: none;
 }
-  
-#pdb-player-controls-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+
+/* ========== Boutons de Contrôle ========== */
+
+.pdb-player-btn:hover {
+    cursor: pointer;
 }
 
 #pdb-player-controls {
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
+#pdb-player-controls 
+
+/* Play/Pause */
+
 #pdb-player-play-controls {
-    width: 200px;
     display: flex;
+    width: 100px;
+    height: 29px;
+    justify-content: space-between;
     align-items: center;
 }
 
-#pdb-player-volume {
+#pdb-player-play-btn {
+    width: 23px;
+    box-sizing: border-box;
 }
+
+#pdb-player-pause-btn {
+    display: none;
+    width: 17px;
+    margin-right: 6px;
+}
+
+/* Back/Forward */
+
+#pdb-player-backward-btn, #pdb-player-forward-btn {
+    width: 12px;
+}
+
+/* Volume */
+
+#pdb-player-volume {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 170px;
+}
+
+#pdb-player-volume-bar {
+    -webkit-appearance: none; 
+    appearance: none;
+
+    width: 80%;
+    height: 7px;
+
+    border-radius: 0px; 
+    outline: none; 
+    overflow: hidden;
+    margin: 0px;
+    background: var(--grey);
+
+    opacity: 0.5;
+}
+
+#pdb-player-volume-bar:hover {
+    opacity: 1;
+}
+
+#pdb-volume-btn, #pdb-mute-btn {
+    height: 18px;
+}
+
+#pdb-mute-btn {
+    display: none;
+}
+
+
 
 
 

@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let playerBar = player.querySelector("#pdb-player-time-bar");
     let elapsedTime = player.querySelector("#pdb-player-elapsed");
     let volumeBar = player.querySelector("#pdb-player-volume-bar");
+    let volumeBtn = player.querySelector("#pdb-volume-btn");
+    let muteBtn = player.querySelector("#pdb-mute-btn");
     // Contrôles du player
     const playBtn = player.querySelector("#pdb-player-play-btn");
     const pauseBtn = player.querySelector("#pdb-player-pause-btn");
@@ -143,8 +145,54 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Bouton Volume 
+    let inputValue;
+    let inputVolume = 100;
+    let audioMuted = false;
+
+    function muteAudio() {
+        audioMuted === true;
+        volumeBtn.style.display = "none";
+        muteBtn.style.display = "initial";
+        currentAudio.volume = 0;
+    }
+
+    volumeBar.style.background = `linear-gradient(to right, var(--mint-white) 100%, var(--grey) 100%)`;
+
     volumeBar.addEventListener("input", function() {
+        volumeBtn.style.display = "initial";
+        muteBtn.style.display = "none";
+        inputValue = this.value;
         currentAudio.volume = this.value;
+        inputVolume = this.value / Math.round(volumeBar.max) * 100;
+        volumeBar.style.background = `linear-gradient(to right, var(--mint-white) ${inputVolume}%, var(--grey) ${inputVolume}%)`;
+
+        if(inputVolume === 0) {
+            muteAudio();
+        }
+    });
+
+    volumeBtn.addEventListener("click", () => {
+        if (audioMuted === false ) {
+            volumeBar.style.background = `linear-gradient(to right, var(--mint-white) 0%, var(--grey) 0%)`
+            muteAudio();
+        } else {
+            volumeBar.style.background = `linear-gradient(to right, var(--mint-white) ${inputVolume}%, var(--grey) ${inputVolume}%)`
+            volumeBtn.style.display = "initial";
+            muteBtn.style.display = "none";
+        }
+    });
+
+    muteBtn.addEventListener("click", () => {
+        audioMuted === false;
+        if (inputVolume === 0) {
+            currentAudio.volume = 1.0;
+            inputVolume = 100;
+        } else {
+            currentAudio.volume = inputValue;
+        };
+        volumeBar.style.background = `linear-gradient(to right, var(--mint-white) ${inputVolume}%, var(--grey) ${inputVolume}%)`
+        volumeBtn.style.display = "initial";
+        muteBtn.style.display = "none";
     });
     
     // Ajout des écouteurs sur les boutons
@@ -161,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Création de la barre de progression avec un dégradé appliqué au curseur de l'input range
         const progress = (this.currentTime / Math.round(playerBar.max)) * 100;
-        playerBar.style.background = `linear-gradient(to right, var(--mint-white) ${progress}%, #ccc ${progress}%)`;
+        playerBar.style.background = `linear-gradient(to right, var(--mint-white) ${progress}%, var(--grey) ${progress}%)`;
 
         // Quand la barre de progression arrive au bout de la piste
         if (this.currentTime >= playerBar.max) {

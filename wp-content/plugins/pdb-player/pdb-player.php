@@ -184,16 +184,14 @@ function piedebiche_player_show($limit = 10) {
             <div id="pdb-player-controls">
                 <div id="pdb-player-play-controls">
                     <img id="pdb-player-backward-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/backward-btn.png'?>" alt="backward button">
-        
                     <img id="pdb-player-play-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/play-btn.png'?>" alt="play button">
-        
                     <img id="pdb-player-pause-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/pause-btn.png'?>" alt="pause button">
-        
                     <img id="pdb-player-forward-btn" class="pdb-player-btn" src="<?= plugin_dir_url(__FILE__) . 'public/images/forward-btn.png'?>" alt="forward button">
                 </div>
     
                 <div id="pdb-player-volume">
                     <img src="<?= plugin_dir_url(__FILE__) . 'public/images/sound-btn.png'?>" alt="volume button" id="pdb-volume-btn" class=" pdb-player-btn">
+                    <img src="<?= plugin_dir_url(__FILE__) . 'public/images/mute-btn.png'?>" alt="volume button" id="pdb-mute-btn" class=" pdb-player-btn">
                     <input type="range" id="pdb-player-volume-bar" min="0" max="1" value ="1" step="0.1"> 
                 </div>
             </div>
