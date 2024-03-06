@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (scrollPosition > 0) {
             playlist.style.maskImage = "linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 10%,  rgb(0, 0, 0) 70%, transparent 100%)";
         } else {
-            playlist.style.maskImage = "linear-gradient(to bottom, rgb(0, 0, 0) 0%,  rgb(0, 0, 0) 90%, transparent 100%)";
+            playlist.style.maskImage = "linear-gradient(to bottom, rgb(0, 0, 0) 0%,  rgb(0, 0, 0) 70%, transparent 100%)";
         }
 
         if (scrollPosition + visibleHeight === totalHeight) {

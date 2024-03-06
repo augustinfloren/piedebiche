@@ -6,12 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const sectionsToWatch = document.querySelectorAll('.sections');
     let anySectionIntersecting = false;
 
+    let menuActived = false;
+
     menuLinks.forEach(link => {
         link.addEventListener("click", () => {
             // Fermeture menu responsive au clic sur un lien 
-            if (window.matchMedia("(max-width: 900px)").matches) {
+            if (window.matchMedia("(max-width: 1250px)").matches) {
                 mobile_menu.classList.toggle('active');
                 menu_btn.classList.toggle('active');
+                overlay.style.display = "none";
+                menuActived = false;
             }
         })
     });
@@ -52,10 +56,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const menu_btn = document.getElementById("pdb-burger");
     const mobile_menu = document.querySelector("#pdb-main-menu ul");
+    const overlay = document.getElementById("pdb-menu-overlay");
 
     menu_btn.addEventListener("click", () => {
-        menu_btn.classList.toggle('active');
-        mobile_menu.classList.toggle('active');
+        if (!menuActived) {
+            menu_btn.classList.add('active');
+            mobile_menu.classList.add('active');
+            menuActived = true;
+            overlay.style.display = "initial";
+        } else {
+            menu_btn.classList.remove('active');
+            mobile_menu.classList.remove('active');
+            overlay.style.display = "none";
+            menuActived = false;
+        };
     });
       
 });
