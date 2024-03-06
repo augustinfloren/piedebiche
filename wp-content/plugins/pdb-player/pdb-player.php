@@ -15,6 +15,7 @@ add_action('wp_enqueue_scripts', 'pdb_player_register_assets');
 function pdb_player_register_assets () {
     // Enregistrement du style principal
     wp_enqueue_style('pdb-player-style', plugin_dir_url(__FILE__) . 'public/pdb-player-style.css');
+    wp_enqueue_style('animate-css', 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
     
     // Enregistrement du JS
     wp_enqueue_script('pdb-player', plugins_url().'/pdb-player/js/pdb-player.js'); 

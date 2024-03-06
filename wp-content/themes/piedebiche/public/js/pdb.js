@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-
     // ========== Activation onglets nav ========== //
 
     const menuLinks = document.querySelectorAll('#pdb-main-menu ul li a');

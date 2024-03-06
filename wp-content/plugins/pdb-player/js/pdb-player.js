@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let volumeBar = player.querySelector("#pdb-player-volume-bar");
     let volumeBtn = player.querySelector("#pdb-volume-btn");
     let muteBtn = player.querySelector("#pdb-mute-btn");
+    let playlist = document.querySelector("#pdb-track-container");
     // let playlist = document.querySelector("#pdb-track-container");
     // Contrôles du player
     const playBtn = player.querySelector("#pdb-player-play-btn");
@@ -241,7 +242,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // ========== Fade in tracks ==========
     
-    
-    
+    playlist.addEventListener("scroll", function() {
 
+        let scrollPosition = playlist.scrollTop;
+
+        var totalHeight = playlist.scrollHeight;
+        var visibleHeight = playlist.clientHeight;
+
+        if (scrollPosition > 0) {
+            playlist.style.maskImage = "linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 10%,  rgb(0, 0, 0) 70%, transparent 100%)";
+        } else {
+            playlist.style.maskImage = "linear-gradient(to bottom, rgb(0, 0, 0) 0%,  rgb(0, 0, 0) 90%, transparent 100%)";
+        }
+
+        if (scrollPosition + visibleHeight === totalHeight) {
+            playlist.style.maskImage = "linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 10%,  rgb(0, 0, 0) 100%)";
+        }
+
+    });
+    
 });

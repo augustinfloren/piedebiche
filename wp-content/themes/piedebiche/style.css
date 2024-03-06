@@ -233,6 +233,8 @@ body {
     display: flex;
 }
 
+/* ========== Main ========== */
+
 @media (max-width: 1600px) {
     #pdb-logo {
         width: 40vw;
@@ -271,10 +273,17 @@ body {
     }
 
     #pdb-player {
-        grid-column: col-start 3 / span 8;
+        grid-column: col-start 4 / span 6;
         grid-row: col-start 4 / span 6;
     }
 
+}
+
+@media (max-width: 700px) {
+    #pdb-player {
+        grid-column: col-start 3 / span 8;
+        grid-row: col-start 4 / span 6;
+    }
 }
 
 /* Mobile */
