@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let volumeBtn = player.querySelector("#pdb-volume-btn");
     let muteBtn = player.querySelector("#pdb-mute-btn");
     let playlist = document.querySelector("#pdb-track-container");
-    // let playlist = document.querySelector("#pdb-track-container");
     // Contrôles du player
     const playBtn = player.querySelector("#pdb-player-play-btn");
     const pauseBtn = player.querySelector("#pdb-player-pause-btn");
@@ -99,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (trackCounter === 0) {
             backwardBtn.style.opacity = "0.5"; 
             backwardBtn.removeEventListener("click", backwardTrack);
+
         } else {
             backwardBtn.style.opacity = "initial"; 
             backwardBtn.addEventListener("click", backwardTrack); 

@@ -19,7 +19,6 @@
                 <div id="pdb-burger-bar"></div>
             </button>
             <nav id="pdb-main-menu">
-                </ul>
                 <ul>
                     <li><a href="#pdb-music">Musique</a></li>
                     <li><a href="#pdb-videos">Vidéos</a></li>
@@ -28,6 +27,7 @@
                     <li><a href="#">Merch</a></li>
                     <li><a href="#pdb-contact">Contact</a></li>
                     <li><a href="#">Pro</a></li>
+                </ul>
             </nav>
         
             <div id="pdb-menu-overlay"></div>

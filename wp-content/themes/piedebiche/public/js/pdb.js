@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sectionsToWatch = document.querySelectorAll('.sections');
     let anySectionIntersecting = false;
 
-    let menuActived = false;
+    let menuActivated = false;
 
     menuLinks.forEach(link => {
         link.addEventListener("click", () => {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobile_menu.classList.toggle('active');
                 menu_btn.classList.toggle('active');
                 overlay.style.display = "none";
-                menuActived = false;
+                menuActivated = false;
             }
         })
     });
@@ -59,17 +59,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById("pdb-menu-overlay");
 
     menu_btn.addEventListener("click", () => {
-        if (!menuActived) {
+        if (!menuActivated) {
             menu_btn.classList.add('active');
             mobile_menu.classList.add('active');
-            menuActived = true;
+            menuActivated = true;
             overlay.style.display = "initial";
         } else {
             menu_btn.classList.remove('active');
             mobile_menu.classList.remove('active');
             overlay.style.display = "none";
-            menuActived = false;
+            menuActivated = false;
         };
     });
+
+    // ========== Aspect vidéo sur mobile ========== //
+
+    const homeVideo = document.getElementById("pdb-video");
+
+    function detectWindowSize() {
+        if (window.innerWidth < 700) {
+            homeVideo.classList.add("pdb-faded-image");
+        } else if (window.innerWidth > 700) {
+            homeVideo.classList.remove("pdb-faded-image");
+        }
+    }
+
+    window.onload = detectWindowSize;
+
+    window.addEventListener("resize", detectWindowSize);
       
 });
