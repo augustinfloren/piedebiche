@@ -1,6 +1,6 @@
 .pdb-carrousel {
     position: relative;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 .pdb-carrousel-container {
@@ -24,4 +24,27 @@
 .pdb-carrousel-item iframe {
     width: fit-content;
     height: auto;
+}
+
+.pdb-carrousel-next, .pdb-carrousel-prev {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: url(../images/next.png) center center no-repeat;
+    background-size: 20px 20px;
+    top: 50%;
+    margin-top: -20px;
+    right: 0px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.pdb-carrousel-next:hover, .pdb-carrousel-prev:hover {
+    transform: scale(1.2);
+}
+
+.pdb-carrousel-prev {
+    background-image: url(../images/prev.png);
+    right: auto;
+    left: 0px;
 }
