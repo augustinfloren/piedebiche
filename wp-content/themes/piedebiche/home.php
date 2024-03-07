@@ -1,7 +1,6 @@
 <?php get_header(); ?>
 <!-- piedebiche_player_show(); -->
 <!-- piedebiche_carrousel_photo_show(); -->
-<!-- piedebiche_carrousel_video_show(); -->
 
 <!-- ========== MAIN ========== -->
 
@@ -19,7 +18,7 @@
     </div>
 
     <div class="sections section3" id="pdb-videos">
-
+        <?php piedebiche_carrousel_video_show() ?>
     </div>
 
     <div class="sections section4" id="pdb-photos">

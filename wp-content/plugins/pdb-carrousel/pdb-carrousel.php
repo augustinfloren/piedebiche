@@ -133,7 +133,7 @@ function piedebiche_carrousel_savepost($post_id, $post) {
  
 // ========== Affichage du Carrousel ==========
 function piedebiche_carrousel_photo_show($limit = 10) {
-    wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel.js'); // Chargement JS
+    wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel-photo.js'); // Chargement JS
     $slides = new WP_query("post_type=slide_photo&posts_per_page=$limit"); 
     echo '<div id="pdb-carrousel-photo">'; 
     while($slides->have_posts()) {
@@ -141,20 +141,21 @@ function piedebiche_carrousel_photo_show($limit = 10) {
         global $post;
         $alt_text = get_the_title();
         the_post_thumbnail('full', array('alt' => $alt_text));
-    echo '</div>';
     }
+    echo '</div>';
 }
 
 function piedebiche_carrousel_video_show($limit = 10) {
-    wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel.js'); // Chargement JS
+    wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel-video.js'); // Chargement JS
+    wp_enqueue_style('pdb-carrousel-style', plugins_url().'/pdb-carrousel/css/pdb-carrousel-style.css');
     $slides = new WP_query("post_type=slide_video&posts_per_page=$limit"); 
-    echo '<div id="pdb-carrousel-video">'; 
+    echo '<div id="pdb-carrousel-video">';  
     while($slides->have_posts()) {
         $slides->the_post();
         global $post;
         echo get_post_meta($post->ID, '_link', true);
-    echo '</div>';
     }
+    echo '</div>';
 }
 
 

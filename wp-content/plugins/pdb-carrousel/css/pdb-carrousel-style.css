@@ -1,0 +1,27 @@
+.pdb-carrousel {
+    position: relative;
+    /* overflow: hidden; */
+}
+
+.pdb-carrousel-container {
+    /* display: flex;
+    justify-content: center; */
+}
+
+.pdb-carrousel-container::after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.pdb-carrousel-item {
+    float: left;
+    
+    display: flex;
+    justify-content: center;
+}
+
+.pdb-carrousel-item iframe {
+    width: fit-content;
+    height: auto;
+}

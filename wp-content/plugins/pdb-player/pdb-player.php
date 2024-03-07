@@ -206,7 +206,7 @@ function piedebiche_player_show($limit = 10) {
         ?>
 
         <div class="pdb-track">
-            <audio src="<?= $url ?>"></audio>
+            <audio src="<?= $url ?>" loading="lazy"></audio>
             <div class="pdb-track-title-container">
                 <h5 class="pdb-track-title"> <?= $title ?> </h5>
                 <span class="pdb-track-time">1:00</span>

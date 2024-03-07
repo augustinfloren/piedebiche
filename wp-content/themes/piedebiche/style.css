@@ -167,6 +167,10 @@ body {
     grid-row-gap: 1vw;
 }
 
+.section3 {
+    align-items: center;
+}
+
 #pdb-player {
     grid-column: col-start 4 / span 6;
     grid-row: col-start 4 / span 6;
