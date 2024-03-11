@@ -1,35 +1,38 @@
 .pdb-carrousel {
     position: relative;
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    flex-wrap: wrap;
+    justify-content: center;
     overflow: hidden;
+    margin-top: 10vh;
+    gap: 5vh;
 }
 
-.pdb-carrousel-container::after {
-    content: '';
-    clear: both;
-    display: table;
+.pdb-carrousel-container {
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: left;
 }
 
 .pdb-carrousel-item {
-    float: left;
-    
-    display: flex;
-    justify-content: center;
+    padding-left: 5vw;
+    padding-right: 5vw;
 }
 
-.pdb-carrousel-item iframe {
-    width: fit-content;
-    height: auto;
+.pdb-carrousel-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .pdb-carrousel-next, .pdb-carrousel-prev {
-    position: absolute;
     width: 40px;
     height: 40px;
     background: url(../images/next.png) center center no-repeat;
     background-size: 20px 20px;
-    top: 50%;
-    margin-top: -20px;
-    right: 0px;
     cursor: pointer;
     transition: transform 0.3s;
 }
@@ -40,6 +43,4 @@
 
 .pdb-carrousel-prev {
     background-image: url(../images/prev.png);
-    right: auto;
-    left: 0px;
 }

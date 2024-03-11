@@ -26,8 +26,8 @@ class Carrousel {
             item.appendChild(child);
             this.container.appendChild(item);
             return item;
-        })
-        this.setStyle();
+        });
+        // this.setStyle();
         this.createNavigation();
     }
 
@@ -41,20 +41,22 @@ class Carrousel {
     };
 
     createNavigation() {
+        let navigation = this.createDivWithClass("pdb-carrousel-nav");
         let nextButton = this.createDivWithClass("pdb-carrousel-next");
         let prevButton = this.createDivWithClass("pdb-carrousel-prev");
-        this.root.appendChild(nextButton);
-        this.root.appendChild(prevButton);
+        navigation.appendChild(prevButton);
+        navigation.appendChild(nextButton);
+        this.root.appendChild(navigation);
         nextButton.addEventListener('click', this.next.bind(this));
         prevButton.addEventListener('click', this.prev.bind(this))
     };
 
     next() {
-        this.goToItem(this.currentItem + this.options.slidesToScroll);
+        this.goToItem(this.currentItem - this.options.slidesToScroll);
     }
 
     prev() {
-        this.goToItem(this.currentItem - this.options.slidesToScroll);
+        this.goToItem(this.currentItem + this.options.slidesToScroll);
     }
 
     /**
@@ -64,7 +66,7 @@ class Carrousel {
 
     goToItem(index) {
         let translateX = index * 100 / this.items.length;
-        this.container.style.transform = 'translate3d(' + translateX + '%, 0, 0)';
+        this.container.style.transform = 'translate3d(' + (translateX) + '%, 0, 0)';
         this.currentItem = index;
     }
 
