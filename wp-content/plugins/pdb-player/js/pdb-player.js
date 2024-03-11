@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     volumeBtn.addEventListener("click", () => {
         if (audioMuted === false ) {
-            volumeBar.style.background = `linear-gradient(to right, var(--mint-white) 0%, var(--grey) 0%)`
+            volumeBar.style.background = `var(--dark-grey)`
             muteAudio();
         } else {
             volumeBar.style.background = `linear-gradient(to right, var(--mint-white) ${inputVolume}%, var(--grey) ${inputVolume}%)`

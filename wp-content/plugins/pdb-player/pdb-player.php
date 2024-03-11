@@ -171,7 +171,7 @@ function piedebiche_player_show($limit = 10) {
 
             <audio id="pdb-player-audio" src="#"></audio>
 
-            <h4 id="pdb-player-title"></h4>
+            <h5 id="pdb-player-title"></h5>
             <p id="pdb-player-album-title"></p>
 
             <div id="pdb-player-time-bar-container">
@@ -208,10 +208,10 @@ function piedebiche_player_show($limit = 10) {
         <div class="pdb-track">
             <audio src="<?= $url ?>" loading="lazy"></audio>
             <div class="pdb-track-title-container">
-                <h5 class="pdb-track-title"> <?= $title ?> </h5>
+                <h6 class="pdb-track-title"> <?= $title ?> </h6>
                 <span class="pdb-track-time">1:00</span>
             </div>
-            <p class="pdb-track-album-title"> <?= $album_title ?> </p>
+            <small class="pdb-track-album-title"> <?= $album_title ?> </small>
         </div>
         
         <?php

@@ -359,6 +359,10 @@ body {
         --h6-size: 12px;
         --p-size: 9px;
     }
+
+    #pdb-player small {
+        font-size: 0.5rem;
+    }
     
     #pdb-player {
         grid-row: col-start 3 / span 6;

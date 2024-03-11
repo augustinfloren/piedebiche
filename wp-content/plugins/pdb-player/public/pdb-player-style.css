@@ -26,13 +26,20 @@
     color: var(--mint-white);
 }
 
+#pdb-player h6 {
+    font-size: var(--h6-size);
+    color: var(--mint-white);
+    margin-bottom: 0.1rem;
+}
+
 #pdb-player p, #pdb-player span {
     font-size: var(--p-size);
     color: var(--grey);
 }
 
-p {
-    font-size: 1rem;
+#pdb-player small {
+    color: var(--grey);
+    font-size: 0.7rem;
 }
 
 /* ========== Player Containers ========== */
@@ -148,7 +155,6 @@ p {
 #pdb-player-pause-btn {
     display: none;
     width: 17px;
-    margin-right: 4px;
 }
 
 /* Back/Forward */
@@ -163,17 +169,17 @@ p {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 170px;
+    width: 125px;
+    gap: 10px;
 }
 
 #pdb-player-volume-bar {
     -webkit-appearance: none; 
     appearance: none;
 
-    width: 80%;
-    height: 7px;
+    height: 3px;
 
-    border-radius: 0px; 
+    border-radius: 100px; 
     outline: none; 
     overflow: hidden;
     margin: 0px;

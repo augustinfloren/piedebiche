@@ -3,11 +3,6 @@
     overflow: hidden;
 }
 
-.pdb-carrousel-container {
-    /* display: flex;
-    justify-content: center; */
-}
-
 .pdb-carrousel-container::after {
     content: '';
     clear: both;
