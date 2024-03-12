@@ -190,8 +190,7 @@ body {
 
 #pdb-carrousel-video {
     position: relative;
-    padding-left: 104px;
-    padding-right: 104px;
+    padding: 0px 104px;
     grid-column: col-start 3 / span 8;
     grid-row: col-start 4 / span 8;
 }
@@ -332,6 +331,12 @@ body {
         grid-column: col-start 3 / span 8;
         grid-row: col-start 3 / span 5;
     }
+
+    #pdb-carrousel-video {
+        padding: 0px 30px;
+    }
+
+    /* Menu */
 
     #pdb-burger {
         width: 40px;
