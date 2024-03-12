@@ -16,9 +16,13 @@ class Carrousel {
             slidesVisible: 1
         }, options);
         let children = [].slice.call(element.children);
+        this.isMobile = false;
         this.currentItem = 0;
+
+        // Modification du DOM
         this.root = this.createDivWithClass("pdb-carrousel");
         this.container = this.createDivWithClass("pdb-carrousel-container");
+        this.root.setAttribute('tabindex', '1');
         this.root.appendChild(this.container);
         this.element.appendChild(this.root);
         this.items = children.map((child) => {
@@ -29,6 +33,15 @@ class Carrousel {
         })
         this.setStyle();
         this.createNavigation();
+
+        // événements 
+        this.root.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowRight') {
+                this.next();
+            } else if (e.key === 'ArrowLeft') {
+                this.prev();
+            }
+        });
     }
 
     /**
@@ -52,11 +65,11 @@ class Carrousel {
     };
 
     next() {
-        this.goToItem(this.currentItem + this.options.slidesToScroll);
+        this.goToItem(this.currentItem - this.options.slidesToScroll);
     }
 
     prev() {
-        this.goToItem(this.currentItem - this.options.slidesToScroll);
+        this.goToItem(this.currentItem + this.options.slidesToScroll);
     }
 
     /**
@@ -81,7 +94,6 @@ class Carrousel {
         div.setAttribute('class', className);
         return div;
     }
-
 }
 
 document.addEventListener('DOMContentLoaded', function() {
