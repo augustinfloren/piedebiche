@@ -150,11 +150,13 @@ function piedebiche_carrousel_video_show($limit = 10) {
     wp_enqueue_style('pdb-carrousel-style', plugins_url().'/pdb-carrousel/css/pdb-carrousel-style.css');
     $slides = new WP_query("post_type=slide_video&posts_per_page=$limit"); 
     echo '<div id="pdb-carrousel-video">';  
-    while($slides->have_posts()) {
-        $slides->the_post();
-        global $post;
-        echo get_post_meta($post->ID, '_link', true);
-    }
+        while($slides->have_posts()) {
+            echo '<div class="pdb-carrousel-item-container">';  
+                $slides->the_post();
+                global $post;
+                echo get_post_meta($post->ID, '_link', true);
+            echo '</div>';
+        }
     echo '</div>';
 }
 

@@ -41,10 +41,12 @@ class Carrousel {
     };
 
     createNavigation() {
+        let navContainer = this.createDivWithClass("pdb-carrousel-nav-container");
         let nextButton = this.createDivWithClass("pdb-carrousel-next");
         let prevButton = this.createDivWithClass("pdb-carrousel-prev");
-        this.root.appendChild(nextButton);
-        this.root.appendChild(prevButton);
+        navContainer.appendChild(prevButton);
+        navContainer.appendChild(nextButton);
+        this.root.appendChild(navContainer);
         nextButton.addEventListener('click', this.next.bind(this));
         prevButton.addEventListener('click', this.prev.bind(this))
     };
@@ -84,9 +86,6 @@ class Carrousel {
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    new Carrousel(document.getElementById("pdb-carrousel-video"), {
-        // slidesToScroll: 3,
-        slidesVisible: 3
-    })
+    new Carrousel(document.getElementById("pdb-carrousel-video"));
 
 });

@@ -1,6 +1,17 @@
+.pdb-carrousel-item-container {
+    margin: 0px 40px;
+    box-shadow: 0 15px 35px #3232321a,0 5px 15px #0000001a;
+    transition: transform 0.3s;
+    transform: translate3d(0, -1px, 0);
+}
+
 .pdb-carrousel {
     position: relative;
-    overflow: hidden;
+}
+
+.pdb-carrousel-container {
+    transition: transform 0.3s;
+    transform: translate3d(0, 0, 0);
 }
 
 .pdb-carrousel-container::after {
@@ -11,25 +22,26 @@
 
 .pdb-carrousel-item {
     float: left;
-    
-    display: flex;
-    justify-content: center;
 }
 
 .pdb-carrousel-item iframe {
-    width: fit-content;
-    height: auto;
+    display: block;
+    width: 100%;
+}
+
+.pdb-carrousel-nav-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
 }
 
 .pdb-carrousel-next, .pdb-carrousel-prev {
-    position: absolute;
     width: 40px;
     height: 40px;
     background: url(../images/next.png) center center no-repeat;
     background-size: 20px 20px;
-    top: 50%;
-    margin-top: -20px;
-    right: 0px;
     cursor: pointer;
     transition: transform 0.3s;
 }
