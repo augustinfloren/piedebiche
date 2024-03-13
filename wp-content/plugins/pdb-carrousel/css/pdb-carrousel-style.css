@@ -43,11 +43,15 @@
     background: url(../images/next.png) center center no-repeat;
     background-size: 20px 20px;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 .pdb-carrousel-next:hover, .pdb-carrousel-prev:hover {
     transform: scale(1.2);
+}
+
+.pdb-carrousel-next-hidden, .pdb-carrousel-prev-hidden {
+    opacity: 0;
 }
 
 .pdb-carrousel-prev {
@@ -61,5 +65,5 @@
     .pdb-carrousel-item-container {
         margin: 0px 10px;
     }
-    
+
 }

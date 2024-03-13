@@ -189,6 +189,7 @@ body {
 }
 
 #pdb-carrousel-video {
+    mask-image: linear-gradient(90deg, transparent 0%, rgb(0, 0, 0) 10%, rgb(0, 0, 0) 70%, transparent 100%);
     position: relative;
     padding: 0px 104px;
     grid-column: col-start 3 / span 8;
