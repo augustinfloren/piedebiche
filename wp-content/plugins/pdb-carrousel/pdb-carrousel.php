@@ -13,6 +13,20 @@ add_action("add_meta_boxes","piedebiche_carrousel_metaboxes_photo");
 add_action("do_meta_boxes", "piedebiche_event_metaboxes_photo");
 add_action('manage_edit-slide_photo_columns', 'piedebiche_carrousel_columnfilter');
 add_action('manage_posts_custom_column', 'piedebiche_carrousel_column');
+add_action('wp_enqueue_scripts', 'pdb_carrousel_register_assets');
+
+function pdb_carrousel_register_assets () {
+
+    wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel.js'); // Chargement JS
+
+    wp_enqueue_script('pdb-custom-videos', plugins_url().'/pdb-carrousel/js/pdb-custom-videos.js'); // Chargement JS 
+
+    wp_enqueue_style('pdb-carrousel-style', plugins_url().'/pdb-carrousel/css/pdb-carrousel-style.css'); // Chargement CSS
+
+    // Charger l'API YouTube Player
+    wp_enqueue_script( 'youtube-iframe-api', 'https://www.youtube.com/iframe_api');
+
+}
  
 // ========== Paramètres carrousels photo et video administration ==========
 
@@ -133,7 +147,6 @@ function piedebiche_carrousel_savepost($post_id, $post) {
  
 // ========== Affichage du Carrousel ==========
 function piedebiche_carrousel_photo_show($limit = 10) {
-    wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel-photo.js'); // Chargement JS
     $slides = new WP_query("post_type=slide_photo&posts_per_page=$limit"); 
     echo '<div id="pdb-carrousel-photo">'; 
     while($slides->have_posts()) {
@@ -146,16 +159,13 @@ function piedebiche_carrousel_photo_show($limit = 10) {
 }
 
 function piedebiche_carrousel_video_show($limit = 10) {
-    wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel-video.js'); // Chargement JS
-    wp_enqueue_style('pdb-carrousel-style', plugins_url().'/pdb-carrousel/css/pdb-carrousel-style.css');
     $slides = new WP_query("post_type=slide_video&posts_per_page=$limit"); 
     echo '<div id="pdb-carrousel-video">';  
         while($slides->have_posts()) {
-            echo '<div class="pdb-carrousel-item-container">';  
-                $slides->the_post();
-                global $post;
-                echo get_post_meta($post->ID, '_link', true);
-            echo '</div>';
+            $slides->the_post();
+            global $post;
+            $video_link = get_post_meta($post->ID, '_link', true);
+            echo '<div class="pdb-carrousel-video-container" data-yt-link="' . esc_attr($video_link) . '"></div>';
         }
     echo '</div>';
 }
