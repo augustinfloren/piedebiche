@@ -89,7 +89,9 @@ class Carousel {
     setStyle () {
       let ratio = this.items.length / this.slidesVisible
       this.container.style.width = (ratio * 100) + "%"
-      this.items.forEach(item => item.style.width = ((100 / this.slidesVisible) / ratio) + "%")
+      this.items.forEach((item) => {
+        item.style.width = ((100 / this.slidesVisible) / ratio) + "%"
+      })
     }
   
     /**

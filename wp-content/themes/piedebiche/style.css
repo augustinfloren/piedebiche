@@ -273,6 +273,12 @@ body {
     display: flex;
 }
 
+@media (max-width: 1920px) {
+    .pdb-carrousel-video-container {
+        height: 470px;
+    }
+}
+
 @media (max-width: 1600px) {
     #pdb-logo {
         width: 40vw;
@@ -281,6 +287,10 @@ body {
     #pdb-player {
         grid-column: col-start 5 / span 4;
         grid-row: col-start 4 / span 6;
+    }
+
+    .pdb-carrousel-video-container {
+        height: 360px;
     }
 }
 
@@ -316,10 +326,6 @@ body {
     #pdb-player {
         grid-column: col-start 4 / span 6;
         grid-row: col-start 4 / span 6;
-    }
-
-    #pdb-carrousel-video {
-        grid-column: col-start 3 / span 9;
     }
 
     #pdb-carrousel-video {
