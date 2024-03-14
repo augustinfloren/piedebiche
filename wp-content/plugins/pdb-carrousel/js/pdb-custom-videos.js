@@ -36,18 +36,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event, itemContent, itemContainer, thumbnailUrl, videoId) {
-  let nextButton = document.querySelector(".pdb-carrousel-next");
-
-  let prevButton = document.querySelector(".pdb-carrousel-prev");
-  
-  nextButton.addEventListener("click", () => {
-    event.target.stopVideo();
-  })
-
-  prevButton.addEventListener("click", () => {
-    event.target.stopVideo();
-  })
-
   // Création de la vignette pour contrôler sa largeur (pas d'insertion dans le dom)
   let thumbnailImg = document.createElement("img");
   thumbnailImg.setAttribute("src", thumbnailUrl);
@@ -87,6 +75,22 @@ function onPlayerReady(event, itemContent, itemContainer, thumbnailUrl, videoId)
       thumbnail.style.display = "none";
     }, 200);
   });
+
+  // Au changement de vidéo
+  let nextButton = document.querySelector(".pdb-carrousel-next");
+  let prevButton = document.querySelector(".pdb-carrousel-prev");
+  
+  nextButton.addEventListener("click", () => {
+    event.target.stopVideo();
+    thumbnail.style.display = "flex";
+    thumbnail.style.opacity = "1";
+  })
+
+  prevButton.addEventListener("click", () => {
+    event.target.stopVideo();
+    thumbnail.style.display = "flex";
+    thumbnail.style.opacity = "1";
+  })
 
   thumbnail.appendChild(playBtn);
   itemContent.appendChild(thumbnail);
