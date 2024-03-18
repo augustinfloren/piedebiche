@@ -13,25 +13,28 @@
         </div>
     </div>
 
-    <div class="sections section2" id="pdb-music">
-        <?php piedebiche_player_show() ?>
+    <div id="main">
+        <div class="sections section2" id="pdb-music">
+            <?php piedebiche_player_show() ?>
+        </div>
+    
+        <div class="sections section3" id="pdb-videos">
+            <?php piedebiche_carrousel_video_show() ?>
+        </div>
+    
+        <div class="sections section4" id="pdb-photos">
+    
+        </div>
+    
+        <div class="sections section5" id="pdb-concerts">
+    
+        </div>
+    
+        <div class="sections section6" id="pdb-contact">
+    
+        </div>
     </div>
 
-    <div class="sections section3" id="pdb-videos">
-        <?php piedebiche_carrousel_video_show() ?>
-    </div>
-
-    <div class="sections section4" id="pdb-photos">
-
-    </div>
-
-    <div class="sections section5" id="pdb-concerts">
-
-    </div>
-
-    <div class="sections section6" id="pdb-contact">
-
-    </div>
 
 <?php // require_once get_template_directory() . '/includes-home/concerts.php'; // Agenda Concerts?> 
 

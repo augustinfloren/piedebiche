@@ -8,7 +8,7 @@
     <?php wp_head() ?>
 </head>
 <body>
-    <div class="container">
+    <div id="pdb-container">
         <header>
             <div id="pdb-logo-container">
                 <a href="#pdb-home">

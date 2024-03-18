@@ -22,6 +22,7 @@
 }
 
 .pdb-carrousel-item-content {
+    opacity: 0;
     display: flex;
     justify-content: center;
     margin: 0px 40px;
@@ -53,6 +54,7 @@
 }
 
 .pdb-video-play-btn {
+    opacity: 0;
     background: url(../images/play-btn.png) center center no-repeat;
     background-size: cover;
     width: 50px;

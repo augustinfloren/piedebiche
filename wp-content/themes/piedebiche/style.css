@@ -38,7 +38,7 @@ body {
     font-family: 'karrik-regular', sans-serif;
 }
 
-.container {
+#pdb-container {
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
@@ -145,6 +145,15 @@ body {
 
 /* ========== Main ========== */
 
+#main {
+    background-color: black;
+    background-image: url("public/images/fond-musique.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed; 
+}
+
 .sections {
     width: 100%;
     height: 100vh;
@@ -154,13 +163,6 @@ body {
 }
 
 .section2 {
-    background-color: black;
-    background-image: url("public/images/fond-musique.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed; 
-
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
     grid-template-rows: repeat(12, [col-start] 1fr);
@@ -174,13 +176,6 @@ body {
 }
 
 .section3 {
-    background-color: black;
-    background-image: url("public/images/fond-musique.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed; 
-
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
     grid-template-rows: repeat(12, [col-start] 1fr);
@@ -197,15 +192,12 @@ body {
 }
 
 .section4 {
-    background-color: rgb(0, 255, 115);
 }
 
 .section5 {
-    background-color: rgb(229, 255, 0);
 }
 
 .section6 {
-    background-color: rgb(225, 0, 255);
 }
 
 /* ========== Background video ========== */

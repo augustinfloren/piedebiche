@@ -87,5 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.onload = detectWindowSize;
 
     window.addEventListener("resize", detectWindowSize);
+
+    // ========== Gestion arrêt lecture médias ========== //
+
+
       
 });
