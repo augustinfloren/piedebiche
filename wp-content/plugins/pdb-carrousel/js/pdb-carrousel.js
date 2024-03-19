@@ -249,11 +249,24 @@ class Carousel {
   
   let onReady = function () {
   
-    new Carousel(document.querySelector('#pdb-carrousel-video'), {
-        slidesVisible: 1,
-        slidesToScroll: 1,
-        infinite: true,
-    })
+    let carouselVideo = document.getElementById('pdb-carrousel-video');
+    let carouselPhoto = document.getElementById('pdb-carrousel-photo');
+
+    if (carouselVideo) {
+      new Carousel(carouselVideo, {
+          slidesVisible: 1,
+          slidesToScroll: 1,
+          infinite: true,
+      })
+    }
+
+    if (carouselPhoto) {
+      new Carousel(carouselPhoto, {
+          slidesVisible: 1,
+          slidesToScroll: 1,
+          infinite: true,
+      })
+    }
   
   }
   

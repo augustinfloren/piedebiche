@@ -22,19 +22,29 @@
 }
 
 .pdb-carrousel-item-content {
-    opacity: 0;
     display: flex;
     justify-content: center;
     margin: 0px 40px;
+    overflow: hidden;
+}
+
+#pdb-carrousel-video .pdb-carrousel-item-content {
+    opacity: 0;
 }
 
 .pdb-carrousel-item {
     float: left;
 }
 
-.pdb-carrousel-item iframe {
+.pdb-carrousel-item iframe, .pdb-carrousel-item img {
     display: block;
     width: 100%;
+}
+
+.pdb-carrousel-item img {
+    display: block;
+    width: auto;
+    height: 350px;
 }
 
 /* Remplacement vignette */

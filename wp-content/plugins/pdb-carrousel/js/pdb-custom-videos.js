@@ -1,6 +1,6 @@
 function onYouTubeIframeAPIReady() {
   let regex = /(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]{11})/; // Regex pour récupérer l'id youtube de la vidéo
-  let videoContainers = document.querySelectorAll('.pdb-carrousel-video-container');
+  let videoContainers = document.querySelectorAll('.pdb-carrousel-video');
 
   videoContainers.forEach((container) => {
     let youtubeLink = container.getAttribute('data-yt-link');

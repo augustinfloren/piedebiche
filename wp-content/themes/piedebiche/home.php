@@ -23,7 +23,7 @@
         </div>
     
         <div class="sections section4" id="pdb-photos">
-    
+            <?php piedebiche_carrousel_photo_show() ?>
         </div>
     
         <div class="sections section5" id="pdb-concerts">

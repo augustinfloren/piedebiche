@@ -150,7 +150,9 @@ function piedebiche_carrousel_photo_show($limit = 10) {
         $slides->the_post();
         global $post;
         $alt_text = get_the_title();
+        echo '<div class="pdb-carrousel-item-content">';
         the_post_thumbnail('full', array('alt' => $alt_text));
+        echo '</div>';
     }
     echo '</div>';
 }
@@ -163,7 +165,7 @@ function piedebiche_carrousel_video_show($limit = 10) {
                 $slides->the_post();
                 global $post;
                 $video_link = get_post_meta($post->ID, '_link', true);
-                echo '<div class="pdb-carrousel-video-container" data-yt-link="' . esc_attr($video_link) . '"></div>';
+                echo '<div class="pdb-carrousel-video" data-yt-link="' . esc_attr($video_link) . '"></div>';
             echo '</div>';
         }
     echo '</div>';
