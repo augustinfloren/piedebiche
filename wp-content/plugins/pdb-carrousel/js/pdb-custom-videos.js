@@ -1,6 +1,6 @@
 function onYouTubeIframeAPIReady() {
   let regex = /(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]{11})/; // Regex pour récupérer l'id youtube de la vidéo
-  let videoContainers = document.querySelectorAll('.pdb-carrousel-video');
+  let videoContainers = document.querySelectorAll('.pdb-video');
 
   videoContainers.forEach((container) => {
     let youtubeLink = container.getAttribute('data-yt-link');
@@ -59,6 +59,18 @@ function onPlayerReady(event, itemContent, itemContainer, thumbnailUrl, videoId,
     thumbnail.classList.add("pdb-carrousel-thumb-container");
     thumbnail.style.backgroundImage = `radial-gradient(transparent 10%, black 100%), url(${thumbnailUrl})`;
     thumbnail.style.width = "calc(" + itemContainer.style.width + " - 80px)"; // Calcul de la largeur en soustrayant les marges (40px de chaque côtés)
+
+    // Responsive
+    function detectWindowSize() {
+      if (window.innerWidth < 700) {
+        thumbnail.style.width = "calc(" + itemContainer.style.width + " - 20px)";
+      } else if (window.innerWidth > 700) {
+        thumbnail.style.width = "calc(" + itemContainer.style.width + " - 80px)";
+      }
+    };
+    
+    detectWindowSize()
+    window.addEventListener("resize", detectWindowSize);
     
     playBtn.style.opacity = 1;
     itemContent.style.opacity = 1;

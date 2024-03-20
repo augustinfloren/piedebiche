@@ -22,7 +22,7 @@ function pdb_carrousel_register_assets () {
     wp_enqueue_script('pdb-carrousel', plugins_url().'/pdb-carrousel/js/pdb-carrousel.js'); // Chargement JS
     wp_enqueue_style('pdb-carrousel-style', plugins_url().'/pdb-carrousel/css/pdb-carrousel-style.css'); // Chargement CSS
     wp_enqueue_script('pdb-custom-videos', plugins_url().'/pdb-carrousel/js/pdb-custom-videos.js'); // Chargement JS 
-
+    wp_enqueue_script('pdb-fullscreen-carrousel', plugins_url().'/pdb-carrousel/js/pdb-fullscreen-carrousel.js'); // Chargement JS 
 }
  
 // ========== Paramètres carrousels photo et video administration ==========
@@ -165,7 +165,7 @@ function piedebiche_carrousel_video_show($limit = 10) {
                 $slides->the_post();
                 global $post;
                 $video_link = get_post_meta($post->ID, '_link', true);
-                echo '<div class="pdb-carrousel-video" data-yt-link="' . esc_attr($video_link) . '"></div>';
+                echo '<div class="pdb-video" data-yt-link="' . esc_attr($video_link) . '"></div>';
             echo '</div>';
         }
     echo '</div>';

@@ -105,10 +105,29 @@
     left: 0px;
 }
 
+@media (max-width: 1920px) {
+    .pdb-video, #pdb-carrousel-photo img {
+        height: 470px;
+    }
+}
+
+@media (max-width: 1600px) {
+    .pdb-video, #pdb-carrousel-photo img {
+        height: 360px;
+    }
+}
+
 @media (max-width: 700px) {
-    
     .pdb-carrousel-item-container {
         margin: 0px 10px;
+    }
+
+    .pdb-carrousel-item-content {
+        margin: 0px 10px;
+    }
+
+    .pdb-video, #pdb-carrousel-photo img {
+        height: 260px;
     }
     
     .pdb-video-play-btn {
