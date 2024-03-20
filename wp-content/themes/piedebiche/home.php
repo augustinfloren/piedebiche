@@ -27,15 +27,12 @@
         </div>
     
         <div class="sections section5" id="pdb-concerts">
-    
+            <?php require_once get_template_directory() . '/includes-home/concerts.php'; // Agenda Concerts?> 
         </div>
     
         <div class="sections section6" id="pdb-contact">
     
         </div>
     </div>
-
-
-<?php // require_once get_template_directory() . '/includes-home/concerts.php'; // Agenda Concerts?> 
 
 <?php get_footer(); ?>

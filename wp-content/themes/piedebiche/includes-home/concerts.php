@@ -9,6 +9,7 @@ $query = new WP_Query([
 
 // Récupération champs
 if ($query->have_posts()) {
+    echo "<div id='pdb-agenda'>";
     while ($query->have_posts()) {
         $query->the_post();
         $date = get_field('date');
@@ -18,16 +19,21 @@ if ($query->have_posts()) {
         $pays = get_field('pays');
         $lien = get_field('lien');
         // Affichage du contenu
-        echo "<div> 
-                <h3>$date</h3>
-                <h3>$heure</h3>
-                <h3>$salle</h3>
-                <h3>$pays</h3>
-                <a href='" . esc_url($lien) . "'>Infos</a>
+        echo "<div class='pdb-concert'> 
+                <div class='pdb-schedule-container'>
+                    <h6 class='pdb-concert-date'>$date</h6>
+                    <h6 class='pdb-concert-schedule'>$heure</h6>
+                </div>
+                <div class='pdb-place-container'>
+                    <h5 class='pdb-concert-hall'>$salle</h5>
+                    <p class='pdb-concert-place'>$ville</p>
+                </div>
+                <a class='pdb-concert-link' href='" . esc_url($lien) . "'>Infos</a>
               </div>";
     }
+    echo "</div>";
     // Réinitialiser les données de la requête
     wp_reset_postdata();
 } else {
-    echo 'Aucun concert trouvé.';
+    echo 'Aucun concert prévu pour le moment.';
 }
