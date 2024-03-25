@@ -31,7 +31,9 @@
         </div>
     
         <div class="sections section6" id="pdb-contact">
-    
+            <div id="pdb-contact-form">
+                <?php echo do_shortcode('[contact-form-7 id="745b58c" title="Contact piedebiche"]'); ?>
+            </div>
         </div>
     </div>
 

@@ -304,7 +304,145 @@ body {
     background-color: var(--mint-white);
 }
 
+/* Contact */
+
 .section6 {
+    display: grid;
+    grid-template-columns: repeat(12, [col-start] 1fr);
+    grid-template-rows: repeat(12, [col-start] 1fr);
+    grid-column-gap: 1vw;
+    grid-row-gap: 1vw;
+}
+
+#pdb-contact-form {
+    grid-column: col-start 3 / span 8;
+    grid-row: col-start 4 / span 8;
+    display: flex;
+    justify-content: center;
+}
+
+#pdb-contact-form > div {
+    width: 100%;
+}
+
+#pdb-contact-form form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5rem 0.9rem;
+    
+    justify-content: center;
+
+    font-family: 'Karrik-regular';
+    color: var(--mint-white);
+    text-transform: uppercase;
+}
+
+#wpcf7-f248-o1 label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    
+    font-size: var(--h6-size);
+}
+
+#wpcf7-f248-o1 p span {
+    display: flex;
+}
+
+/* Champs */
+#wpcf7-f248-o1 input, #wpcf7-f248-o1 textarea, #wpcf7-f248-o1 input[type="submit"] {
+    height: 120px;
+    width: 100%;
+    border: solid rgba(255, 255, 255, 0.568) 1px;
+    background: transparent;
+    padding-left: 12px;
+    font-family: 'Karrik-regular';
+    color: var(--mint-white);
+}
+
+#wpcf7-f248-o1 input {
+    border-radius: 100px;
+    height: 25px;
+}
+
+#wpcf7-f248-o1 textarea {
+    border-radius: 25px;
+    padding-top: 8px;
+}
+
+#wpcf7-f248-o1 input:focus, #wpcf7-f248-o1 textarea:focus {
+    outline: none;
+}
+
+#wpcf7-f248-o1 input:active {
+    outline-color: none;
+    border-color: none;
+}
+
+#wpcf7-f248-o1 p:nth-child(2) {
+    /* NOM */
+    flex-grow: 1;
+  }
+
+  #wpcf7-f248-o1 p:nth-child(3) {
+    /* MAIL */
+    flex-grow: 1;
+}
+
+#wpcf7-f248-o1 p:nth-child(4), #wpcf7-f248-o1 p:nth-child(5) {
+    /* OBJET ET MESSAGE */
+    width: 100%;
+}
+
+#wpcf7-f248-o1 p:nth-child(6) {
+    height: 20px;
+    width: 100%;
+    text-align: center;
+}
+ 
+#wpcf7-f248-o1 input[type="submit"] {
+    /* ENVOYER */
+    width: 145px;
+    height: 25px;
+    padding: 0px 30px;
+    text-transform: uppercase;
+}
+
+#wpcf7-f248-o1 input[type="submit"]:hover {
+    cursor: pointer;
+    background: var(--mint-white);
+    color: black;
+}
+
+/* Message erreur */
+.wpcf7-not-valid-tip {
+  position: absolute;
+  top: -21px;
+  left: 100px;
+  font-size: var(--p-size);
+  color: #ff55556b;
+}
+.wpcf7 form .wpcf7-response-output {
+    text-align: center;
+    font-size: var(--p-size);
+    margin: 0em 0em 0em;
+    line-height: 1.2em;
+    border: none;
+}
+
+.wpcf7 form.invalid .wpcf7-response-output, .wpcf7 form.unaccepted .wpcf7-response-output, .wpcf7 form.payment-required .wpcf7-response-output {
+    border: none;
+}
+
+/* Chargement */
+.wpcf7-spinner::before {
+    display: none;
+}
+
+#pdb-contact-form form .wpcf7-spinner {
+    display: none;
 }
 
 /* ========== Background video ========== */
@@ -380,7 +518,7 @@ body {
         width: 40vw;
     }
     
-    #pdb-player {
+    #pdb-player, #pdb-contact-form {
         grid-column: col-start 4 / span 6;
         grid-row: col-start 4 / span 6;
     }
@@ -420,7 +558,7 @@ body {
     
     /* Main */
 
-    #pdb-player {
+    #pdb-player, #pdb-contact-form {
         grid-column: col-start 4 / span 6;
         grid-row: col-start 4 / span 6;
     }
@@ -437,7 +575,7 @@ body {
 
 @media (max-width: 850px) {
 
-    #pdb-player, #pdb-agenda {
+    #pdb-player, #pdb-agenda, #pdb-contact-form {
         grid-column: col-start 2 / span 10;
     }
 }
@@ -455,7 +593,7 @@ body {
         --p-size: 9px;
     }
 
-    #pdb-player {
+    #pdb-player, #pdb-contact-form {
         grid-row: col-start 3 / span 5;
         gap: 1em;
     }
@@ -518,6 +656,11 @@ body {
         width: 1000px;
         object-fit: contain; 
         overflow: hidden;
+    }
+
+    /* Formulaire contact: message erreur champs */
+    .wpcf7-not-valid-tip {
+        top: -18px;
     }
 }
 
