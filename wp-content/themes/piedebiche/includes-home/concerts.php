@@ -9,7 +9,9 @@ $query = new WP_Query([
 
 // Récupération champs
 if ($query->have_posts()) {
-    echo "<div id='pdb-agenda'>";
+    ?>
+    <div id='pdb-agenda'>
+    <?php
     while ($query->have_posts()) {
         $query->the_post();
         $date = get_field('date');

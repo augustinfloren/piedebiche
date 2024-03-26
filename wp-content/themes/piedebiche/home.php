@@ -1,40 +1,42 @@
 <?php get_header(); ?>
-<!-- piedebiche_player_show(); -->
-<!-- piedebiche_carrousel_photo_show(); -->
 
-<!-- ========== MAIN ========== -->
+    <div id="pdb-parallax">
+        <main>
+            <section class="sections" id="pdb-home">
+                <div class="pdb-video-container">
+                    <video autoplay muted loop id="pdb-video">
+                        <source src="<?php echo get_template_directory_uri() . '/public/videos/pdb-video-bg.mp4'; ?>" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </section>
 
-    <div class="sections section1" id="pdb-home">
-        <div class="pdb-video-container">
-            <video autoplay muted loop id="pdb-video">
-                <source src="<?php echo get_template_directory_uri() . '/public/videos/pdb-video-bg.mp4'; ?>" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+            <section class="sections" id="pdb-music">
+                <div id="pdb-unn-img"></div>
+                <?php piedebiche_player_show() ?>
+            </section>
+
+            <section class="sections" id="pdb-videos">
+                <?php piedebiche_carrousel_video_show() ?>
+            </section>
+
+            <section class="sections" id="pdb-photos">
+                <?php piedebiche_carrousel_photo_show() ?>
+            </section>
+
+            <section class="sections" id="pdb-concerts">
+                <div id="pdb-peache-img"></div>
+                <?php require_once get_template_directory() . '/includes-home/concerts.php'; // Agenda Concerts?> 
+            </section>
+
+            <section class="sections" id="pdb-contact">
+                <div id="pdb-contact-form">
+                    <?php echo do_shortcode('[contact-form-7 id="745b58c" title="Contact piedebiche"]'); ?>
+                </div>
+            </section>
+
+        </main>
+
+        <?php get_footer(); ?>
     </div>
 
-    <div id="main">
-        <div class="sections section2" id="pdb-music">
-            <?php piedebiche_player_show() ?>
-        </div>
-    
-        <div class="sections section3" id="pdb-videos">
-            <?php piedebiche_carrousel_video_show() ?>
-        </div>
-    
-        <div class="sections section4" id="pdb-photos">
-            <?php piedebiche_carrousel_photo_show() ?>
-        </div>
-    
-        <div class="sections section5" id="pdb-concerts">
-            <?php require_once get_template_directory() . '/includes-home/concerts.php'; // Agenda Concerts?> 
-        </div>
-    
-        <div class="sections section6" id="pdb-contact">
-            <div id="pdb-contact-form">
-                <?php echo do_shortcode('[contact-form-7 id="745b58c" title="Contact piedebiche"]'); ?>
-            </div>
-        </div>
-    </div>
-
-<?php get_footer(); ?>

@@ -200,7 +200,7 @@
 
     overflow-y : scroll;
 
-    scrollbar-color: rgba(128, 128, 128, 0.082) rgba(128, 128, 128, 0) ;
+    scrollbar-color: rgb(0, 0, 0) rgba(128, 128, 128, 0);
     scrollbar-width: thin;
 
     padding-right: 5px;

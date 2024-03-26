@@ -57,26 +57,35 @@ small {
 }
 
 body {
+    overflow: hidden;
     font-family: 'karrik-regular', sans-serif;
 }
 
-#pdb-container {
+/* #pdb-container {
     width: 100%;
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
-}
+    perspective: 10px;
+
+    transform-style: preserve-3d;
+} */
+
 
 /* ========== Header ========== */
+
+header {
+    display: flex;
+    justify-content: center;
+}
 
 /* Logo */
 
 #pdb-logo-container {
-    z-index: 1;
+    z-index: 2;
     position: fixed;
-    width: 100%;
     display: flex;
     justify-content: center;
 }
@@ -165,9 +174,61 @@ body {
     border: none;
 }
 
+/* ========== Menu responsive ========== */
+
+#pdb-burger {
+    position: fixed;
+    z-index: 98;
+    right: 5vw;
+    top: 2vh;
+    display: none;
+    width: 55px;
+    cursor: pointer;
+
+    appearance: none;
+    background: none;
+    outline: none;
+    border: none;
+}
+
+#pdb-burger-bar, #pdb-burger:after, #pdb-burger:before{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 8px;
+    background-color: white;
+    margin: 8px 0px;
+    transition: 0.4s;
+}
+
+#pdb-burger.active:before{
+    transform: rotate(-45deg) translate(-14px, 13px);
+}
+
+#pdb-burger.active:after{
+    transform: rotate(45deg) translate(-9px, -8px);
+}
+
+#pdb-burger.active #pdb-burger-bar{
+    opacity: 0;
+}
+
+#pdb-main-menu ul.active {
+    display: flex;
+}
+
 /* ========== Main ========== */
 
-#main {
+#pdb-parallax {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+    perspective: 10px;
+
+    transform-style: preserve-3d;
     background-color: black;
     background-image: url("public/images/fond-musique.png");
     background-size: cover;
@@ -176,16 +237,22 @@ body {
     background-attachment: fixed; 
 }
 
+main {
+    transform-style: preserve-3d;
+}
+
 .sections {
     width: 100%;
     height: 100vh;
     display: flex;
-    justify-content: right;
     scroll-snap-align: start;
 }
 
-/* Musique */
-.section2 {
+/* ========== Musique ========== */
+#pdb-music {
+    position: relative;
+    z-index: -1;
+    transform-style: preserve-3d;
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
     grid-template-rows: repeat(12, [col-start] 1fr);
@@ -193,13 +260,28 @@ body {
     grid-row-gap: 1vw;
 }
 
+#pdb-unn-img {
+    transform: translateZ(-10px) scale(2);
+    z-index: -1;
+
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-image: url("public/images/unn.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom right;
+}
+
 #pdb-player {
+    z-index: 1;
     grid-column: col-start 4 / span 6;
     grid-row: col-start 4 / span 6;
 }
 
-/* Vidéos */
-.section3 {
+/* ========== Vidéos ========== */
+#pdb-videos {
     mask-image: linear-gradient(90deg, transparent 0%, rgb(0, 0, 0) 30%, rgb(0, 0, 0) 70%, transparent 100%);
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
@@ -215,8 +297,8 @@ body {
     grid-row: col-start 4 / span 8;
 }
 
-/* Photos */
-.section4 {
+/* ========== Photos ========== */
+#pdb-photos {
     mask-image: linear-gradient(90deg, transparent 0%, rgb(0, 0, 0) 30%, rgb(0, 0, 0) 70%, transparent 100%);
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
@@ -232,8 +314,13 @@ body {
     grid-row: col-start 4 / span 8;
 }
 
-/* Concerts */
-.section5 {
+/* ========== Concerts ========== */
+
+#pdb-concerts {
+    z-index: -1;
+    transform-style: preserve-3d;
+
+    position: relative;
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
     grid-template-rows: repeat(12, [col-start] 1fr);
@@ -241,14 +328,34 @@ body {
     grid-row-gap: 1vw;
 }
 
+#pdb-peache-img {
+    transform: translateZ(-10px) scale(2);
+    z-index: -1;
+
+    top: 0;
+    z-index: 0;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-image: url("public/images/peache.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom right;
+}
+
 /* Agenda */
 #pdb-agenda {
     display: flex;
-    overflow: hidden;
+    overflow-y: scroll;
+    scrollbar-color: rgb(0, 0, 0) rgba(128, 128, 128, 0);
+    scrollbar-width: thin;
+    padding-right: 5px;
     color: var(--mint-white);
     text-transform: uppercase;
     flex-direction: column;
     gap: 1.3rem;
+    mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 70%, transparent 100%);
+    mask-mode: alpha;
 }
 
 .pdb-concert {
@@ -296,7 +403,7 @@ body {
     align-items: center;
     font-family: karrik-italic;
     border: 4px solid var(--mint-white);
-    padding: 0.1rem;
+    padding: 0.3rem;
 }
 
 .pdb-concert-link:hover {
@@ -304,9 +411,62 @@ body {
     background-color: var(--mint-white);
 }
 
-/* Contact */
+/* ========== Pro ========== */
 
-.section6 {
+#pdb-pro {
+    z-index: 99;
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    background-color: #00000096;
+    flex-direction: column;
+    align-items: center;
+    font-family: "karrik-italic";
+    text-transform: uppercase;
+    color: var(--mint-white);
+}
+
+#pdb-pro-text-box {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    align-items: center;
+    padding: 50px 100px 100px 100px;
+}
+
+#pdb-pro-text-box ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+#pdb-pro-text-box ul li {
+    width: fit-content;
+    background-color: var(--mint-white);
+    color: black;
+    padding: 10px 10px;
+}
+
+#pdb-pro-text-box ul li:nth-child(1) {
+    transform: rotate(-3deg);
+}
+
+#pdb-pro-text-box ul li:nth-child(2) {
+    transform: rotate(1deg);
+}
+
+#pdb-pro-title {
+    font-size: var(--h3-size);
+}
+
+/* ========== Contact ========== */
+
+#pdb-contact {
     display: grid;
     grid-template-columns: repeat(12, [col-start] 1fr);
     grid-template-rows: repeat(12, [col-start] 1fr);
@@ -351,11 +511,11 @@ body {
     display: flex;
 }
 
-/* Champs */
+/* Contact : Champs */
 #wpcf7-f248-o1 input, #wpcf7-f248-o1 textarea, #wpcf7-f248-o1 input[type="submit"] {
     height: 120px;
     width: 100%;
-    border: solid rgba(255, 255, 255, 0.568) 1px;
+    border: 4px solid rgba(255, 255, 255, 0.12);
     background: transparent;
     padding-left: 12px;
     font-family: 'Karrik-regular';
@@ -363,12 +523,13 @@ body {
 }
 
 #wpcf7-f248-o1 input {
-    border-radius: 100px;
     height: 25px;
 }
 
 #wpcf7-f248-o1 textarea {
-    border-radius: 25px;
+    scrollbar-color: rgba(128, 128, 128, 0.082) rgba(128, 128, 128, 0);
+    scrollbar-width: thin;
+    resize:none;
     padding-top: 8px;
 }
 
@@ -408,22 +569,26 @@ body {
     height: 25px;
     padding: 0px 30px;
     text-transform: uppercase;
+    border: none;
+    background: #eaf3f45d;
+    color: black;
 }
 
 #wpcf7-f248-o1 input[type="submit"]:hover {
     cursor: pointer;
-    background: var(--mint-white);
     color: black;
+    background: #eaf3f4;
 }
 
 /* Message erreur */
 .wpcf7-not-valid-tip {
-  position: absolute;
-  top: -21px;
-  left: 100px;
-  font-size: var(--p-size);
-  color: #ff55556b;
+    position: absolute;
+    top: -21px;
+    left: 100px;
+    font-size: var(--p-size);
+    color: #ff55556b;
 }
+
 .wpcf7 form .wpcf7-response-output {
     text-align: center;
     font-size: var(--p-size);
@@ -467,47 +632,37 @@ body {
     mask-mode: alpha;
 }
 
-/* ========== Menu responsive ========== */
+/* ========== Footer ========== */
 
-#pdb-burger {
-    position: fixed;
-    z-index: 98;
-    right: 5vw;
-    top: 2vh;
-    display: none;
-    width: 55px;
-    cursor: pointer;
-
-    appearance: none;
-    background: none;
-    outline: none;
-    border: none;
-}
-
-#pdb-burger-bar, #pdb-burger:after, #pdb-burger:before{
-    content: '';
-    display: block;
-    width: 100%;
-    height: 8px;
-    background-color: white;
-    margin: 8px 0px;
-    transition: 0.4s;
-}
-
-#pdb-burger.active:before{
-    transform: rotate(-45deg) translate(-14px, 13px);
-}
-
-#pdb-burger.active:after{
-    transform: rotate(45deg) translate(-9px, -8px);
-}
-
-#pdb-burger.active #pdb-burger-bar{
-    opacity: 0;
-}
-
-#pdb-main-menu ul.active {
+footer {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    background-color: black;
+    color: var(--mint-white);
+    scroll-snap-align: center;
+    height: 170px;
+    font-size: var(--h6-size);
+}
+
+#pdb-copyright {
+    padding: 5px 5px;
+    border: 3px solid var(--mint-white);
+    text-transform: uppercase;
+    font-size: var(--h6-size);
+}
+
+#pdb-designer {
+    text-transform: uppercase;
+    font-family: "Karrik-italic";
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    margin-top: 30px;
+    align-items: center;
+    font-size: var(--p-size);
 }
 
 @media (max-width: 1920px) {
@@ -576,7 +731,7 @@ body {
 @media (max-width: 850px) {
 
     #pdb-player, #pdb-agenda, #pdb-contact-form {
-        grid-column: col-start 2 / span 10;
+        grid-column: col-start 3 / span 8;
     }
 }
 
@@ -638,6 +793,10 @@ body {
         transform: rotate(45deg) translate(-7px, -7px);
     }
 
+    #pdb-pro-text-box {
+        padding: 50px 50px 100px 50px;
+    }
+
     /* ========== Background video ========== */
 
     .pdb-video-container {
@@ -666,6 +825,10 @@ body {
 
 /* Mobile */
 @media (max-width: 450px) {
+
+    #pdb-player, #pdb-agenda, #pdb-contact-form {
+        grid-column: col-start 2 / span 10;
+    }
 
     #pdb-player small {
         font-size: 0.5rem;

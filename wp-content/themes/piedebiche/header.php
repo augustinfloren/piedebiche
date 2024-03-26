@@ -8,7 +8,7 @@
     <?php wp_head() ?>
 </head>
 <body>
-    <div id="pdb-container">
+    <div id="pdb-container" class="pdb-parallax">
         <header>
             <div id="pdb-logo-container">
                 <a href="#pdb-home">
@@ -31,4 +31,19 @@
             </nav>
         
             <div id="pdb-menu-overlay"></div>
+
+            <div id="pdb-pro">
+                <div id="pdb-pro-text-box">
+                    <h3 id="pdb-pro-title">Pro</h3>
+                    <ul>
+                        <li>
+                            <a href="<?php echo wp_upload_dir()['baseurl'] . '/2024/03/presentation-MD-PDB-20242.pdf'; ?>" target="_blank">Dossier de présentation</a>
+                        </li>
+                        <li>
+                            <a href="#">Fiche technique</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </header>

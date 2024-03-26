@@ -5,11 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuLinks = document.querySelectorAll('#pdb-main-menu ul li a');
     const sectionsToWatch = document.querySelectorAll('.sections');
     let anySectionIntersecting = false;
+    
+    const proSection = document.getElementById("pdb-pro");
 
     let menuActivated = false;
 
     menuLinks.forEach(link => {
         link.addEventListener("click", () => {
+            if (link.innerText.trim().toLowerCase() === "pro") {
+                proSection.style.display = "flex";
+                proSection.addEventListener("click", () => {
+                    proSection.style.display = "none";
+                })
+            }
             // Fermeture menu responsive au clic sur un lien 
             if (window.matchMedia("(max-width: 1250px)").matches) {
                 mobile_menu.classList.toggle('active');
@@ -87,5 +95,28 @@ document.addEventListener('DOMContentLoaded', function() {
     window.onload = detectWindowSize;
 
     window.addEventListener("resize", detectWindowSize);
+
+    // ========== Fade in agenda concerts ========== //
+    
+    let agenda = document.getElementById("pdb-agenda");
+    
+    agenda.addEventListener("scroll", function() {
+
+        let scrollPosition = agenda.scrollTop;
+
+        var totalHeight = agenda.scrollHeight;
+        var visibleHeight = agenda.clientHeight;
+
+        if (scrollPosition > 0) {
+            agenda.style.maskImage = "linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 10%,  rgb(0, 0, 0) 70%, transparent 100%)";
+        } else {
+            agenda.style.maskImage = "linear-gradient(to bottom, rgb(0, 0, 0) 0%,  rgb(0, 0, 0) 70%, transparent 100%)";
+        }
+
+        if (scrollPosition + visibleHeight === totalHeight) {
+            agenda.style.maskImage = "linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 10%,  rgb(0, 0, 0) 100%)";
+        }
+
+    });
     
 });
