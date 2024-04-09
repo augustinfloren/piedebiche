@@ -61,19 +61,6 @@ body {
     font-family: 'karrik-regular', sans-serif;
 }
 
-/* #pdb-container {
-    width: 100%;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-    perspective: 10px;
-
-    transform-style: preserve-3d;
-} */
-
-
 /* ========== Header ========== */
 
 header {
@@ -219,7 +206,7 @@ header {
 
 /* ========== Main ========== */
 
-#pdb-parallax {
+main {
     width: 100%;
     height: 100vh;
     overflow-y: auto;
@@ -238,7 +225,7 @@ header {
 }
 
 main {
-    transform-style: preserve-3d;
+    /* transform-style: preserve-3d; */
 }
 
 .sections {
@@ -329,6 +316,8 @@ main {
 }
 
 #pdb-peache-img {
+    
+    mask-image: linear-gradient(0deg, black 0%, rgb(0, 0, 0) 30%, rgb(0, 0, 0) 70%, transparent 100%);
     transform: translateZ(-10px) scale(2);
     z-index: -1;
 
@@ -666,21 +655,20 @@ footer {
 }
 
 @media (max-width: 1920px) {
-}
-
-@media (max-width: 1600px) {
-    #pdb-logo {
-        width: 40vw;
+    #pdb-agenda {
+        grid-column: col-start 4 / span 6;
+        grid-row: col-start 4 / span 8;
     }
     
     #pdb-player, #pdb-contact-form {
         grid-column: col-start 4 / span 6;
         grid-row: col-start 4 / span 6;
     }
+}
 
-    #pdb-agenda {
-        grid-column: col-start 4 / span 6;
-        grid-row: col-start 4 / span 8;
+@media (max-width: 1600px) {
+    #pdb-logo {
+        width: 40vw;
     }
 }
 

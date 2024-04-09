@@ -1,6 +1,5 @@
 <?php get_header(); ?>
 
-    <div id="pdb-parallax">
         <main>
             <section class="sections" id="pdb-home">
                 <div class="pdb-video-container">
@@ -38,5 +37,4 @@
         </main>
 
         <?php get_footer(); ?>
-    </div>
 
