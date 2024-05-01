@@ -1,5 +1,4 @@
 <?php get_header(); ?>
-
         <main>
             <section class="sections" id="pdb-home">
                 <div class="pdb-video-container">
@@ -33,8 +32,8 @@
                     <?php echo do_shortcode('[contact-form-7 id="745b58c" title="Contact piedebiche"]'); ?>
                 </div>
             </section>
+            
+            <?php get_footer(); ?>
 
         </main>
-
-        <?php get_footer(); ?>
 

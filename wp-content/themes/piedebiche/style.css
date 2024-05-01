@@ -61,6 +61,19 @@ body {
     font-family: 'karrik-regular', sans-serif;
 }
 
+/* #pdb-container {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    perspective: 10px;
+
+    transform-style: preserve-3d;
+} */
+
+
 /* ========== Header ========== */
 
 header {
@@ -211,7 +224,7 @@ main {
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
-    scroll-snap-type: y proximity;
+    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     perspective: 10px;
 
@@ -223,11 +236,6 @@ main {
     background-position: center center;
     background-attachment: fixed; 
 }
-
-main {
-    /* transform-style: preserve-3d; */
-}
-
 .sections {
     width: 100%;
     height: 100vh;
@@ -255,7 +263,7 @@ main {
     position: absolute;
     width: 100%;
     height: 100vh;
-    background-image: url("public/images/unn.png");
+    background-image: url("public/images/unn.webp");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: bottom right;
@@ -316,8 +324,6 @@ main {
 }
 
 #pdb-peache-img {
-    
-    mask-image: linear-gradient(0deg, black 0%, rgb(0, 0, 0) 30%, rgb(0, 0, 0) 70%, transparent 100%);
     transform: translateZ(-10px) scale(2);
     z-index: -1;
 
@@ -326,7 +332,7 @@ main {
     position: absolute;
     width: 100%;
     height: 100vh;
-    background-image: url("public/images/peache.png");
+    background-image: url("public/images/peache.webp");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: bottom right;
@@ -655,14 +661,14 @@ footer {
 }
 
 @media (max-width: 1920px) {
-    #pdb-agenda {
-        grid-column: col-start 4 / span 6;
-        grid-row: col-start 4 / span 8;
-    }
-    
     #pdb-player, #pdb-contact-form {
         grid-column: col-start 4 / span 6;
         grid-row: col-start 4 / span 6;
+    }
+
+    #pdb-agenda {
+        grid-column: col-start 4 / span 6;
+        grid-row: col-start 4 / span 8;
     }
 }
 
@@ -791,7 +797,7 @@ footer {
         overflow: hidden;
         
         background-color: black;
-        background-image: url("public/images/fond-musique.png");
+        background-image: url("public/images/fond-musique.webp");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center center;
