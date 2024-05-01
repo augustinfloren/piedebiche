@@ -41,8 +41,8 @@ small {
 @font-face {
     font-family: 'karrik-regular';
     src: url("public/fonts/karrik-regular.ttf") format("truetype"),
-    url("public/fonts/karrik-regular.woff") format("woff"),
-    url("public/fonts/karrik-regular.woff2") format("woff2");
+    url("/piedebiche/wp-content/themes/piedebiche/public/fonts/karrik-regular.woff") format("woff"),
+    url("/piedebiche/wp-content/themes/piedebiche/public/fonts/karrik-regular.woff2") format("woff2");
     font-weight: normal;
 	font-style: normal;
 }
@@ -50,8 +50,8 @@ small {
 @font-face {
     font-family: 'karrik-italic';
     src: url("public/fonts/karrik-italic.ttf") format("truetype"),
-    url("public/fonts/karrik-italic.woff") format("woff"),
-    url("public/fonts/karrik-italic.woff2") format("woff2");
+    url("/piedebiche/wp-content/themes/piedebiche/public/fonts/karrik-italic.woff") format("woff"),
+    url("/piedebiche/wp-content/themes/piedebiche/public/fonts/karrik-italic.woff2") format("woff2");
     font-weight: normal;
 	font-style: italic;
 }
