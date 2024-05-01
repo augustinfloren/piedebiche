@@ -9,7 +9,6 @@ Author: Augustin Floren
 add_action("init","piedebiche_carrousels_init");
 add_action("add_meta_boxes","piedebiche_carrousel_metaboxes");
 add_action("save_post","piedebiche_carrousel_savepost", 10, 2);
-add_action("add_meta_boxes","piedebiche_carrousel_metaboxes_photo");
 add_action("do_meta_boxes", "piedebiche_event_metaboxes_photo");
 add_action('manage_edit-slide_photo_columns', 'piedebiche_carrousel_columnfilter');
 add_action('manage_posts_custom_column', 'piedebiche_carrousel_column');
