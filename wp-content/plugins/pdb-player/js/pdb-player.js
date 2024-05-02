@@ -47,13 +47,15 @@ document.addEventListener("DOMContentLoaded", function() {
         let trackTime = track.querySelector(".pdb-track-time");
         
         // Récupération et affichage de la durée d'une piste Après le chargement des métadonnées
-        audio.addEventListener('loadedmetadata', function() { 
+        // audio.addEventListener('loadedmetadata', function() {
+            
+        setTimeout(function() {
             duration = audio.duration;
             trackObject.duration = duration;
             trackObject.durationBuilded = buildDuration(duration);
             trackTime.innerText = buildDuration(duration);
             updatePlayerDisplay();
-        });
+        }, 500); 
         
         // Extraction des infos et de l'audio d'une piste
         let titleElem = track.querySelector(".pdb-track-title");
