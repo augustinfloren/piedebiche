@@ -190,27 +190,19 @@
 /* ========== Tracks containers ========== */
 
 #pdb-track-container {
-    /* position: relative; */
     height: 245px;
-
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.7rem;
-
-    overflow-y : scroll;
-
+    overflow-y: auto;
     scrollbar-color: rgb(0, 0, 0) rgba(128, 128, 128, 0);
     scrollbar-width: thin;
-
-    padding-right: 5px;
-
-    mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 0%,  rgb(0, 0, 0) 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 70%, transparent 100%);
     mask-mode: alpha;
 }
 
 .pdb-track {
-    width: 100%;
+    gap: 0.2rem;
 }
 
 .pdb-track:hover {

@@ -23,6 +23,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // Tracks
     const pdbTracks = document.querySelectorAll(".pdb-track");
 
+    // Ajout d'un padding entre la playlist et la barre de scroll
+    if (pdbTracks.length >= 3) {
+        playlist.style.paddingRight = "0.7rem";
+    } else {
+        playlist.style.paddingRight = "0rem";
+    }
+
     // Tableau des pistes
     let tracksArray = [];
 
