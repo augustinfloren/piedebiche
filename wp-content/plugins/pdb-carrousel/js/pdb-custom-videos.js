@@ -19,7 +19,7 @@ function onYouTubeIframeAPIReady() {
       // width: '560',
       enableJsApi: 1,
       videoId: videoId, // ID de la vidéo YouTube
-      host: `${window.location.protocol}//www.youtube.com`,
+      // host: `${window.location.protocol}//www.youtube.com`,
       playerVars: {
         'autoplay': 0,
         'controls': 1,
