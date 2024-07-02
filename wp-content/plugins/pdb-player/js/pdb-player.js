@@ -1,5 +1,3 @@
-import axios from "axios";
-
 document.addEventListener("DOMContentLoaded", function() {
     
     // Player
@@ -21,30 +19,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const pauseBtn = player.querySelector("#pdb-player-pause-btn");
     const backwardBtn = player.querySelector("#pdb-player-backward-btn");
     const forwardBtn = player.querySelector("#pdb-player-forward-btn");
-    // Tracks
-    const pdbTracks = document.querySelectorAll(".pdb-track");
 
-    console.log("truc");
-    axios.get('http://localhost/piedebiche/wp-json/wp/v2/media')
-        .then(response => {
-            console.log(response.data)
-        })
-        .catch(error =>{
-            console.error("Erreur:", error);
-        })
-
-    // Ajout d'un padding entre la playlist et la barre de scroll
-    if (pdbTracks.length >= 3) {
-        playlist.style.paddingRight = "0.7rem";
-    } else {
-        playlist.style.paddingRight = "0rem";
-    }
-
-    // Tableau des pistes
-    let tracksArray = [];
-
-    // Numéro des pistes jouées dans la liste
-    let trackCounter = 0;
+    function buildElement(tag, className) {
+        const element = document.createElement(tag);
+        element.classList.add(className);
+        return element;
+    };
 
     // Formatage de la durée du pistes
     function buildDuration(duration) {
@@ -52,86 +32,42 @@ document.addEventListener("DOMContentLoaded", function() {
         let seconds = Math.floor(duration %60);
         seconds = String(seconds).padStart(2, "0"); // Si moins de deux caractères, ajoute un zéro à la place
         return minutes + ":" + seconds;
-    }
-
-    // ========== Récupération des pistes ==========
-
-    pdbTracks.forEach((track, index) => {
-
-        let audio = track.querySelector("audio");
-        let duration;
-        let trackObject = {};
-        let trackTime = track.querySelector(".pdb-track-time");
-        
-        // Récupération et affichage de la durée d'une piste Après le chargement des métadonnées
-        // audio.addEventListener('loadedmetadata', function() {
-            
-        setTimeout(function() {
-            duration = audio.duration;
-            trackObject.duration = duration;
-            trackObject.durationBuilded = buildDuration(duration);
-            trackTime.innerText = buildDuration(duration);
-            updatePlayerDisplay();
-        }, 500); 
-        
-        // Extraction des infos et de l'audio d'une piste
-        let titleElem = track.querySelector(".pdb-track-title");
-        let albumTitleElem = track.querySelector(".pdb-track-album-title");
-        
-        // Suppression de potentiels espaces avant et après
-        let title = titleElem.textContent.trim();
-        let albumTitle = albumTitleElem.textContent.trim();
-
-        // Ajouts des pistes avec leurs infos dans le tableau
-        trackObject.src = audio.src;
-        trackObject.title = title;
-        trackObject.albumTitle = albumTitle;
-        tracksArray.push(trackObject);
-
-        // Au clic sur une track de la liste du player
-        track.addEventListener("click", () => {
-            trackCounter = index;
-            // Mise à jour player et lecture
-            updatePlayerDisplay();
-            playTrack();
-        });
-
-    });
+    };
 
     // ========== Initialisation du player ==========
     
     // Masquer le player si aucune pistes
-    if (tracksArray.length <= 0) {
-        player.style.display = "none";
-    }
+    // if (tracksArray.length <= 0) {
+    //     player.style.display = "none";
+    // }
 
-    function updatePlayerDisplay() {
-        // Changement des infos du player 
-        playerBar.max = tracksArray[trackCounter].duration;
-        playerTitle.innerText = tracksArray[trackCounter].title;
-        playerAlbumTitle.innerText = tracksArray[trackCounter].albumTitle;
-        playerTime.innerText = tracksArray[trackCounter].durationBuilded;
-        currentAudio.src = tracksArray[trackCounter].src;
+    // function updatePlayerDisplay() {
+    //     // Changement des infos du player 
+    //     playerBar.max = tracksArray[trackCounter].duration;
+    //     playerTitle.innerText = tracksArray[trackCounter].title;
+    //     playerAlbumTitle.innerText = tracksArray[trackCounter].albumTitle;
+    //     playerTime.innerText = tracksArray[trackCounter].durationBuilded;
+    //     currentAudio.src = tracksArray[trackCounter].src;
 
-        // Désactivation backward btn si pas de piste avant
-        if (trackCounter === 0) {
-            backwardBtn.style.opacity = "0.5"; 
-            backwardBtn.removeEventListener("click", backwardTrack);
+    //     // Désactivation backward btn si pas de piste avant
+    //     if (trackCounter === 0) {
+    //         backwardBtn.style.opacity = "0.5"; 
+    //         backwardBtn.removeEventListener("click", backwardTrack);
 
-        } else {
-            backwardBtn.style.opacity = "initial"; 
-            backwardBtn.addEventListener("click", backwardTrack); 
-        }
+    //     } else {
+    //         backwardBtn.style.opacity = "initial"; 
+    //         backwardBtn.addEventListener("click", backwardTrack); 
+    //     }
 
-        // Désactivation forward btn si pas de piste après
-        if (trackCounter === tracksArray.length - 1) {
-            forwardBtn.style.opacity = "0.5"; 
-            forwardBtn.removeEventListener("click", forwardTrack); 
-        } else {
-            forwardBtn.style.opacity = "initial"; 
-            forwardBtn.addEventListener("click", forwardTrack);
-        }
-    }
+    //     // Désactivation forward btn si pas de piste après
+    //     if (trackCounter === tracksArray.length - 1) {
+    //         forwardBtn.style.opacity = "0.5"; 
+    //         forwardBtn.removeEventListener("click", forwardTrack); 
+    //     } else {
+    //         forwardBtn.style.opacity = "initial"; 
+    //         forwardBtn.addEventListener("click", forwardTrack);
+    //     }
+    // }
 
     // ========== Contrôles lecture ==========
         
@@ -279,5 +215,82 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
     });
+
+    axios.get('http://localhost/piedebiche/wp-json/wp/v2/pdb_track')
+        .then(response => {
+            const pdbTracks = response.data;
+            console.log(pdbTracks)
+
+            // Ajout d'un padding entre la playlist et la barre de scroll
+            if (pdbTracks.length >= 3) {
+                playlist.style.paddingRight = "0.7rem";
+            } else {
+                playlist.style.paddingRight = "0rem";
+            }
+
+            // Tableau des pistes
+            let tracksArray = [];
+
+            // Numéro des pistes jouées dans la liste
+            let trackCounter = 0;
+
+            // ========== Récupération des pistes ==========
+
+            pdbTracks.forEach((track, index) => {
+                let trackElem = buildElement("div", "pdb-track");
+                let audio = buildElement("div");
+                audio.src = track.link;
+                audio.setAttribute("loading", "lazy");
+                let titleContainer = buildElement("div", "title-container");
+                let title = buildElement("h6");
+                let trackTime = buildElement("span", "pdb-track-time");
+                let albumTitle = buildElement("small", "pdb-track-album-title");
+
+                titleContainer.appendChild(title);
+                titleContainer.appendChild(trackTime);
+                trackElem.appendChild(albumTitle);
+                trackElem.appendChild(titleContainer);
+
+                let duration;
+                let trackObject = {};
+                
+            //     // Récupération et affichage de la durée d'une piste Après le chargement des métadonnées
+            //     // audio.addEventListener('loadedmetadata', function() {
+                    
+            //     setTimeout(function() {
+            //         duration = audio.duration;
+            //         trackObject.duration = duration;
+            //         trackObject.durationBuilded = buildDuration(duration);
+            //         trackTime.innerText = buildDuration(duration);
+            //         updatePlayerDisplay();
+            //     }, 500); 
+                
+            //     // Extraction des infos et de l'audio d'une piste
+            //     let titleElem = track.querySelector(".pdb-track-title");
+            //     let albumTitleElem = track.querySelector(".pdb-track-album-title");
+                
+            //     // Suppression de potentiels espaces avant et après
+            //     let title = titleElem.textContent.trim();
+            //     let albumTitle = albumTitleElem.textContent.trim();
+
+            //     // Ajouts des pistes avec leurs infos dans le tableau
+            //     trackObject.src = audio.src;
+            //     trackObject.title = title;
+            //     trackObject.albumTitle = albumTitle;
+            //     tracksArray.push(trackObject);
+
+            //     // Au clic sur une track de la liste du player
+            //     track.addEventListener("click", () => {
+            //         trackCounter = index;
+            //         // Mise à jour player et lecture
+            //         updatePlayerDisplay();
+            //         playTrack();
+            //     });
+
+            });
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+        });
     
 });

@@ -18,7 +18,9 @@ function pdb_player_register_assets () {
     wp_enqueue_style('animate-css', 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
     
     // Enregistrement du JS
-    wp_enqueue_script('pdb-player', plugins_url().'/pdb-player/js/pdb-player.js'); 
+    wp_enqueue_script('axios', 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js', array(), null, true);
+    wp_register_script('pdb-player', plugin_dir_url(__FILE__) . 'js/pdb-player.js', array('jquery'), null, true); 
+    wp_enqueue_script('pdb-player');
 }
 
 // ========== Paramètres Player administration ==========
@@ -48,6 +50,7 @@ function piedebiche_player_init() {
         'menu_icon' => 'dashicons-format-audio',
         'capability_type' => 'post',
         'supports' => array('title'),
+        'show_in_rest' => true,
     ));
 }
 
@@ -200,36 +203,10 @@ function piedebiche_player_show($limit = 10) {
 
         <?php
     }
-
-    // Template HTML d'un morceau
-    function generate_track($url, $title, $album_title) {
-        ?>
-
-        <div class="pdb-track">
-            <audio src="<?= $url ?>" loading="lazy"></audio>
-            <div class="pdb-track-title-container">
-                <h6 class="pdb-track-title"> <?= $title ?> </h6>
-                <span class="pdb-track-time">1:00</span>
-            </div>
-            <small class="pdb-track-album-title"> <?= $album_title ?> </small>
-        </div>
         
-        <?php
-    }
-        
-    // Générer les morceaux
     echo '<div id="pdb-player">';
-
     generate_player();
-
     echo '<div id="pdb-track-container">';
-
-    foreach ($pdb_tracks as $pdb_track) {
-        generate_track($pdb_track->url, $pdb_track->title, $pdb_track->album_title);
-    }
-
     echo '</div>';
-
     echo '</div>';
-
 }
