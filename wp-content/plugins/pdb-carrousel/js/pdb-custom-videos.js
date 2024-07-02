@@ -59,19 +59,23 @@ function onPlayerReady(event, itemContent, itemContainer, thumbnailUrl, videoId,
     // Ajout du style et de l'url à la div contenant la vignette
     thumbnail.classList.add("pdb-carrousel-thumb-container");
     thumbnail.style.backgroundImage = `radial-gradient(transparent 10%, black 100%), url(${thumbnailUrl})`;
-    thumbnail.style.width = "calc(" + itemContainer.style.width + " - 80px)"; // Calcul de la largeur en soustrayant les marges (40px de chaque côtés)
+    thumbnail.style.width = "100%"; // Calcul de la largeur en soustrayant les marges (40px de chaque côtés)
+    console.log(getComputedStyle(itemContainer).width)
+
+    thumbnail.appendChild(playBtn);
+    itemContent.appendChild(thumbnail);
 
     // Responsive
-    function detectWindowSize() {
-      if (window.innerWidth < 700) {
-        thumbnail.style.width = "calc(" + itemContainer.style.width + " - 20px)";
-      } else if (window.innerWidth > 700) {
-        thumbnail.style.width = "calc(" + itemContainer.style.width + " - 80px)";
-      }
-    };
+    // function detectWindowSize() {
+    //   if (window.innerWidth < 700) {
+    //     thumbnail.style.width = "calc(" + itemContainer.style.width + " - 20px)";
+    //   } else if (window.innerWidth > 700) {
+    //     thumbnail.style.width = "calc(" + itemContainer.style.width + " - 80px)";
+    //   }
+    // };
     
-    detectWindowSize()
-    window.addEventListener("resize", detectWindowSize);
+    // detectWindowSize()
+    // window.addEventListener("resize", detectWindowSize);
     
     playBtn.style.opacity = 1;
     itemContent.style.opacity = 1;
@@ -111,9 +115,5 @@ function onPlayerReady(event, itemContent, itemContainer, thumbnailUrl, videoId,
   // Au changement de section, arrêt de la vidéo 
   let mainContainer = document.getElementById("pdb-container");
   mainContainer.addEventListener("scroll", stopVideo);
-
-  thumbnail.appendChild(playBtn);
-  itemContent.appendChild(thumbnail);
-  
 }
 
