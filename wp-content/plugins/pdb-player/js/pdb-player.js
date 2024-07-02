@@ -1,3 +1,5 @@
+import axios from "axios";
+
 document.addEventListener("DOMContentLoaded", function() {
     
     // Player
@@ -19,9 +21,17 @@ document.addEventListener("DOMContentLoaded", function() {
     const pauseBtn = player.querySelector("#pdb-player-pause-btn");
     const backwardBtn = player.querySelector("#pdb-player-backward-btn");
     const forwardBtn = player.querySelector("#pdb-player-forward-btn");
-
     // Tracks
     const pdbTracks = document.querySelectorAll(".pdb-track");
+
+    console.log("truc");
+    axios.get('http://localhost/piedebiche/wp-json/wp/v2/media')
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(error =>{
+            console.error("Erreur:", error);
+        })
 
     // Ajout d'un padding entre la playlist et la barre de scroll
     if (pdbTracks.length >= 3) {
