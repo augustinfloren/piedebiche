@@ -20,9 +20,17 @@ document.addEventListener("DOMContentLoaded", function() {
     const backwardBtn = player.querySelector("#pdb-player-backward-btn");
     const forwardBtn = player.querySelector("#pdb-player-forward-btn");
 
+    // Tableau des pistes
+    let tracksArray = [];
+
+    // Numéro des pistes jouées dans la liste
+    let trackCounter = 0;
+
     function buildElement(tag, className) {
         const element = document.createElement(tag);
-        element.classList.add(className);
+        if (className) {
+            element.classList.add(className);
+        }
         return element;
     };
 
@@ -36,38 +44,38 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // ========== Initialisation du player ==========
     
-    // Masquer le player si aucune pistes
-    // if (tracksArray.length <= 0) {
-    //     player.style.display = "none";
-    // }
+    function updatePlayerDisplay() {
+        // Masquer le player si aucune pistes
+        if (tracksArray.length <= 0) {
+            player.style.display = "none";
+        }
 
-    // function updatePlayerDisplay() {
-    //     // Changement des infos du player 
-    //     playerBar.max = tracksArray[trackCounter].duration;
-    //     playerTitle.innerText = tracksArray[trackCounter].title;
-    //     playerAlbumTitle.innerText = tracksArray[trackCounter].albumTitle;
-    //     playerTime.innerText = tracksArray[trackCounter].durationBuilded;
-    //     currentAudio.src = tracksArray[trackCounter].src;
+        // Changement des infos du player 
+        playerBar.max = tracksArray[trackCounter].duration;
+        playerTitle.innerText = tracksArray[trackCounter].title;
+        playerAlbumTitle.innerText = tracksArray[trackCounter].albumTitle;
+        playerTime.innerText = tracksArray[trackCounter].durationBuilded;
+        currentAudio.src = tracksArray[trackCounter].src;
 
-    //     // Désactivation backward btn si pas de piste avant
-    //     if (trackCounter === 0) {
-    //         backwardBtn.style.opacity = "0.5"; 
-    //         backwardBtn.removeEventListener("click", backwardTrack);
+        // Désactivation backward btn si pas de piste avant
+        if (trackCounter === 0) {
+            backwardBtn.style.opacity = "0.5"; 
+            backwardBtn.removeEventListener("click", backwardTrack);
 
-    //     } else {
-    //         backwardBtn.style.opacity = "initial"; 
-    //         backwardBtn.addEventListener("click", backwardTrack); 
-    //     }
+        } else {
+            backwardBtn.style.opacity = "initial"; 
+            backwardBtn.addEventListener("click", backwardTrack); 
+        }
 
-    //     // Désactivation forward btn si pas de piste après
-    //     if (trackCounter === tracksArray.length - 1) {
-    //         forwardBtn.style.opacity = "0.5"; 
-    //         forwardBtn.removeEventListener("click", forwardTrack); 
-    //     } else {
-    //         forwardBtn.style.opacity = "initial"; 
-    //         forwardBtn.addEventListener("click", forwardTrack);
-    //     }
-    // }
+        // Désactivation forward btn si pas de piste après
+        if (trackCounter === tracksArray.length - 1) {
+            forwardBtn.style.opacity = "0.5"; 
+            forwardBtn.removeEventListener("click", forwardTrack); 
+        } else {
+            forwardBtn.style.opacity = "initial"; 
+            forwardBtn.addEventListener("click", forwardTrack);
+        }
+    }
 
     // ========== Contrôles lecture ==========
         
@@ -226,78 +234,56 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 playlist.style.paddingRight = "0rem";
             }
-
-            // Tableau des pistes
-            let tracksArray = [];
-
-            // Numéro des pistes jouées dans la liste
-            let trackCounter = 0;
-
+            
             // ========== Récupération des pistes ==========
 
             pdbTracks.forEach((track, index) => {
-                console.log(track)
-                let trackElem = buildElement("div", "pdb-track");
-                let audio = new Audio(track.link);
+                let audio = new Audio(track.audio_file);
                 audio.preload = 'metadata';
-                let titleContainer = buildElement("div", "title-container");
-                let title = buildElement("h6");
+                let trackElem = buildElement("div", "pdb-track");
+                let titleContainer = buildElement("div", "pdb-track-title-container");
+                let title = buildElement("h6", "pdb-track-title");
                 let trackTime = buildElement("span", "pdb-track-time");
                 let albumTitle = buildElement("small", "pdb-track-album-title");
+
+                audio.addEventListener("loadedmetadata", () => {
+                    const durationBuilded = buildDuration(audio.duration);
+                    title.innerText = track.title.rendered;
+                    trackTime.innerText = durationBuilded;
+                    albumTitle.innerText = track.album_title;
+
+                    let trackObj = {
+                        title: track.title.rendered,
+                        albumTitle: track.album_title,
+                        src: track.audio_file,
+                        duration: audio.duration,
+                        durationBuilded: durationBuilded,
+                    }
+
+                    tracksArray.push(trackObj);
+                    updatePlayerDisplay();
+                });
+
+                audio.load();
 
                 titleContainer.appendChild(title);
                 titleContainer.appendChild(trackTime);
                 trackElem.appendChild(audio);
-                trackElem.appendChild(albumTitle);
                 trackElem.appendChild(titleContainer);
+                trackElem.appendChild(albumTitle);
                 playlist.appendChild(trackElem);
 
-                console.log(audio)
-                
-            // Récupération et affichage de la durée d'une piste Après le chargement des métadonnées
-            audio.addEventListener('error', function(e) {
-                console.log(audio.duration)
-                console.error("Erreur lors du chargement de l'audio", e);
-                if (audio.error) {
-                    switch (audio.error.code) {
-                        case audio.error.MEDIA_ERR_ABORTED:
-                            console.error("Le téléchargement de l'audio a été interrompu.");
-                            break;
-                        case audio.error.MEDIA_ERR_NETWORK:
-                            console.error("Une erreur réseau a empêché le téléchargement de l'audio.");
-                            break;
-                        case audio.error.MEDIA_ERR_DECODE:
-                            console.error("L'audio est corrompu ou utilise un format non supporté.");
-                            break;
-                        case audio.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-                            console.error("Le format de l'audio n'est pas supporté ou l'URL est incorrecte.");
-                            break;
-                        default:
-                            console.error("Une erreur inconnue est survenue.");
-                            break;
-                    }
-                }
-            });
-
-                audio.load();
-            // Ajouts des pistes avec leurs infos dans le tableau
-                // trackObject.src = track.link;
-                // trackObject.title = title;
-                // trackObject.albumTitle = albumTitle;
-                // tracksArray.push(trackObject);
-
-            //     // Au clic sur une track de la liste du player
-            //     track.addEventListener("click", () => {
-            //         trackCounter = index;
-            //         // Mise à jour player et lecture
-            //         updatePlayerDisplay();
-            //         playTrack();
-            //     });
+                // Au clic sur une track de la liste du player
+                trackElem.addEventListener("click", () => {
+                    trackCounter = index;
+                    // Mise à jour player et lecture
+                    updatePlayerDisplay();
+                    playTrack();
+                });
 
             });
         })
         .catch(error => {
             console.error('Erreur:', error);
         });
-    
 });

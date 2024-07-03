@@ -132,6 +132,37 @@ function piedebiche_register_player_metaboxes($post_id, $post) {
     }
 }
 
+// Fonction pour ajouter le champ personnalisé à l'API REST
+function piedebiche_register_audio_file_field() {
+    register_rest_field('pdb_track', // Type de contenu auquel ajouter le champ (article dans ce cas)
+        'audio_file', // Nom du champ à ajouter
+        array(
+            'get_callback' => 'piedebiche_get_audio_file_field', // Fonction de rappel pour récupérer la valeur du champ
+            'update_callback' => null,
+            'schema' => null,
+        )
+    );
+    register_rest_field('pdb_track', // Ajouter également le champ album_title
+        'album_title',
+        array(
+            'get_callback' => 'piedebiche_get_album_title_field',
+            'update_callback' => null,
+            'schema' => null,
+        )
+    );
+}
+add_action('rest_api_init', 'piedebiche_register_audio_file_field');
+
+// Fonction de rappel pour récupérer la valeur du champ personnalisé
+function piedebiche_get_audio_file_field($object, $field_name, $request) {
+    return get_post_meta($object['id'], '_audio_file', true);
+}
+
+// Fonction de rappel pour récupérer la valeur du champ album_title
+function piedebiche_get_album_title_field($object, $field_name, $request) {
+    return get_post_meta($object['id'], 'album_title', true);
+}
+
 // ========== Affichage du Player ==========
 
 $pdb_tracks = array(); // Création du tableau contenant les morceaux
