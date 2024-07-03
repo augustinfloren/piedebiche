@@ -219,6 +219,28 @@ header {
 
 /* ========== Main ========== */
 
+/* ========== Background video ========== */
+
+.pdb-video-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+#pdb-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.pdb-faded-image {
+    mask-image: linear-gradient(to bottom, transparent 0%, transparent 15%, rgb(0, 0, 0) 50%, transparent 85%, transparent 100%);
+    mask-mode: alpha;
+}
+
 main {
     width: 100%;
     height: 100vh;
@@ -605,28 +627,6 @@ main {
     display: none;
 }
 
-/* ========== Background video ========== */
-
-.pdb-video-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-}
-
-#pdb-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-}
-
-.pdb-faded-image {
-    mask-image: linear-gradient(to bottom, transparent 0%, transparent 15%, rgb(0, 0, 0) 50%, transparent 85%, transparent 100%);
-    mask-mode: alpha;
-}
-
 /* ========== Footer ========== */
 
 footer {
@@ -805,6 +805,7 @@ footer {
     }
     
     #pdb-video {
+        top: -50px;
         left: -300px; 
         width: 1000px;
         object-fit: contain; 

@@ -18,7 +18,9 @@ function pdb_player_register_assets () {
     wp_enqueue_style('animate-css', 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
     
     // Enregistrement du JS
-    wp_enqueue_script('pdb-player', plugins_url().'/pdb-player/js/pdb-player.js'); 
+    wp_enqueue_script('axios', 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js', array(), null, true);
+    wp_register_script('pdb-player', plugin_dir_url(__FILE__) . 'js/pdb-player.js', array('jquery'), null, true); 
+    wp_enqueue_script('pdb-player');
 }
 
 // ========== Paramètres Player administration ==========
@@ -48,6 +50,7 @@ function piedebiche_player_init() {
         'menu_icon' => 'dashicons-format-audio',
         'capability_type' => 'post',
         'supports' => array('title'),
+        'show_in_rest' => true,
     ));
 }
 
@@ -129,6 +132,37 @@ function piedebiche_register_player_metaboxes($post_id, $post) {
     }
 }
 
+// Fonction pour ajouter le champ personnalisé à l'API REST
+function piedebiche_register_audio_file_field() {
+    register_rest_field('pdb_track', // Type de contenu auquel ajouter le champ (article dans ce cas)
+        'audio_file', // Nom du champ à ajouter
+        array(
+            'get_callback' => 'piedebiche_get_audio_file_field', // Fonction de rappel pour récupérer la valeur du champ
+            'update_callback' => null,
+            'schema' => null,
+        )
+    );
+    register_rest_field('pdb_track', // Ajouter également le champ album_title
+        'album_title',
+        array(
+            'get_callback' => 'piedebiche_get_album_title_field',
+            'update_callback' => null,
+            'schema' => null,
+        )
+    );
+}
+add_action('rest_api_init', 'piedebiche_register_audio_file_field');
+
+// Fonction de rappel pour récupérer la valeur du champ personnalisé
+function piedebiche_get_audio_file_field($object, $field_name, $request) {
+    return get_post_meta($object['id'], '_audio_file', true);
+}
+
+// Fonction de rappel pour récupérer la valeur du champ album_title
+function piedebiche_get_album_title_field($object, $field_name, $request) {
+    return get_post_meta($object['id'], 'album_title', true);
+}
+
 // ========== Affichage du Player ==========
 
 $pdb_tracks = array(); // Création du tableau contenant les morceaux
@@ -200,36 +234,10 @@ function piedebiche_player_show($limit = 10) {
 
         <?php
     }
-
-    // Template HTML d'un morceau
-    function generate_track($url, $title, $album_title) {
-        ?>
-
-        <div class="pdb-track">
-            <audio src="<?= $url ?>" loading="lazy"></audio>
-            <div class="pdb-track-title-container">
-                <h6 class="pdb-track-title"> <?= $title ?> </h6>
-                <span class="pdb-track-time">1:00</span>
-            </div>
-            <small class="pdb-track-album-title"> <?= $album_title ?> </small>
-        </div>
         
-        <?php
-    }
-        
-    // Générer les morceaux
     echo '<div id="pdb-player">';
-
     generate_player();
-
     echo '<div id="pdb-track-container">';
-
-    foreach ($pdb_tracks as $pdb_track) {
-        generate_track($pdb_track->url, $pdb_track->title, $pdb_track->album_title);
-    }
-
     echo '</div>';
-
     echo '</div>';
-
 }
