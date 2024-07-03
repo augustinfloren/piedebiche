@@ -219,7 +219,6 @@ document.addEventListener("DOMContentLoaded", function() {
     axios.get('http://localhost/piedebiche/wp-json/wp/v2/pdb_track')
         .then(response => {
             const pdbTracks = response.data;
-            console.log(pdbTracks)
 
             // Ajout d'un padding entre la playlist et la barre de scroll
             if (pdbTracks.length >= 3) {
@@ -237,10 +236,10 @@ document.addEventListener("DOMContentLoaded", function() {
             // ========== Récupération des pistes ==========
 
             pdbTracks.forEach((track, index) => {
+                console.log(track)
                 let trackElem = buildElement("div", "pdb-track");
-                let audio = buildElement("div");
-                audio.src = track.link;
-                audio.setAttribute("loading", "lazy");
+                let audio = new Audio(track.link);
+                audio.preload = 'metadata';
                 let titleContainer = buildElement("div", "title-container");
                 let title = buildElement("h6");
                 let trackTime = buildElement("span", "pdb-track-time");
@@ -248,36 +247,44 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 titleContainer.appendChild(title);
                 titleContainer.appendChild(trackTime);
+                trackElem.appendChild(audio);
                 trackElem.appendChild(albumTitle);
                 trackElem.appendChild(titleContainer);
+                playlist.appendChild(trackElem);
 
-                let duration;
-                let trackObject = {};
+                console.log(audio)
                 
-            //     // Récupération et affichage de la durée d'une piste Après le chargement des métadonnées
-            //     // audio.addEventListener('loadedmetadata', function() {
-                    
-            //     setTimeout(function() {
-            //         duration = audio.duration;
-            //         trackObject.duration = duration;
-            //         trackObject.durationBuilded = buildDuration(duration);
-            //         trackTime.innerText = buildDuration(duration);
-            //         updatePlayerDisplay();
-            //     }, 500); 
-                
-            //     // Extraction des infos et de l'audio d'une piste
-            //     let titleElem = track.querySelector(".pdb-track-title");
-            //     let albumTitleElem = track.querySelector(".pdb-track-album-title");
-                
-            //     // Suppression de potentiels espaces avant et après
-            //     let title = titleElem.textContent.trim();
-            //     let albumTitle = albumTitleElem.textContent.trim();
+            // Récupération et affichage de la durée d'une piste Après le chargement des métadonnées
+            audio.addEventListener('error', function(e) {
+                console.log(audio.duration)
+                console.error("Erreur lors du chargement de l'audio", e);
+                if (audio.error) {
+                    switch (audio.error.code) {
+                        case audio.error.MEDIA_ERR_ABORTED:
+                            console.error("Le téléchargement de l'audio a été interrompu.");
+                            break;
+                        case audio.error.MEDIA_ERR_NETWORK:
+                            console.error("Une erreur réseau a empêché le téléchargement de l'audio.");
+                            break;
+                        case audio.error.MEDIA_ERR_DECODE:
+                            console.error("L'audio est corrompu ou utilise un format non supporté.");
+                            break;
+                        case audio.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                            console.error("Le format de l'audio n'est pas supporté ou l'URL est incorrecte.");
+                            break;
+                        default:
+                            console.error("Une erreur inconnue est survenue.");
+                            break;
+                    }
+                }
+            });
 
-            //     // Ajouts des pistes avec leurs infos dans le tableau
-            //     trackObject.src = audio.src;
-            //     trackObject.title = title;
-            //     trackObject.albumTitle = albumTitle;
-            //     tracksArray.push(trackObject);
+                audio.load();
+            // Ajouts des pistes avec leurs infos dans le tableau
+                // trackObject.src = track.link;
+                // trackObject.title = title;
+                // trackObject.albumTitle = albumTitle;
+                // tracksArray.push(trackObject);
 
             //     // Au clic sur une track de la liste du player
             //     track.addEventListener("click", () => {
