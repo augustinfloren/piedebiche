@@ -15,7 +15,7 @@
             </section>
 
             <section class="sections" id="pdb-videos">
-                <!-- <?php piedebiche_carrousel_video_show() ?> -->
+                <?php piedebiche_carrousel_video_show() ?>
             </section>
 
             <section class="sections" id="pdb-photos">

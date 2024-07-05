@@ -24,6 +24,7 @@ function pdb_carrousel_register_assets () {
     wp_enqueue_script('pdb-custom-videos');
 
     wp_enqueue_style('pdb-carrousel-style', plugins_url().'/pdb-carrousel/css/pdb-carrousel-style.css'); // Chargement CSS
+    wp_enqueue_script('axios', 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js', array(), null, true);
     wp_enqueue_script('pdb-fullscreen-carrousel', plugins_url().'/pdb-carrousel/js/pdb-fullscreen-carrousel.js'); // Chargement JS 
 }
  
@@ -78,6 +79,7 @@ function piedebiche_carrousels_init() {
         'menu_icon' => 'dashicons-format-video',
         'capability_type' => 'post',
         'supports' => array('title'),
+        'show_in_rest' => true,
     ));
 }
 
@@ -142,6 +144,24 @@ function piedebiche_carrousel_savepost($post_id, $post) {
     }
 
     update_post_meta($post_id,'_link', $_POST['piedebiche_carrousel_link']);
+}
+
+// Fonction pour ajouter le champ personnalisé à l'API REST
+function piedebiche_register_link_field() {
+    register_rest_field('slide_video', // Type de contenu auquel ajouter le champ (article dans ce cas)
+        '_link', // Nom du champ à ajouter
+        array(
+            'get_callback' => 'piedebiche_get_link_field', // Fonction de rappel pour récupérer la valeur du champ
+            'update_callback' => null,
+            'schema' => null,
+        )
+    );
+}
+add_action('rest_api_init', 'piedebiche_register_link_field');
+
+// Fonction de rappel pour récupérer la valeur du champ personnalisé
+function piedebiche_get_link_field($object, $field_name, $request) {
+    return get_post_meta($object['id'], '_link', true);
 }
  
 // ========== Affichage du Carrousel ==========
