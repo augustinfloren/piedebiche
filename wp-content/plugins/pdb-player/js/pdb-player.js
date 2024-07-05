@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (tracksArray.length <= 0) {
             player.style.display = "none";
         } else {
-            player.style.display = "block";
+            player.style.display = "grid";
         }
 
         // Changement des infos du player 
@@ -226,7 +226,6 @@ document.addEventListener("DOMContentLoaded", function() {
     axios.get('http://localhost/piedebiche/wp-json/wp/v2/pdb_track')
         .then(response => {
             const pdbTracks = response.data;
-
             // Ajout d'un padding entre la playlist et la barre de scroll
             if (pdbTracks.length >= 3) {
                 playlist.style.paddingRight = "0.7rem";
@@ -243,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     audio.addEventListener("loadedmetadata", () => {
                         const durationBuilded = buildDuration(audio.duration);
                         const trackObj = {
-                            title: track.title.rendered,
+                            title: track.track_title,
                             albumTitle: track.album_title,
                             src: track.audio_file,
                             duration: audio.duration,
