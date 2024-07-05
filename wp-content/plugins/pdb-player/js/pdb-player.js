@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Formatage de la durée du pistes
     function buildDuration(duration) {
         let minutes = Math.floor(duration / 60);
-        let seconds = Math.floor(duration %60);
+        let seconds = Math.floor(duration % 60);
         seconds = String(seconds).padStart(2, "0"); // Si moins de deux caractères, ajoute un zéro à la place
         return minutes + ":" + seconds;
     };
@@ -48,13 +48,15 @@ document.addEventListener("DOMContentLoaded", function() {
         // Masquer le player si aucune pistes
         if (tracksArray.length <= 0) {
             player.style.display = "none";
+        } else {
+            player.style.display = "block";
         }
 
         // Changement des infos du player 
         playerBar.max = tracksArray[trackCounter].duration;
-        playerTitle.innerText = tracksArray[trackCounter].title;
-        playerAlbumTitle.innerText = tracksArray[trackCounter].albumTitle;
-        playerTime.innerText = tracksArray[trackCounter].durationBuilded;
+        playerTitle.textContent = tracksArray[trackCounter].title;
+        playerAlbumTitle.textContent = tracksArray[trackCounter].albumTitle;
+        playerTime.textContent = tracksArray[trackCounter].durationBuilded;
         currentAudio.src = tracksArray[trackCounter].src;
 
         // Désactivation backward btn si pas de piste avant
@@ -125,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let audioMuted = false;
 
     function muteAudio() {
-        audioMuted === true;
+        audioMuted = true;
         volumeBtn.style.display = "none";
         muteBtn.style.display = "initial";
         currentAudio.volume = 0;
@@ -158,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     muteBtn.addEventListener("click", () => {
-        audioMuted === false;
+        audioMuted = false;
         if (inputVolume === 0) {
             currentAudio.volume = 1.0;
             inputVolume = 100;
@@ -183,14 +185,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Quand la barre de progression arrive au bout de la piste
         if (this.currentTime >= playerBar.max) {
-            // Si la playlist et finie, stopper la lecture et retourner sur la piste 1
+            // Si la playlist est finie, stopper la lecture et retourner sur la piste 1
             if (trackCounter >= tracksArray.length - 1) {
                 trackCounter = 0;
                 stopTrack();
                 updatePlayerDisplay();
             // Sinon, jouer la piste suivante
             } else {
-                trackCounter ++;
+                trackCounter++;
                 updatePlayerDisplay();
                 playTrack();
             }
@@ -206,11 +208,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // ========== Fade in tracks ==========
     
     playlist.addEventListener("scroll", function() {
-
         let scrollPosition = playlist.scrollTop;
-
-        var totalHeight = playlist.scrollHeight;
-        var visibleHeight = playlist.clientHeight;
+        let totalHeight = playlist.scrollHeight;
+        let visibleHeight = playlist.clientHeight;
 
         if (scrollPosition > 0) {
             playlist.style.maskImage = "linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 10%,  rgb(0, 0, 0) 70%, transparent 100%)";
@@ -221,7 +221,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if (scrollPosition + visibleHeight === totalHeight) {
             playlist.style.maskImage = "linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 10%,  rgb(0, 0, 0) 100%)";
         }
-
     });
 
     axios.get('http://localhost/piedebiche/wp-json/wp/v2/pdb_track')
@@ -234,54 +233,68 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 playlist.style.paddingRight = "0rem";
             }
-            
+
             // ========== Récupération des pistes ==========
 
-            pdbTracks.forEach((track, index) => {
-                let audio = new Audio(track.audio_file);
-                audio.preload = 'metadata';
-                let trackElem = buildElement("div", "pdb-track");
-                let titleContainer = buildElement("div", "pdb-track-title-container");
-                let title = buildElement("h6", "pdb-track-title");
-                let trackTime = buildElement("span", "pdb-track-time");
-                let albumTitle = buildElement("small", "pdb-track-album-title");
+            async function loadTrackMetadata(track, index) {
+                return new Promise((resolve) => {
+                    let audio = new Audio(track.audio_file);
+                    audio.preload = 'metadata';
+                    audio.addEventListener("loadedmetadata", () => {
+                        const durationBuilded = buildDuration(audio.duration);
+                        const trackObj = {
+                            title: track.title.rendered,
+                            albumTitle: track.album_title,
+                            src: track.audio_file,
+                            duration: audio.duration,
+                            durationBuilded: durationBuilded,
+                        }
+    
+                        resolve({
+                            index: index,
+                            trackObj: trackObj,
+                            audio: audio,
+                            durationBuilded: durationBuilded,
+                        });
+                    });
+                    audio.load();
+                })
+            }
 
-                audio.addEventListener("loadedmetadata", () => {
-                    const durationBuilded = buildDuration(audio.duration);
-                    title.innerText = track.title.rendered;
-                    trackTime.innerText = durationBuilded;
-                    albumTitle.innerText = track.album_title;
+            (async () => {
+                const tracks = await Promise.all(pdbTracks.map((track, index) => loadTrackMetadata(track, index)));
 
-                    let trackObj = {
-                        title: track.title.rendered,
-                        albumTitle: track.album_title,
-                        src: track.audio_file,
-                        duration: audio.duration,
-                        durationBuilded: durationBuilded,
-                    }
-
+                tracks.forEach(({ trackObj, audio, durationBuilded }, index) => {
                     tracksArray.push(trackObj);
-                    updatePlayerDisplay();
+
+                    let trackElem = buildElement("div", "pdb-track");
+                    let titleContainer = buildElement("div", "pdb-track-title-container");
+                    let title = buildElement("h6", "pdb-track-title");
+                    let trackTime = buildElement("span", "pdb-track-time");
+                    let albumTitle = buildElement("small", "pdb-track-album-title");
+
+                    title.textContent = trackObj.title;
+                    trackTime.textContent = durationBuilded;
+                    albumTitle.textContent = trackObj.albumTitle;
+
+                    titleContainer.appendChild(title);
+                    titleContainer.appendChild(trackTime);
+                    trackElem.appendChild(audio);
+                    trackElem.appendChild(titleContainer);
+                    trackElem.appendChild(albumTitle);
+                    playlist.appendChild(trackElem);
+                    
+                    // Au clic sur une track de la liste du player
+                    trackElem.addEventListener("click", () => {
+                        trackCounter = index;
+                        // Mise à jour player et lecture
+                        updatePlayerDisplay();
+                        playTrack();
+                    });
                 });
 
-                audio.load();
-
-                titleContainer.appendChild(title);
-                titleContainer.appendChild(trackTime);
-                trackElem.appendChild(audio);
-                trackElem.appendChild(titleContainer);
-                trackElem.appendChild(albumTitle);
-                playlist.appendChild(trackElem);
-
-                // Au clic sur une track de la liste du player
-                trackElem.addEventListener("click", () => {
-                    trackCounter = index;
-                    // Mise à jour player et lecture
-                    updatePlayerDisplay();
-                    playTrack();
-                });
-
-            });
+                updatePlayerDisplay();
+            })();
         })
         .catch(error => {
             console.error('Erreur:', error);
