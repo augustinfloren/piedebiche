@@ -57,6 +57,8 @@ function piedebiche_player_init() {
 // ========== Metaboxes Player ==========
 
 function piedebiche_player_metaboxes() {
+    // metabox titre
+    add_meta_box('piedebiche_player_track_title', 'Titre', 'piedebiche_player_track_title_metabox', 'pdb_track', 'normal', 'high') ;
     // metabox ajout de morceau
     add_meta_box('piedebiche_player_track', 'Morceau', 'piedebiche_player_track_metabox', 'pdb_track', 'normal', 'high') ; 
     // metabox titre de l'album
@@ -100,6 +102,15 @@ function piedebiche_player_track_metabox($object) {
     <?php
 }
 
+// Paramètres de la metabox Titre du morceau
+function piedebiche_player_track_title_metabox($object) {
+    $track_title = get_post_meta($object->ID, 'track_title', true);
+    ?>
+    <label for="track_title">Titre du morceau :</label>
+    <input type="text" id="track_title" name="track_title" value="<?php echo esc_attr($track_title); ?>" />
+    <?php
+}
+
 // Paramètres de la metabox Titre de l'album
 function piedebiche_player_album_title_metabox($object) {
     $album_title = get_post_meta($object->ID, 'album_title', true);
@@ -121,6 +132,11 @@ function piedebiche_register_player_metaboxes($post_id, $post) {
         return $post_id;
     }
 
+    // Sauvegarde des données pour la metabox "Titre du morceau"
+    if (isset($_POST['track_title'])) {
+        update_post_meta($post_id, 'track_title', sanitize_text_field($_POST['track_title']));
+    }
+
     // Sauvegarde des données pour la metabox "Morceau"
     if (isset($_POST['piedebiche_audio_file'])) {
         update_post_meta($post_id, '_audio_file', sanitize_text_field($_POST['piedebiche_audio_file']));
@@ -133,11 +149,19 @@ function piedebiche_register_player_metaboxes($post_id, $post) {
 }
 
 // Fonction pour ajouter le champ personnalisé à l'API REST
-function piedebiche_register_audio_file_field() {
+function piedebiche_register_fields() {
     register_rest_field('pdb_track', // Type de contenu auquel ajouter le champ (article dans ce cas)
         'audio_file', // Nom du champ à ajouter
         array(
             'get_callback' => 'piedebiche_get_audio_file_field', // Fonction de rappel pour récupérer la valeur du champ
+            'update_callback' => null,
+            'schema' => null,
+        )
+    );
+    register_rest_field('pdb_track', // Ajouter également le champ album_title
+        'track_title',
+        array(
+            'get_callback' => 'piedebiche_get_track_title_field',
             'update_callback' => null,
             'schema' => null,
         )
@@ -151,7 +175,12 @@ function piedebiche_register_audio_file_field() {
         )
     );
 }
-add_action('rest_api_init', 'piedebiche_register_audio_file_field');
+add_action('rest_api_init', 'piedebiche_register_fields');
+
+// Fonction de rappel pour récupérer la valeur du champ track_title
+function piedebiche_get_track_title_field($object, $field_name, $request) {
+    return get_post_meta($object['id'], 'track_title', true);
+}
 
 // Fonction de rappel pour récupérer la valeur du champ personnalisé
 function piedebiche_get_audio_file_field($object, $field_name, $request) {

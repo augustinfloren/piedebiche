@@ -38,10 +38,6 @@
     flex-wrap: wrap;    
     gap: 1.3rem;
 }
-
-#pdb-player > * {
-    width: 100%;
-}
   
 #pdb-player-controls-container, .pdb-track {
     display: flex;
