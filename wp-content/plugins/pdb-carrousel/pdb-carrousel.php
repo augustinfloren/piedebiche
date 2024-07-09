@@ -18,13 +18,13 @@ function pdb_carrousel_register_assets () {
 
     // Charger l'API YouTube Player
     wp_enqueue_script( 'youtube-iframe-api', 'https://www.youtube.com/iframe_api');
+    wp_enqueue_script('axios', 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js', array(), null, true);
     wp_register_script('pdb-carrousel', plugin_dir_url(__FILE__) . 'js/pdb-carrousel.js', array('jquery'), null, true);
     wp_register_script('pdb-custom-videos', plugin_dir_url(__FILE__) . 'js/pdb-custom-videos.js', array('jquery'), null, true);
     wp_enqueue_script('pdb-carrousel');
     wp_enqueue_script('pdb-custom-videos');
-
     wp_enqueue_style('pdb-carrousel-style', plugins_url().'/pdb-carrousel/css/pdb-carrousel-style.css'); // Chargement CSS
-    wp_enqueue_script('axios', 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js', array(), null, true);
+    wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js', array(), null, true);
     wp_enqueue_script('pdb-fullscreen-carrousel', plugins_url().'/pdb-carrousel/js/pdb-fullscreen-carrousel.js'); // Chargement JS 
 }
  
@@ -179,18 +179,11 @@ function piedebiche_carrousel_photo_show($limit = 10) {
     echo '</div>';
 }
 
-function piedebiche_carrousel_video_show($limit = 10) {
-    $slides = new WP_query("post_type=slide_video&posts_per_page=$limit"); 
-    echo '<div id="pdb-carrousel-video">';  
-        while($slides->have_posts()) {
-            echo '<div class="pdb-carrousel-item-content">';
-                $slides->the_post();
-                global $post;
-                $video_link = get_post_meta($post->ID, '_link', true);
-                echo '<div class="pdb-video" data-yt-link="' . esc_attr($video_link) . '"></div>';
-            echo '</div>';
-        }
-    echo '</div>';
+function piedebiche_carrousel_video_show() {
+    ?>
+        <swiper-container id="carrousel-video">
+        </swiper-container>
+    <?php
 }
 
 
