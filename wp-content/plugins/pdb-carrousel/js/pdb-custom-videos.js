@@ -17,6 +17,7 @@ function onYouTubeIframeAPIReady() {
       const videos = response.data;
 
       videos.forEach((video) => {
+        let player;
         const iframe = document.createElement("div");
         const videoId = getYoutubeVideoId(video._link);
         const apiKey = "AIzaSyCskvM3LEYsU69UNBf99o5MBCsc2YLjkLo";
@@ -44,6 +45,27 @@ function onYouTubeIframeAPIReady() {
           const thumbContainer = document.createElement("div");
           thumbContainer.classList.add("thumbnail");
           thumbContainer.style.backgroundImage = `radial-gradient(transparent 10%, black 100%), url(${url})`;
+          const playBtn = document.createElement("div");
+          playBtn.classList.add("pdb-video-play-btn");
+          thumbContainer.appendChild(playBtn);
+
+          thumbContainer.addEventListener("mouseover", () => {
+            playBtn.style.transform = 'scale(1.1)';
+          });
+
+          thumbContainer.addEventListener("mouseout", () => {
+            playBtn.style.transform = 'scale(1)';
+          });
+
+          thumbContainer.addEventListener("click", () => {
+            if (player.playVideo) {
+              thumbContainer.style.display = "none";
+              player.playVideo();
+            } else {
+              console.log("non")
+            }
+          })
+
           slide.appendChild(thumbContainer);
         }
 
@@ -57,8 +79,9 @@ function onYouTubeIframeAPIReady() {
             origin: 'http://localhost/piedebiche',
           });
 
-        function onPlayerReady() {
-        }
+          function onPlayerReady() {
+            
+          } 
 
         slidesCounter ++;
 
