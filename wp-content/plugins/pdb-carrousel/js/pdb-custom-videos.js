@@ -1,6 +1,9 @@
 function onYouTubeIframeAPIReady() {
-
-  const slidesContainer = document.getElementById("carrousel-video");
+  const section = document.getElementById("pdb-videos");
+  const slider = document.createElement("swiper-container");
+  slider.style.width = "100vw";
+  slider.setAttribute("id", "carrousel-video");
+  let slidesCounter = 0;
 
   // Récupération des vidéos avec WP API
   axios.get("http://localhost/piedebiche/wp-json/wp/v2/slide_video")
@@ -19,7 +22,7 @@ function onYouTubeIframeAPIReady() {
         const apiKey = "AIzaSyCskvM3LEYsU69UNBf99o5MBCsc2YLjkLo";
         const slide = document.createElement("swiper-slide");
         slide.appendChild(iframe);
-        slidesContainer.appendChild(slide);
+        slider.appendChild(slide);
 
         function getBestThumbnail(thumbnails) {
           // Taille d'images possibles
@@ -55,6 +58,12 @@ function onYouTubeIframeAPIReady() {
           });
 
         function onPlayerReady() {
+        }
+
+        slidesCounter ++;
+
+        if (slidesCounter === videos.length) {
+          section.appendChild(slider);
         }
 
       });

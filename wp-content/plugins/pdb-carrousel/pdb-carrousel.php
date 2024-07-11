@@ -179,12 +179,5 @@ function piedebiche_carrousel_photo_show($limit = 10) {
     echo '</div>';
 }
 
-function piedebiche_carrousel_video_show() {
-    ?>
-        <swiper-container id="carrousel-video">
-        </swiper-container>
-    <?php
-}
-
 
 
