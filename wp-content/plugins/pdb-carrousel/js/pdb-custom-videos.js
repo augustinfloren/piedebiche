@@ -7,9 +7,9 @@ function onYouTubeIframeAPIReady() {
   const wrapper = document.createElement("div");
   wrapper.classList.add("swiper-wrapper");
   const prevBtn = document.createElement("div");
-  prevBtn.classList.add("swiper-button-prev");
+  prevBtn.classList.add("prev");
   const nextBtn = document.createElement("div");
-  nextBtn.classList.add("swiper-button-next");
+  nextBtn.classList.add("next");
   slider.appendChild(prevBtn);
   slider.appendChild(nextBtn);
   slider.appendChild(wrapper);
@@ -51,7 +51,7 @@ function onYouTubeIframeAPIReady() {
           })
           .catch(error => console.error('Error fetching video details:', error));
 
-        async function createThumbnail(url) {
+        function createThumbnail(url) {
           const thumbContainer = document.createElement("div");
           thumbContainer.classList.add("thumbnail");
           thumbContainer.style.backgroundImage = `radial-gradient(transparent 10%, black 100%), url(${url})`;
@@ -71,8 +71,6 @@ function onYouTubeIframeAPIReady() {
             if (player.playVideo) {
               thumbContainer.style.display = "none";
               player.playVideo();
-            } else {
-              console.log("non")
             }
           })
 
@@ -80,8 +78,6 @@ function onYouTubeIframeAPIReady() {
         }
 
           player = new YT.Player(iframe, {
-            height: '360',
-            width: '640',
             videoId: videoId,
             events: {
               'onReady': onPlayerReady,
@@ -100,13 +96,17 @@ function onYouTubeIframeAPIReady() {
 
           const swiper = new Swiper(".swiper", {
             speed: 400,
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            },
-          })
+            navigation: false,
+          });
+
+          prevBtn.addEventListener("click", () => {
+            console.log("ok");
+            swiper.slidePrev();
+          });
 
           nextBtn.addEventListener("click", () => {
+            console.log("ok");
+            swiper.slideNext();
           });
         }
       });

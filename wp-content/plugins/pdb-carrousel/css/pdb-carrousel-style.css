@@ -1,4 +1,7 @@
 #carrousel-video {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     grid-row: col-start 4 / span 7;
     width: 100vw;
 } 
@@ -42,7 +45,9 @@
     transition: transform 0.2s ease;
 }
 
-/* .swiper-button-prev, .swiper-button-next {
+.prev, .next {
+    z-index: 5;
+    cursor: pointer;
     position: absolute;
     width: 25px;
     height: 25px;
@@ -50,12 +55,12 @@
     background-size: cover;
 }
 
-.swiper-button-prev {
-    left: -30px;
+.prev {
+    margin-right: 690px;
     background: no-repeat url(../images/prev.png) center/contain;
 }
 
-.swiper-button-next {
-    right: -30px;
+.next {
+    margin-left: 690px;
     background: no-repeat url(../images/next.png) center/contain;
-} */
+}
