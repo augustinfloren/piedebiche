@@ -1,9 +1,18 @@
 function onYouTubeIframeAPIReady() {
   const section = document.getElementById("pdb-videos");
-  const slider = document.createElement("swiper-container");
-  slider.style.width = "100vw";
+  const slider = document.createElement("div");
+  slider.classList.add("swiper");
   slider.setAttribute("id", "carrousel-video");
   let slidesCounter = 0;
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("swiper-wrapper");
+  const prevBtn = document.createElement("div");
+  prevBtn.classList.add("swiper-button-prev");
+  const nextBtn = document.createElement("div");
+  nextBtn.classList.add("swiper-button-next");
+  slider.appendChild(prevBtn);
+  slider.appendChild(nextBtn);
+  slider.appendChild(wrapper);
 
   // Récupération des vidéos avec WP API
   axios.get("http://localhost/piedebiche/wp-json/wp/v2/slide_video")
@@ -21,9 +30,10 @@ function onYouTubeIframeAPIReady() {
         const iframe = document.createElement("div");
         const videoId = getYoutubeVideoId(video._link);
         const apiKey = "AIzaSyCskvM3LEYsU69UNBf99o5MBCsc2YLjkLo";
-        const slide = document.createElement("swiper-slide");
+        const slide = document.createElement("div");
+        slide.classList.add("swiper-slide");
         slide.appendChild(iframe);
-        slider.appendChild(slide);
+        wrapper.appendChild(slide);
 
         function getBestThumbnail(thumbnails) {
           // Taille d'images possibles
@@ -32,7 +42,7 @@ function onYouTubeIframeAPIReady() {
           return thumbnails[bestThumbnail].url;
         }
 
-        // Récupération des data des vidéos avec l'API Youtube data
+        // API Youtube data
         fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${apiKey}&part=snippet`)
           .then(response => response.json())
           .then(data => {
@@ -87,8 +97,18 @@ function onYouTubeIframeAPIReady() {
 
         if (slidesCounter === videos.length) {
           section.appendChild(slider);
-        }
 
+          const swiper = new Swiper(".swiper", {
+            speed: 400,
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            },
+          })
+
+          nextBtn.addEventListener("click", () => {
+          });
+        }
       });
     }) 
     .catch(error => {

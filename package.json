@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@wordpress/html-entities": "^4.2.0",
-    "axios": "^1.7.2"
+    "axios": "^1.7.2",
+    "swiper": "^11.1.4"
   }
 }
