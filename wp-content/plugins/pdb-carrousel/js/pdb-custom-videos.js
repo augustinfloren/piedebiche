@@ -3,7 +3,6 @@ function onYouTubeIframeAPIReady() {
   const slider = document.createElement("div");
   slider.classList.add("swiper");
   slider.setAttribute("id", "carrousel-video");
-  let slidesCounter = 0;
   const wrapper = document.createElement("div");
   wrapper.classList.add("swiper-wrapper");
   const prevBtn = document.createElement("div");
@@ -22,34 +21,15 @@ function onYouTubeIframeAPIReady() {
           const match = url.match(regex);
           return match ? match[1] : null;
         }
-      
-      const videos = response.data;
+        const videos = response.data;
 
-      videos.forEach((video) => {
-        let player;
-        const iframe = document.createElement("div");
+      videos.forEach((video, i) => {
         const videoId = getYoutubeVideoId(video._link);
         const apiKey = "AIzaSyCskvM3LEYsU69UNBf99o5MBCsc2YLjkLo";
         const slide = document.createElement("div");
         slide.classList.add("swiper-slide");
-        slide.appendChild(iframe);
+        slide.setAttribute("video-id", videoId);
         wrapper.appendChild(slide);
-
-        function getBestThumbnail(thumbnails) {
-          // Taille d'images possibles
-          const priorities = ['maxres', 'standard', 'high', 'medium', 'default'];
-          const bestThumbnail = priorities.find(priority => thumbnails[priority]);
-          return thumbnails[bestThumbnail].url;
-        }
-
-        // API Youtube data
-        fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${apiKey}&part=snippet`)
-          .then(response => response.json())
-          .then(data => {
-              const thumbnails = data.items[0].snippet.thumbnails;
-              createThumbnail(getBestThumbnail(thumbnails));
-          })
-          .catch(error => console.error('Error fetching video details:', error));
 
         function createThumbnail(url) {
           const thumbContainer = document.createElement("div");
@@ -58,58 +38,122 @@ function onYouTubeIframeAPIReady() {
           const playBtn = document.createElement("div");
           playBtn.classList.add("pdb-video-play-btn");
           thumbContainer.appendChild(playBtn);
-
-          thumbContainer.addEventListener("mouseover", () => {
-            playBtn.style.transform = 'scale(1.1)';
-          });
-
-          thumbContainer.addEventListener("mouseout", () => {
-            playBtn.style.transform = 'scale(1)';
-          });
-
-          thumbContainer.addEventListener("click", () => {
-            if (player.playVideo) {
-              thumbContainer.style.display = "none";
-              player.playVideo();
-            }
-          })
-
           slide.appendChild(thumbContainer);
         }
 
-          player = new YT.Player(iframe, {
-            videoId: videoId,
-            events: {
-              'onReady': onPlayerReady,
-            },
-            origin: 'http://localhost/piedebiche',
-          });
+        function getBestThumbnail(thumbnails) {
+          // Taille d'images possibles
+          const priorities = ['maxres', 'standard', 'high', 'medium', 'default'];
+          const bestThumbnail = priorities.find(priority => thumbnails[priority]);
+          return thumbnails[bestThumbnail].url;
+        }
+        
+        // API Youtube data
+        fetch(`https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${apiKey}&part=snippet`)
+          .then(response => response.json())
+          .then(data => {
+              const thumbnails = data.items[0].snippet.thumbnails;
+              createThumbnail(getBestThumbnail(thumbnails));
+          })
+          .catch(error => console.error('Error fetching video details:', error));
+      });
 
-          function onPlayerReady() {
-            
-          } 
-
-        slidesCounter ++;
-
-        if (slidesCounter === videos.length) {
-          section.appendChild(slider);
-
+      section.appendChild(slider);
+      function initSwiper() {
+        if (document.querySelector(".swiper")) {
           const swiper = new Swiper(".swiper", {
+            centeredSlides: true,
+            loop: true,
+            spaceBetween: 50,
+            slidesPerView: 1,
             speed: 400,
             navigation: false,
+            breakpoints: {
+              800: {
+                slidesPerView: 2.2,
+              }
+            }
           });
 
-          prevBtn.addEventListener("click", () => {
-            console.log("ok");
-            swiper.slidePrev();
-          });
+          function loadVideo(event) {
+            const thumbnail = event.currentTarget.querySelector(".thumbnail");
+            thumbnail.style.display = "none";
+            const videoId = event.currentTarget.getAttribute("video-id");
+            const videoEl = document.createElement("div");
+            event.currentTarget.appendChild(videoEl);
 
+            let player = new YT.Player(videoEl, {
+              videoId: videoId,
+              events: {
+                'onReady': onPlayerReady,
+              },
+              origin: 'http://localhost/piedebiche',
+            });
+
+            function onPlayerReady(event) {
+              event.target.playVideo();
+            } 
+          }
+
+          function onSlideHover(event) {
+            const thumbnail = event.currentTarget.querySelector(".thumbnail");
+            thumbnail.style.cursor = "pointer";
+            const button = thumbnail.querySelector(".pdb-video-play-btn");
+            button.style.transform = 'scale(1.1)';
+          }
+
+          function onSlideOut(event) {
+            const thumbnail = event.currentTarget.querySelector(".thumbnail");
+            thumbnail.style.cursor = "initial";
+            const button = thumbnail.querySelector(".pdb-video-play-btn");
+            button.style.transform = 'scale(1)';
+          }
+
+          function handleFirstSlide() {
+            const activeSlide = swiper.slides[swiper.activeIndex];
+            activeSlide.addEventListener("click", loadVideo);
+            activeSlide.addEventListener("mouseover", onSlideHover);
+            activeSlide.addEventListener("mouseout", onSlideOut);
+          }
+  
+          function handleSlideChange() {
+            // Traitement slide précédent
+            if (swiper.slides[swiper.previousIndex]) {
+              const previousSlide = swiper.slides[swiper.previousIndex];
+              const thumbnail = previousSlide.querySelector(".thumbnail");
+              const video = previousSlide.querySelector("iframe");
+              if (video) {
+                video.remove();
+                thumbnail.style.display = "flex";
+              }
+              
+              previousSlide.removeEventListener("click", loadVideo);
+              previousSlide.removeEventListener("mouseover", onSlideHover);
+              previousSlide.removeEventListener("mouseout", onSlideOut);
+            }
+  
+            // Traitement slide actif
+            if (swiper.slides[swiper.activeIndex]) {
+              const activeSlide = swiper.slides[swiper.activeIndex];
+              activeSlide.addEventListener("click", loadVideo);
+              activeSlide.addEventListener("mouseover", onSlideHover);
+              activeSlide.addEventListener("mouseout", onSlideOut);
+            }
+          }
+          
+          handleFirstSlide();
+          swiper.on('slideChangeTransitionStart', handleSlideChange);
+        
           nextBtn.addEventListener("click", () => {
-            console.log("ok");
             swiper.slideNext();
           });
+  
+          prevBtn.addEventListener("click", () => {
+            swiper.slidePrev();
+          });
         }
-      });
+      }
+      initSwiper();
     }) 
     .catch(error => {
         console.error('Erreur:', error);
