@@ -20,9 +20,9 @@ function pdb_carrousel_register_assets () {
     wp_enqueue_script('axios', 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js', array(), null, true);
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), null, true);
     wp_enqueue_style('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
-    wp_register_script('pdb-carrousel', plugin_dir_url(__FILE__) . 'js/pdb-carrousel.js', array('jquery'), null, true);
+    wp_register_script('pdb-photos', plugin_dir_url(__FILE__) . 'js/pdb-photos.js', array('jquery'), null, true);
     wp_register_script('pdb-custom-videos', plugin_dir_url(__FILE__) . 'js/pdb-custom-videos.js', array('jquery'), null, true);
-    wp_enqueue_script('pdb-carrousel');
+    wp_enqueue_script('pdb-photos');
     wp_enqueue_script('pdb-custom-videos');
     wp_enqueue_style('pdb-carrousel-style', plugins_url().'/pdb-carrousel/css/pdb-carrousel-style.css'); // Chargement CSS
     wp_enqueue_script('pdb-fullscreen-carrousel', plugins_url().'/pdb-carrousel/js/pdb-fullscreen-carrousel.js'); // Chargement JS 
@@ -55,6 +55,7 @@ function piedebiche_carrousels_init() {
         'menu_icon' => 'dashicons-format-gallery',
         'capability_type' => 'post',
         'supports' => array('title', 'thumbnail'),
+        'show_in_rest' => true,
     ));
 
     add_image_size('slider', 0, 0, true);
@@ -112,6 +113,27 @@ function piedebiche_event_metaboxes_photo() {
 		'normal', // 'normal', 'side', 'advanced'
 		'high' // 'high', 'core', 'default', 'low'
 	);
+}
+
+// Fonction pour ajouter le champ personnalisé à l'API REST
+function piedebiche_register_featured_image_field() {
+    register_rest_field(
+        'slide_photo', // Types de contenu auxquels ajouter le champ
+        'featured_media_src_url', // Nom du champ
+        array(
+            'get_callback' => 'piedebiche_get_featured_image_src',
+            'update_callback' => null,
+            'schema' => null,
+        )
+    );
+}
+
+add_action('rest_api_init', 'piedebiche_register_featured_image_field');
+
+function piedebiche_get_featured_image_src($object, $field_name, $request) {
+    $featured_image_id = $object['featured_media']; // ID de l'image en vedette
+    $featured_image_url = wp_get_attachment_image_url($featured_image_id, 'full'); // URL de l'image en taille 'full'
+    return $featured_image_url;
 }
 
 // ========== Carrousel Vidéo ==========

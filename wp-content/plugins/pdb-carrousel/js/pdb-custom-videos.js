@@ -64,7 +64,7 @@ function onYouTubeIframeAPIReady() {
       section.appendChild(slider);
       function initSwiper() {
         if (document.querySelector(".swiper")) {
-          const swiper = new Swiper(".swiper", {
+          const swiper = new Swiper("#carrousel-video", {
             centeredSlides: true,
             loop: true,
             spaceBetween: 50,

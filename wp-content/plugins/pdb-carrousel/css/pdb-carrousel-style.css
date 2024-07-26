@@ -1,4 +1,4 @@
-#carrousel-video {
+#carrousel-video, #carrousel-photo {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,6 +35,19 @@
     align-items: center;
     height: 360px;
     width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+.swiper-slide img {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 360px;
+    /* width: 100%; */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
