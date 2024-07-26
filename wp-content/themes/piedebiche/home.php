@@ -15,11 +15,10 @@
             </section>
 
             <section class="sections" id="pdb-videos">
-                <?php piedebiche_carrousel_video_show() ?>
             </section>
 
             <section class="sections" id="pdb-photos">
-                <?php piedebiche_carrousel_photo_show() ?>
+                <!-- <?php piedebiche_carrousel_photo_show() ?> -->
             </section>
 
             <section class="sections" id="pdb-concerts">
