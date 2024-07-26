@@ -9,6 +9,9 @@ function onYouTubeIframeAPIReady() {
   prevBtn.classList.add("prev");
   const nextBtn = document.createElement("div");
   nextBtn.classList.add("next");
+  // const overlay = document.createElement("div");
+  // overlay.classList.add("overlay");
+  // section.appendChild(overlay);
   slider.appendChild(prevBtn);
   slider.appendChild(nextBtn);
   slider.appendChild(wrapper);
@@ -76,6 +79,10 @@ function onYouTubeIframeAPIReady() {
           });
 
           function loadVideo(event) {
+            // overlay.style.display = "block";
+            // overlay.offsetHeight;
+            // overlay.style.opacity = "1";
+            // overlay.addEventListener("click", resetVideo);
             const thumbnail = event.currentTarget.querySelector(".thumbnail");
             thumbnail.style.display = "none";
             const videoId = event.currentTarget.getAttribute("video-id");

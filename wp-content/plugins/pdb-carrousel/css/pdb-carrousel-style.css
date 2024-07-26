@@ -7,6 +7,19 @@
     mask-image: linear-gradient(90deg, transparent 0%, rgb(0, 0, 0) 30%, rgb(0, 0, 0) 70%, transparent 100%);
 } 
 
+#pdb-videos .overlay {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
 .swiper-slide {
     position: relative;
     display: flex;
@@ -41,7 +54,6 @@
 }
 
 .pdb-video-play-btn {
-    /* opacity: 0; */
     position: absolute;
     background: url(../images/play-btn.png) center center no-repeat;
     background-size: cover;
@@ -76,5 +88,17 @@
     }
     .next {
         right: 7%;
+    }
+}
+
+@media (max-width: 800px) {
+    .swiper-slide .thumbnail{
+        height: 500px;
+        width: 68%;
+    }
+
+    .swiper-slide iframe{
+        height: 400px;
+        width: 68%;
     }
 }
