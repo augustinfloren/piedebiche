@@ -9,6 +9,9 @@ function onYouTubeIframeAPIReady() {
   prevBtn.classList.add("prev");
   const nextBtn = document.createElement("div");
   nextBtn.classList.add("next");
+  const loadingIcon = document.createElement("span");
+  loadingIcon.classList.add("video-loader");
+  section.appendChild(loadingIcon);
   slider.appendChild(prevBtn);
   slider.appendChild(nextBtn);
   slider.appendChild(wrapper);
@@ -39,6 +42,7 @@ function onYouTubeIframeAPIReady() {
 
       // Attendre que toutes les vidéos soient traitées avant d'ajouter le slider
       Promise.all(videoPromises).then(() => {
+        loadingIcon.remove();
         section.appendChild(slider);
         initSwiper(prevBtn, nextBtn);
       });
@@ -82,12 +86,12 @@ function initSwiper(prevBtn, nextBtn) {
 
     function loadVideo(event) {
       const activeSlide = swiper.slides[swiper.activeIndex];
-      activeSlide.removeEventListener("click", loadVideo);
-      const thumbnail = event.currentTarget.querySelector(".thumbnail");
-      thumbnail.style.display = "none";
-      const videoId = event.currentTarget.getAttribute("video-id");
+      const activeThumb = activeSlide.querySelector(".thumbnail");
+      activeThumb.removeEventListener("click", loadVideo);
+      activeThumb.style.display = "none";
+      const videoId = activeSlide.getAttribute("video-id");
       const videoEl = document.createElement("div");
-      event.currentTarget.appendChild(videoEl);
+      activeSlide.appendChild(videoEl);
 
       let player = new YT.Player(videoEl, {
         videoId: videoId,
@@ -103,24 +107,23 @@ function initSwiper(prevBtn, nextBtn) {
     }
 
     function onSlideHover(event) {
-      const thumbnail = event.currentTarget.querySelector(".thumbnail");
-      thumbnail.style.cursor = "pointer";
-      const button = thumbnail.querySelector(".pdb-video-play-btn");
+      event.currentTarget.style.cursor = "pointer";
+      const button = event.currentTarget.querySelector(".pdb-video-play-btn");
       button.style.transform = 'scale(1.1)';
     }
 
     function onSlideOut(event) {
-      const thumbnail = event.currentTarget.querySelector(".thumbnail");
-      thumbnail.style.cursor = "initial";
-      const button = thumbnail.querySelector(".pdb-video-play-btn");
+      event.currentTarget.style.cursor = "initial";
+      const button = event.currentTarget.querySelector(".pdb-video-play-btn");
       button.style.transform = 'scale(1)';
     }
 
     function handleFirstSlide() {
       const activeSlide = swiper.slides[swiper.activeIndex];
-      activeSlide.addEventListener("click", loadVideo);
-      activeSlide.addEventListener("mouseover", onSlideHover);
-      activeSlide.addEventListener("mouseout", onSlideOut);
+      const activeThumb = activeSlide.querySelector(".thumbnail");
+      activeThumb.addEventListener("click", loadVideo);
+      activeThumb.addEventListener("mouseover", onSlideHover);
+      activeThumb.addEventListener("mouseout", onSlideOut);
     }
 
     function handleSlideChange() {
@@ -133,16 +136,17 @@ function initSwiper(prevBtn, nextBtn) {
           thumbnail.style.display = "flex";
         }
 
-        previousSlide.removeEventListener("click", loadVideo);
-        previousSlide.removeEventListener("mouseover", onSlideHover);
-        previousSlide.removeEventListener("mouseout", onSlideOut);
+        thumbnail.removeEventListener("click", loadVideo);
+        thumbnail.removeEventListener("mouseover", onSlideHover);
+        thumbnail.removeEventListener("mouseout", onSlideOut);
       }
 
       if (swiper.slides[swiper.activeIndex]) {
         const activeSlide = swiper.slides[swiper.activeIndex];
-        activeSlide.addEventListener("click", loadVideo);
-        activeSlide.addEventListener("mouseover", onSlideHover);
-        activeSlide.addEventListener("mouseout", onSlideOut);
+        const thumbnail = activeSlide.querySelector(".thumbnail");
+        thumbnail.addEventListener("click", loadVideo);
+        thumbnail.addEventListener("mouseover", onSlideHover);
+        thumbnail.addEventListener("mouseout", onSlideOut);
       }
     }
 
