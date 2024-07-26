@@ -9,8 +9,8 @@ const section = document.getElementById("pdb-photos");
     prevBtn.classList.add("prev");
     const nextBtn = document.createElement("div");
     nextBtn.classList.add("next");
-    slider.appendChild(prevBtn);
-    slider.appendChild(nextBtn);
+    section.appendChild(prevBtn);
+    section.appendChild(nextBtn);
     slider.appendChild(wrapper);
 
     axios.get("http://localhost/piedebiche/wp-json/wp/v2/slide_photo")
@@ -19,9 +19,10 @@ const section = document.getElementById("pdb-photos");
             photos.forEach((photo) => {
                 const slide = document.createElement("div");
                 slide.classList.add("swiper-slide");
-                const img = document.createElement("img");
-                img.setAttribute("src", photo.featured_media_src_url);
-                slide.appendChild(img);
+                const imgContainer = document.createElement("div");
+                imgContainer.classList.add("photo");
+                imgContainer.style.backgroundImage = `url(${photo.featured_media_src_url})`;
+                slide.appendChild(imgContainer);
                 wrapper.appendChild(slide);
             });
             section.appendChild(slider);
@@ -39,13 +40,43 @@ const section = document.getElementById("pdb-photos");
                         }
                     }
                 });
+
+                function handleSlideChange() {
+                    if (swiper.slides[swiper.previousIndex]) {
+                        const previousSlide = swiper.slides[swiper.previousIndex];
+                        const photo = previousSlide.querySelector(".photo");
+                        photo.style.cursor = "initial";
+                    }
+
+                    if (swiper.slides[swiper.activeIndex]) {
+                        const activeSlide = swiper.slides[swiper.activeIndex];
+                        const photo = activeSlide.querySelector(".photo");
+                        photo.style.cursor = "pointer";
+                    }
+                }
+
+                function blowPhoto(event) {
+                    const activeSlide = swiper.slides[swiper.activeIndex];
+                    const photo = activeSlide.querySelector(".photo");
+                }
+
+                function handleFirstSlide() {
+                    const activeSlide = swiper.slides[swiper.activeIndex];
+                    const photo = activeSlide.querySelector(".photo");
+                    photo.style.cursor = "pointer";
+                    photo.addEventListener("click", blowPhoto);
+                }
+
                 nextBtn.addEventListener("click", () => {
                     swiper.slideNext();
                 });
         
                 prevBtn.addEventListener("click", () => {
-                swiper.slidePrev();
+                    swiper.slidePrev();
                 });
+
+                handleFirstSlide();
+                swiper.on('slideChangeTransitionStart', handleSlideChange);
             }
             initSwiper();
         }) 

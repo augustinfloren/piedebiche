@@ -12,8 +12,9 @@ function onYouTubeIframeAPIReady() {
   const loadingIcon = document.createElement("span");
   loadingIcon.classList.add("video-loader");
   section.appendChild(loadingIcon);
-  slider.appendChild(prevBtn);
-  slider.appendChild(nextBtn);
+  const mask = document.createElement("div");
+  section.appendChild(prevBtn);
+  section.appendChild(nextBtn);
   slider.appendChild(wrapper);
 
   const apiKey = "AIzaSyCskvM3LEYsU69UNBf99o5MBCsc2YLjkLo";
