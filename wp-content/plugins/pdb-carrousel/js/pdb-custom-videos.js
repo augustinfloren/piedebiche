@@ -10,11 +10,9 @@ function onYouTubeIframeAPIReady() {
   const nextBtn = document.createElement("div");
   nextBtn.classList.add("next");
   const loadingIcon = document.createElement("span");
-  loadingIcon.classList.add("video-loader");
+  loadingIcon.classList.add("slider-loader");
   section.appendChild(loadingIcon);
   const mask = document.createElement("div");
-  section.appendChild(prevBtn);
-  section.appendChild(nextBtn);
   slider.appendChild(wrapper);
 
   const apiKey = "AIzaSyCskvM3LEYsU69UNBf99o5MBCsc2YLjkLo";
@@ -45,6 +43,8 @@ function onYouTubeIframeAPIReady() {
       Promise.all(videoPromises).then(() => {
         loadingIcon.remove();
         section.appendChild(slider);
+        section.appendChild(prevBtn);
+        section.appendChild(nextBtn);
         initSwiper(prevBtn, nextBtn);
       });
     })
@@ -86,25 +86,48 @@ function initSwiper(prevBtn, nextBtn) {
     });
 
     function loadVideo(event) {
+      const loadingIcon = document.createElement("div");
+      loadingIcon.classList.add("video-loader");
       const activeSlide = swiper.slides[swiper.activeIndex];
       const activeThumb = activeSlide.querySelector(".thumbnail");
       activeThumb.removeEventListener("click", loadVideo);
       activeThumb.style.display = "none";
       const videoId = activeSlide.getAttribute("video-id");
       const videoEl = document.createElement("div");
+      videoEl.classList.add("video-container");
+      videoEl.appendChild(loadingIcon);
       activeSlide.appendChild(videoEl);
 
-      let player = new YT.Player(videoEl, {
-        videoId: videoId,
-        events: {
-          'onReady': onPlayerReady,
-        },
-        origin: 'http://localhost/piedebiche',
-      });
+      setTimeout(() => {
+        loadingIcon.remove();
+        let player = new YT.Player(videoEl, {
+          videoId: videoId,
+          playerVars: {
+            'modestbranding': 1,
+            'rel': 0,
+            'controls': 1, // Pour afficher les contrôles
+            'autoplay': 1, // Pour démarrer automatiquement la lecture
+            'showinfo': 0, // Non supporté, mais laissé pour compatibilité descendante
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onError': onPlayerError,
+          },
+          origin: 'https://piedebiche.fr',
+        });
+  
+        function onPlayerReady(event) {
+          const iframe = document.querySelector("iframe");
+          iframe.style.opacity = 1;
+          event.target.unMute();
+        } 
 
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      } 
+        function onPlayerError() {
+          const errorMessage = document.createElement("h3");
+          errorMessage.textContent = "Une erreur est survenue lors du chargement de la vidéo, merci de réessayer plus tard.";
+          videoEl.appendChild(errorMessage);
+        }
+      }, 200);
     }
 
     function onSlideHover(event) {
