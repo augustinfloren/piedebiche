@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", onYouTubeIframeAPIReady);
 function onYouTubeIframeAPIReady() {
   const section = document.getElementById("pdb-videos");
   const slider = document.createElement("div");
