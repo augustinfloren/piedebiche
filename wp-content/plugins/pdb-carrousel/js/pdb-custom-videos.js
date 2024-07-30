@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const apiKey = "AIzaSyCskvM3LEYsU69UNBf99o5MBCsc2YLjkLo";
 
     // Récupération des vidéos avec WP API
-    axios.get("http://localhost/piedebiche/wp-json/wp/v2/slide_video")
+    axios.get("https://piedebiche.fr/wp-json/wp/v2/slide_video")
       .then(response => {
         const videos = response.data;
         

@@ -14,7 +14,7 @@ const section = document.getElementById("pdb-photos");
     section.appendChild(nextBtn);
     slider.appendChild(wrapper);
 
-    axios.get("http://localhost/piedebiche/wp-json/wp/v2/slide_photo")
+    axios.get("https://piedebiche.fr/wp-json/wp/v2/slide_photo")
         .then(response => { 
             const photos = response.data;
             photos.forEach((photo) => {
