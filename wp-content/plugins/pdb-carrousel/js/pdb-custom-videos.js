@@ -9,8 +9,10 @@ function onYouTubeIframeAPIReady() {
   prevBtn.classList.add("prev");
   const nextBtn = document.createElement("div");
   nextBtn.classList.add("next");
-  slider.appendChild(prevBtn);
-  slider.appendChild(nextBtn);
+  const loadingIcon = document.createElement("span");
+  loadingIcon.classList.add("slider-loader");
+  section.appendChild(loadingIcon);
+  const mask = document.createElement("div");
   slider.appendChild(wrapper);
 
   const apiKey = "AIzaSyCskvM3LEYsU69UNBf99o5MBCsc2YLjkLo";
@@ -39,7 +41,10 @@ function onYouTubeIframeAPIReady() {
 
       // Attendre que toutes les vidéos soient traitées avant d'ajouter le slider
       Promise.all(videoPromises).then(() => {
+        loadingIcon.remove();
         section.appendChild(slider);
+        section.appendChild(prevBtn);
+        section.appendChild(nextBtn);
         initSwiper(prevBtn, nextBtn);
       });
     })
@@ -81,46 +86,68 @@ function initSwiper(prevBtn, nextBtn) {
     });
 
     function loadVideo(event) {
+      const loadingIcon = document.createElement("div");
+      loadingIcon.classList.add("video-loader");
       const activeSlide = swiper.slides[swiper.activeIndex];
-      activeSlide.removeEventListener("click", loadVideo);
-      const thumbnail = event.currentTarget.querySelector(".thumbnail");
-      thumbnail.style.display = "none";
-      const videoId = event.currentTarget.getAttribute("video-id");
+      const activeThumb = activeSlide.querySelector(".thumbnail");
+      activeThumb.removeEventListener("click", loadVideo);
+      activeThumb.style.display = "none";
+      const videoId = activeSlide.getAttribute("video-id");
       const videoEl = document.createElement("div");
-      event.currentTarget.appendChild(videoEl);
+      videoEl.classList.add("video-container");
+      videoEl.appendChild(loadingIcon);
+      activeSlide.appendChild(videoEl);
 
-      let player = new YT.Player(videoEl, {
-        videoId: videoId,
-        events: {
-          'onReady': onPlayerReady,
-        },
-        origin: 'http://localhost/piedebiche',
-      });
+      setTimeout(() => {
+        loadingIcon.remove();
+        let player = new YT.Player(videoEl, {
+          videoId: videoId,
+          playerVars: {
+            'modestbranding': 1,
+            'rel': 0,
+            'controls': 1, // Pour afficher les contrôles
+            'autoplay': 1, // Pour démarrer automatiquement la lecture
+            'showinfo': 0, // Non supporté, mais laissé pour compatibilité descendante
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onError': onPlayerError,
+          },
+          origin: 'https://piedebiche.fr',
+        });
+  
+        function onPlayerReady(event) {
+          const iframe = document.querySelector("iframe");
+          iframe.style.opacity = 1;
+          event.target.unMute();
+        } 
 
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      } 
+        function onPlayerError() {
+          const errorMessage = document.createElement("h3");
+          errorMessage.textContent = "Une erreur est survenue lors du chargement de la vidéo, merci de réessayer plus tard.";
+          videoEl.appendChild(errorMessage);
+        }
+      }, 200);
     }
 
     function onSlideHover(event) {
-      const thumbnail = event.currentTarget.querySelector(".thumbnail");
-      thumbnail.style.cursor = "pointer";
-      const button = thumbnail.querySelector(".pdb-video-play-btn");
+      event.currentTarget.style.cursor = "pointer";
+      const button = event.currentTarget.querySelector(".pdb-video-play-btn");
       button.style.transform = 'scale(1.1)';
     }
 
     function onSlideOut(event) {
-      const thumbnail = event.currentTarget.querySelector(".thumbnail");
-      thumbnail.style.cursor = "initial";
-      const button = thumbnail.querySelector(".pdb-video-play-btn");
+      event.currentTarget.style.cursor = "initial";
+      const button = event.currentTarget.querySelector(".pdb-video-play-btn");
       button.style.transform = 'scale(1)';
     }
 
     function handleFirstSlide() {
       const activeSlide = swiper.slides[swiper.activeIndex];
-      activeSlide.addEventListener("click", loadVideo);
-      activeSlide.addEventListener("mouseover", onSlideHover);
-      activeSlide.addEventListener("mouseout", onSlideOut);
+      const activeThumb = activeSlide.querySelector(".thumbnail");
+      activeThumb.addEventListener("click", loadVideo);
+      activeThumb.addEventListener("mouseover", onSlideHover);
+      activeThumb.addEventListener("mouseout", onSlideOut);
     }
 
     function handleSlideChange() {
@@ -133,16 +160,17 @@ function initSwiper(prevBtn, nextBtn) {
           thumbnail.style.display = "flex";
         }
 
-        previousSlide.removeEventListener("click", loadVideo);
-        previousSlide.removeEventListener("mouseover", onSlideHover);
-        previousSlide.removeEventListener("mouseout", onSlideOut);
+        thumbnail.removeEventListener("click", loadVideo);
+        thumbnail.removeEventListener("mouseover", onSlideHover);
+        thumbnail.removeEventListener("mouseout", onSlideOut);
       }
 
       if (swiper.slides[swiper.activeIndex]) {
         const activeSlide = swiper.slides[swiper.activeIndex];
-        activeSlide.addEventListener("click", loadVideo);
-        activeSlide.addEventListener("mouseover", onSlideHover);
-        activeSlide.addEventListener("mouseout", onSlideOut);
+        const thumbnail = activeSlide.querySelector(".thumbnail");
+        thumbnail.addEventListener("click", loadVideo);
+        thumbnail.addEventListener("mouseover", onSlideHover);
+        thumbnail.addEventListener("mouseout", onSlideOut);
       }
     }
 
