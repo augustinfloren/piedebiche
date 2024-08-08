@@ -13,6 +13,10 @@ const section = document.getElementById("pdb-photos");
     section.appendChild(prevBtn);
     section.appendChild(nextBtn);
     slider.appendChild(wrapper);
+    // Loader
+    const loadingIcon = document.createElement("span");
+    loadingIcon.classList.add("slider-loader");
+    section.appendChild(loadingIcon);
 
     axios.get("https://piedebiche.fr/wp-json/wp/v2/slide_photo")
         .then(response => { 
@@ -20,12 +24,15 @@ const section = document.getElementById("pdb-photos");
             photos.forEach((photo) => {
                 const slide = document.createElement("div");
                 slide.classList.add("swiper-slide");
+                slide.setAttribute("lazy", "true");
                 const imgContainer = document.createElement("div");
+                imgContainer.setAttribute("loading", "lazy");
                 imgContainer.classList.add("photo");
                 imgContainer.style.backgroundImage = `url(${photo.featured_media_src_url})`;
                 slide.appendChild(imgContainer);
                 wrapper.appendChild(slide);
             });
+            loadingIcon.remove();
             section.appendChild(slider);
             function initSwiper() {
                 let fsSwiper;

@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
             'controls': 1, // Pour afficher les contrôles
             'autoplay': 1, // Pour démarrer automatiquement la lecture
             'showinfo': 0, // Non supporté, mais laissé pour compatibilité descendante
+            'fs' : 1,
           },
           events: {
             'onReady': onPlayerReady,
@@ -119,8 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         function onPlayerReady(event) {
           const iframe = document.querySelector("iframe");
+          iframe.setAttribute("allowFullscreen", "allowFullscreen");
+          iframe.setAttribute("mozallowfullscreen", "mozallowfullscreen");
+          iframe.setAttribute("oallowfullscreen", "oallowfullscreen");
+          iframe.setAttribute("webkitallowfullscreen", "webkitallowfullscreen");
           iframe.style.opacity = 1;
           event.target.unMute();
+          iframe.requestFullscreen();
         } 
 
         function onPlayerError() {

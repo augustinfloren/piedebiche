@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     
+    const section = document.getElementById("pdb-music");
     // Player
     const player = document.getElementById("pdb-player");
     const playerControlsContainer = document.getElementById("pdb-player-controls-container");
@@ -19,6 +20,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const pauseBtn = player.querySelector("#pdb-player-pause-btn");
     const backwardBtn = player.querySelector("#pdb-player-backward-btn");
     const forwardBtn = player.querySelector("#pdb-player-forward-btn");
+    // Loader 
+    const loadingIcon = document.createElement("span");
+    loadingIcon.classList.add("slider-loader");
+    section.appendChild(loadingIcon);
 
     // Tableau des pistes
     let tracksArray = [];
@@ -49,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (tracksArray.length <= 0) {
             player.style.display = "none";
         } else {
+            loadingIcon.remove();
             player.style.display = "grid";
         }
 
