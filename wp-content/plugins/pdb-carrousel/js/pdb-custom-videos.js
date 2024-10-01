@@ -126,7 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
           iframe.setAttribute("webkitallowfullscreen", "webkitallowfullscreen");
           iframe.style.opacity = 1;
           event.target.unMute();
-          iframe.requestFullscreen();
+          if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+          } else if (iframe.mozRequestFullScreen) { // Firefox
+            iframe.mozRequestFullScreen();
+          } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            iframe.webkitRequestFullscreen();
+          } else if (iframe.msRequestFullscreen) { // IE/Edge
+            iframe.msRequestFullscreen();
+          }
         } 
 
         function onPlayerError() {

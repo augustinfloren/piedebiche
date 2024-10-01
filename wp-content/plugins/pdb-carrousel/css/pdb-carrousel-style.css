@@ -5,7 +5,7 @@
     align-items: center;
     grid-row: col-start 4 / span 7;
     width: 100vw;
-    mask-image: linear-gradient(90deg, transparent 0%, rgb(0, 0, 0) 30%, rgb(0, 0, 0) 70%, transparent 100%); */
+    mask-image: linear-gradient(90deg, transparent 0%, rgb(0, 0, 0) 30%, rgb(0, 0, 0) 70%, transparent 100%); 
     mask-mode: alpha; 
 } 
 
