@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   prevBtn.classList.add("prev");
   const nextBtn = document.createElement("div");
   nextBtn.classList.add("next");
+  const arrowsContainer = document.createElement("div");
+  arrowsContainer.classList.add("arrows-container");
+  arrowsContainer.appendChild(prevBtn);
+  arrowsContainer.appendChild(nextBtn);
   const loadingIcon = document.createElement("span");
   loadingIcon.classList.add("slider-loader");
   section.appendChild(loadingIcon);
@@ -76,8 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Promise.all(videoPromises).then(() => {
         loadingIcon.remove();
         section.appendChild(slider);
-        section.appendChild(prevBtn);
-        section.appendChild(nextBtn);
+        section.appendChild(arrowsContainer);
         initSwiper(prevBtn, nextBtn);
       });
     })

@@ -9,6 +9,16 @@
     mask-mode: alpha; 
 } 
 
+.arrows-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-row: col-start 4 / span 7;
+    height: 100%;
+    width: 100vw;
+}
+
 .full-screen {
     z-index: 98;
     display: initial;
@@ -71,13 +81,11 @@
 
 .prev {
     left: 24%;
-    top: 50%;
     background: no-repeat url(../images/prev.png) center/contain;
 }
 
 .next {
-    right: calc(24% - 17px);
-    top: 50%;
+    right: calc(24% + 17px);
     background: no-repeat url(../images/next.png) center/contain;
 }
 
@@ -130,7 +138,7 @@
         left: 7%;
     }
     .next {
-        right: calc(7% - 17px);
+        right: 7%;
     }
 }
 
