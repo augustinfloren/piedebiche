@@ -43,26 +43,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      const players = [];
-
       const videos = document.querySelectorAll(".slider-player");
+      const mainEl = document.querySelector("main");
         videos.forEach((video) => {
           const player = new Plyr(video, {
             hideControls: false,
+            controls: [
+              'play-large',
+              'play', // Bouton de lecture
+              'progress', // Barre de progression
+              'current-time', // Affichage du temps actuel
+              'mute', // Bouton de sourdine
+              'volume', // Contrôle du volume
+              'pip', // Picture-in-Picture (si besoin)
+              // 'fullscreen', // Ne pas inclure le bouton de plein écran
+            ]
           });
           player.toggleControls(false);
           player.on('play', (event) => {
+            mainEl.style.scrollSnapType = "none"; // Réglage du décalage scroll sur moz
             player.toggleControls(true);
             player.fullscreen.enter();
-            // player.elements.controls.style.display = 'block';
           });
           let firstClick = true;
+          // Gestion du plein écran
           player.on('click', (event) => {
             if (!firstClick & !event.target.closest('.plyr__controls')) {
                 resetPlayer();
+                setTimeout(() => {
+                  mainEl.style.scrollSnapType = "y mandatory"; // Réglage du décalage scroll sur moz
+                }, "500");
+            } else {
+              firstClick = false;
             }
-            firstClick = false;
-            // Vérifiez si l'utilisateur clique sur la vidéo et non sur les contrôles
           });
           // Fonction pour réinitialiser le player
           function resetPlayer() {
@@ -74,24 +87,19 @@ document.addEventListener("DOMContentLoaded", () => {
               type: 'video',
               sources: [
                 {
-                  src: videoSource,   // Recharger la même source pour réinitialiser
+                  src: videoSource, // Recharger la même source pour réinitialiser
                   provider: 'youtube'
                 }
               ]
             };
           // Optionnel: Remettre à zéro le temps de la vidéo
           player.restart();
+          player.toggleControls(false);
+          firstClick = true;
         }
-          players.push(player);
       });
 
       nextBtn.addEventListener("click", () => {
-        videos.forEach((video, index) => {
-          players[index].destroy
-          const player = new Plyr(video, {
-            hideControls: false,
-          });
-        });
         swiper.slideNext();
       });
 
