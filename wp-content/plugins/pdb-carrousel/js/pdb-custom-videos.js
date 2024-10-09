@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return match ? match[1] : null;
   }
 
+  // Init Slider
   function initSwiper(prevBtn, nextBtn) {
     if (document.querySelector(".swiper")) {
       const swiper = new Swiper(slider, {
@@ -42,7 +43,55 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
+      const players = [];
+
+      const videos = document.querySelectorAll(".slider-player");
+        videos.forEach((video) => {
+          const player = new Plyr(video, {
+            hideControls: false,
+          });
+          player.toggleControls(false);
+          player.on('play', (event) => {
+            player.toggleControls(true);
+            player.fullscreen.enter();
+            // player.elements.controls.style.display = 'block';
+          });
+          let firstClick = true;
+          player.on('click', (event) => {
+            if (!firstClick & !event.target.closest('.plyr__controls')) {
+                resetPlayer();
+            }
+            firstClick = false;
+            // Vérifiez si l'utilisateur clique sur la vidéo et non sur les contrôles
+          });
+          // Fonction pour réinitialiser le player
+          function resetPlayer() {
+            player.fullscreen.exit();
+            // Obtenir la source actuelle (URL YouTube)
+            const videoSource = player.source;
+            // Réinitialiser en rechargeant la même vidéo
+            player.source = {
+              type: 'video',
+              sources: [
+                {
+                  src: videoSource,   // Recharger la même source pour réinitialiser
+                  provider: 'youtube'
+                }
+              ]
+            };
+          // Optionnel: Remettre à zéro le temps de la vidéo
+          player.restart();
+        }
+          players.push(player);
+      });
+
       nextBtn.addEventListener("click", () => {
+        videos.forEach((video, index) => {
+          players[index].destroy
+          const player = new Plyr(video, {
+            hideControls: false,
+          });
+        });
         swiper.slideNext();
       });
 
@@ -50,12 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
         swiper.slidePrev();
       });
     }
-
-    const players = Plyr.setup('#slider-player', {
-      controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-      loop: { active: true },
-  });
-  
   }
 
   // Récupération des vidéos avec WP API
@@ -69,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const slide = document.createElement("div");
         const player = document.createElement("div");
         slide.classList.add("swiper-slide");
-        player.setAttribute("id", "slider-player");
+        player.setAttribute("class", "slider-player");
         player.setAttribute("data-plyr-provider", "youtube");
         player.setAttribute("data-plyr-embed-id", videoId);
         slide.appendChild(player);
@@ -79,8 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // Attendre que toutes les vidéos soient traitées avant d'ajouter le slider
       Promise.all(videoPromises).then(() => {
         loadingIcon.remove();
-        section.appendChild(slider);
         section.appendChild(arrowsContainer);
+        section.appendChild(slider);
         initSwiper(prevBtn, nextBtn);
       });
     })

@@ -1,3 +1,7 @@
+.slider-player {
+    --plyr-color-main: #1ac266;
+}
+
 #carrousel-video, .normal {
     position: relative;
     display: flex;
@@ -42,7 +46,23 @@
     width: 100%; /* Prend toute la largeur de son conteneur */
     height: auto; /* Ajuste la hauteur proportionnellement */
     max-width: 100%; /* Empêche le dépassement */
-  }
+}
+
+.plyr--full-ui .plyr__control--overlaid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plyr--paused .plyr__control--overlaid {
+    visibility: visible;
+    opacity: 1;
+}
+
+.plyr--playing .plyr__control--overlaid {
+    visibility: hidden;
+    opacity: 0;
+}
 
 #carrousel-photo .swiper-slide {
     overflow: hidden;
@@ -58,6 +78,10 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+}
+
+.photo, .plyr {
+    border-radius: 10px;
 }
 
 .pdb-video-play-btn {
@@ -145,11 +169,6 @@
 @media (max-width: 800px) {
     .swiper-slide .thumbnail, .swiper-slide .photo{
         height: 500px;
-        width: 68%;
-    }
-
-    .swiper-slide iframe{
-        height: 400px;
         width: 68%;
     }
 }
