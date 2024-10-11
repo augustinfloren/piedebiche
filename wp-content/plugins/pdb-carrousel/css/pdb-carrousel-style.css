@@ -129,7 +129,7 @@
 }
 
 .prev, .next {
-    z-index: 90;
+    z-index: 99;
     position: absolute;
     cursor: pointer;
     width: 25px;
@@ -193,9 +193,12 @@
     } 
 
 @media (max-width: 800px) {
-    .swiper-slide .thumbnail, .swiper-slide .photo{
+    .swiper-slide .photo, .plyr{
         height: 500px;
-        width: 68%;
+        width: 100%;
+    }
+    .plyr__poster {
+        background-size: 224%;
     }
     .prev {
         left: 7%;
