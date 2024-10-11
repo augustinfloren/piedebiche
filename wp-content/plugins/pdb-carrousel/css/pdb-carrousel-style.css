@@ -193,6 +193,9 @@
     } 
 
 @media (max-width: 800px) {
+    #carrousel-video, #carrousel-photo, .arrows-container {
+        grid-row: col-start 3 / span 7;
+    }
     .swiper-slide .photo, .plyr{
         height: 500px;
         width: 100%;

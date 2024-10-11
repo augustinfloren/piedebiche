@@ -1,5 +1,5 @@
 <!-- ========== AGENDA CONCERTS ========== -->
-    
+
 <!-- Récupération posts concerts -->
 <?php
 $query = new WP_Query([
@@ -20,8 +20,19 @@ if ($query->have_posts()) {
         $ville = get_field('ville');
         $pays = get_field('pays');
         $lien = get_field('lien');
+
+        // Conversion de la date au format timestamp
+        $concert_date_timestamp = strtotime($date);
+        $current_date_timestamp = time();
+
+        // Vérification si la date du concert est dans le passé
+        $is_past_concert = $concert_date_timestamp < $current_date_timestamp;
+
+        // Ajout d'une classe CSS si le concert est passé
+        $concert_class = $is_past_concert ? 'concert-passe' : '';
+
         // Affichage du contenu
-        echo "<div class='pdb-concert'> 
+        echo "<div class='pdb-concert $concert_class'> 
                 <div class='pdb-schedule-container'>
                     <h6 class='pdb-concert-date'>$date</h6>
                     <h6 class='pdb-concert-schedule'>$heure</h6>
