@@ -25,7 +25,11 @@
                     <li><a href="#pdb-videos">Vidéos</a></li>
                     <li><a href="#pdb-photos">Photos</a></li>
                     <li><a href="#pdb-concerts">Concerts</a></li>
-                    <li><a href="#">Merch</a></li>
+                    
+                    <?php if (get_option('pdb_merch_enabled')) : ?>
+                        <li><a href="<?php echo esc_url(get_option('pdb_merch_url')); ?>" target="_blank">Merch</a></li>
+                    <?php endif; ?>
+                    
                     <li><a href="#pdb-contact">Contact</a></li>
                     <li><a href="#">Pro</a></li>
                 </ul>
