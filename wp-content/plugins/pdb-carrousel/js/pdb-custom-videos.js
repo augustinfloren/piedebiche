@@ -49,17 +49,40 @@ document.addEventListener("DOMContentLoaded", () => {
           const player = new Plyr(video, {
             hideControls: false,
             controls: [
-              'play-large',
               'play', // Bouton de lecture
               'progress', // Barre de progression
               'current-time', // Affichage du temps actuel
               'mute', // Bouton de sourdine
               'volume', // Contrôle du volume
-              'pip', // Picture-in-Picture (si besoin)
-              // 'fullscreen', // Ne pas inclure le bouton de plein écran
             ]
           });
           player.toggleControls(false);
+          // Bouton Play
+          console.log(player.elements)
+          const playerContainer = player.elements.container;
+          const playerWrapper = player.elements.wrapper;
+          const playBtnContainer = document.createElement("div");
+          playBtnContainer.classList.add("play-btn-container");
+          const playBtn = document.createElement("img");
+          playBtn.classList.add("play-btn");
+          playBtn.src = `${pluginUrl.url}images/play-btn.png`;
+          // On ready
+          player.on("ready" , () => {
+            playBtnContainer.addEventListener("click", () => {
+              player.play();
+              playBtnContainer.style.display = "none";
+            });
+            playBtnContainer.addEventListener("mouseenter", () => {
+              playBtn.style.transform = "scale(1.2)";
+              playBtn.classList.add("play-blur");
+            });
+            playBtnContainer.addEventListener("mouseleave", () => {
+              playBtn.style.transform = "scale(1)";
+              playBtn.classList.remove("play-blur");
+            });
+            playBtnContainer.appendChild(playBtn);
+            playerContainer.appendChild(playBtnContainer);
+          });
           player.on('play', (event) => {
             mainEl.style.scrollSnapType = "none"; // Réglage du décalage scroll sur moz
             player.toggleControls(true);
@@ -68,11 +91,13 @@ document.addEventListener("DOMContentLoaded", () => {
           let firstClick = true;
           // Gestion du plein écran
           player.on('click', (event) => {
+            // Sortie du plein ecran
             if (!firstClick & !event.target.closest('.plyr__controls')) {
                 resetPlayer();
                 setTimeout(() => {
                   mainEl.style.scrollSnapType = "y mandatory"; // Réglage du décalage scroll sur moz
-                }, "500");
+                  playBtnContainer.style.display = "flex"; // rétablissement du bouton play 
+                }, "1000");
             } else {
               firstClick = false;
             }
@@ -83,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Obtenir la source actuelle (URL YouTube)
             const videoSource = player.source;
             // Réinitialiser en rechargeant la même vidéo
+            player.elements.wrapper.style.opacity = "0";
             player.source = {
               type: 'video',
               sources: [
@@ -92,11 +118,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
               ]
             };
-          // Optionnel: Remettre à zéro le temps de la vidéo
           player.restart();
           player.toggleControls(false);
           firstClick = true;
-        }
+          setTimeout(() => {
+            playerContainer.style.opacity = "1";
+          }, 3000)
+        };
       });
 
       nextBtn.addEventListener("click", () => {
