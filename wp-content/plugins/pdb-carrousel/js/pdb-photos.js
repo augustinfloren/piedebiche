@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-const section = document.getElementById("pdb-photos");
+    const section = document.getElementById("pdb-photos");
     const slider = document.createElement("div");
     slider.classList.add("swiper");
     slider.classList.add("normal");
@@ -10,8 +10,11 @@ const section = document.getElementById("pdb-photos");
     prevBtn.classList.add("prev");
     const nextBtn = document.createElement("div");
     nextBtn.classList.add("next");
-    section.appendChild(prevBtn);
-    section.appendChild(nextBtn);
+    const arrowsContainer = document.createElement("div");
+    arrowsContainer.classList.add("arrows-container");
+    arrowsContainer.appendChild(prevBtn);
+    arrowsContainer.appendChild(nextBtn);
+    section.appendChild(arrowsContainer);
     slider.appendChild(wrapper);
     // Loader
     const loadingIcon = document.createElement("span");
