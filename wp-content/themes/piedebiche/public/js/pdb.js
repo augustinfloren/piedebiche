@@ -16,6 +16,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 proSection.addEventListener("click", () => {
                     proSection.style.display = "none";
                 });
+            }
+            // Fermeture menu responsive au clic sur un lien 
+            if (window.matchMedia("(max-width: 1250px)").matches) {
+                mobile_menu.classList.toggle('active');
+                menu_btn.classList.toggle('active');
+                overlay.style.display = "none";
+                menuActivated = false;
             } else {
                 // Désactivation scroll mandatory
                 e.preventDefault();
@@ -30,13 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 timeoutId = setTimeout(() => {
                     container.style.scrollSnapType = 'y mandatory';
                 }, 1000); // Ajuster selon la durée du scroll
-            }
-            // Fermeture menu responsive au clic sur un lien 
-            if (window.matchMedia("(max-width: 1250px)").matches) {
-                mobile_menu.classList.toggle('active');
-                menu_btn.classList.toggle('active');
-                overlay.style.display = "none";
-                menuActivated = false;
             }
         })
     });
