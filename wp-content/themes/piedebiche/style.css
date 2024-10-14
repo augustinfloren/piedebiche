@@ -834,5 +834,11 @@ footer {
         right: 3%;
         top: 2%;
     }
+    
+    /* Carrousel photo */
+
+    #pdb-carrousel-photo {
+        grid-column: 1 / -1;
+    }
 
 }
