@@ -190,21 +190,6 @@ add_action('rest_api_init', 'piedebiche_register_link_field');
 function piedebiche_get_link_field($object, $field_name, $request) {
     return get_post_meta($object['id'], '_link', true);
 }
- 
-// ========== Affichage du Carrousel ==========
-function piedebiche_carrousel_photo_show($limit = 10) {
-    $slides = new WP_query("post_type=slide_photo&posts_per_page=$limit"); 
-    echo '<div id="pdb-carrousel-photo">'; 
-    while($slides->have_posts()) {
-        $slides->the_post();
-        global $post;
-        $alt_text = get_the_title();
-        echo '<div class="pdb-carrousel-item-content">';
-        the_post_thumbnail('full', array('alt' => $alt_text));
-        echo '</div>';
-    }
-    echo '</div>';
-}
 
 
 

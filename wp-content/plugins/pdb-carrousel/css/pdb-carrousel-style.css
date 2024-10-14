@@ -39,7 +39,7 @@
     height: auto; 
     max-width: 100%; 
     cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.9;
     transition: opacity 0.3s ease;
 }
 
