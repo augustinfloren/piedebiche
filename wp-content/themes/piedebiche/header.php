@@ -42,10 +42,20 @@
                     <h3 id="pdb-pro-title">Pro</h3>
                     <ul>
                         <li>
-                            <a href="<?php echo wp_upload_dir()['baseurl'] . '/2024/03/presentation-MD-PDB-20242.pdf'; ?>" target="_blank">Dossier de présentation</a>
+                            <?php
+                                // Affichage conditionnel des boutons de dossier de présentation et fiche technique
+                                if (get_option('pdb_presentation_enabled') && !empty(get_option('pdb_presentation_file'))) {
+                                    echo '<a class="btn dossier-presentation" href="' . esc_url(get_option('pdb_presentation_file')) . '">Dossier de présentation</a>';
+                                }
+                            ?>
                         </li>
                         <li>
-                            <a href="#">Fiche technique</a>
+                            <?php
+                                // Affichage conditionnel des boutons de dossier de présentation et fiche technique
+                                if (get_option('pdb_technical_enabled') && !empty(get_option('pdb_technical_file'))) {
+                                    echo '<a class="btn fiche-technique" href="' . esc_url(get_option('pdb_technical_file')) . '">Fiche technique</a>';
+                                }
+                            ?>
                         </li>
                     </ul>
                 </div>

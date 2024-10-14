@@ -56,13 +56,13 @@ function pdb_add_settings_page() {
 }
 add_action('admin_menu', 'pdb_add_settings_page');
 
-// ========== Bouton merch ==========
+// ========== MERCH ==========
 
 // Afficher la page de réglages
 function pdb_render_settings_page() {
   ?>
   <div class="wrap">
-      <h1>Réglages Merch</h1>
+      <h1>Merch</h1>
       <form method="post" action="options.php">
           <?php
           settings_fields('pdb_options_group');
@@ -151,3 +151,72 @@ function pdb_handle_video_upload() {
     }
 }
 add_action('admin_post_pdb_video_upload', 'pdb_handle_video_upload');
+
+// ========== PRO FILES ==========
+// Ajouter une page de réglages pour le dossier et la fiche technique
+function pdb_add_files_settings_page() {
+    add_options_page(
+        'Réglages Dossier et Fiche Technique',
+        'Dossier et Fiche Technique',
+        'manage_options',
+        'pdb-files-settings',
+        'pdb_render_files_settings_page'
+    );
+}
+add_action('admin_menu', 'pdb_add_files_settings_page');
+
+// Afficher la page de réglages
+function pdb_render_files_settings_page() {
+    ?>
+    <div class="wrap">
+        <h1>Réglages Dossier et Fiche Technique</h1>
+        <form method="post" action="options.php">
+            <?php
+            settings_fields('pdb_files_options_group');
+            do_settings_sections('pdb_files_options_group');
+            ?>
+            <table class="form-table">
+                <tr valign="top">
+                    <th scope="row">Dossier de présentation</th>
+                    <td>
+                        <input type="text" name="pdb_presentation_file" value="<?php echo esc_attr(get_option('pdb_presentation_file')); ?>" />
+                        <button class="button pdb-upload-file-button">Choisir un fichier</button>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Activer le bouton Dossier de présentation</th>
+                    <td><input type="checkbox" name="pdb_presentation_enabled" value="1" <?php checked(1, get_option('pdb_presentation_enabled'), true); ?> /></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Fiche technique</th>
+                    <td>
+                        <input type="text" name="pdb_technical_file" value="<?php echo esc_attr(get_option('pdb_technical_file')); ?>" />
+                        <button class="button pdb-upload-file-button">Choisir un fichier</button>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Activer le bouton Fiche technique</th>
+                    <td><input type="checkbox" name="pdb_technical_enabled" value="1" <?php checked(1, get_option('pdb_technical_enabled'), true); ?> /></td>
+                </tr>
+            </table>
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+}
+
+// Enregistrer les options
+function pdb_register_files_settings() {
+    register_setting('pdb_files_options_group', 'pdb_presentation_file');
+    register_setting('pdb_files_options_group', 'pdb_presentation_enabled');
+    register_setting('pdb_files_options_group', 'pdb_technical_file');
+    register_setting('pdb_files_options_group', 'pdb_technical_enabled');
+}
+add_action('admin_init', 'pdb_register_files_settings');
+
+// Script pour utiliser la médiathèque
+function pdb_enqueue_media_uploader() {
+    wp_enqueue_media();
+    wp_enqueue_script('pdb-admin-media-uploader', get_template_directory_uri() . '/public/js/media-uploader.js', array('jquery'), null, true);
+}
+add_action('admin_enqueue_scripts', 'pdb_enqueue_media_uploader');
