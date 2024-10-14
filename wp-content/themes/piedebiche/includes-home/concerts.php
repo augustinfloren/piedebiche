@@ -33,18 +33,22 @@ if ($query->have_posts()) {
 
         // Affichage du contenu
         echo "<div class='pdb-concert $concert_class'> 
-                <div class='pdb-schedule-container'>
-                    <h6 class='pdb-concert-date'>$date</h6>
-                    <h6 class='pdb-concert-schedule'>$heure</h6>
-                </div>
-                <div class='pdb-place-container'>
-                    <h5 class='pdb-concert-hall'>$salle</h5>
-                    <p class='pdb-concert-place'>$ville</p>
-                </div>
-                <a class='pdb-concert-link' href='" . esc_url($lien) . "'>Infos</a>
-              </div>";
+        <div class='pdb-schedule-container'>
+            <h6 class='pdb-concert-date'>$date</h6>
+            <h6 class='pdb-concert-schedule'>$heure</h6>
+        </div>
+        <div class='pdb-place-container'>
+            <h5 class='pdb-concert-hall'>$salle</h5>
+            <p class='pdb-concert-place'>$ville</p>
+        </div>";
+
+        // Conditionner la classe selon la présence du lien
+        $link_class = !empty($lien) ? 'pdb-concert-link' : 'pdb-concert-link disabled';
+        
+        echo "<a class='$link_class' href='" . esc_url($lien) . "'>Infos</a>";
+
+        echo "</div>";
     }
-    echo "</div>";
     // Réinitialiser les données de la requête
     wp_reset_postdata();
 } else {
