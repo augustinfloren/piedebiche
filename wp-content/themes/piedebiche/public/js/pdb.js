@@ -3,18 +3,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuLinks = document.querySelectorAll('#pdb-main-menu ul li a');
     const sectionsToWatch = document.querySelectorAll('.sections');
     let anySectionIntersecting = false;
-    
+    const container = document.querySelector('main'); 
     const proSection = document.getElementById("pdb-pro");
 
     let menuActivated = false;
+    let timeoutId;
 
     menuLinks.forEach(link => {
-        link.addEventListener("click", () => {
+        link.addEventListener("click", (e) => {
             if (link.innerText.trim().toLowerCase() === "pro") {
                 proSection.style.display = "flex";
                 proSection.addEventListener("click", () => {
                     proSection.style.display = "none";
-                })
+                });
+            } else {
+                // Désactivation scroll mandatory
+                e.preventDefault();
+                container.style.scrollSnapType = 'none';
+                const target = document.querySelector(link.getAttribute('href'));
+                console.log(target)
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Si un timeout existe déjà, on l'annule
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                // Créer un nouveau timeout pour réactiver le scroll-snap
+                timeoutId = setTimeout(() => {
+                    container.style.scrollSnapType = 'y mandatory';
+                }, 1000); // Ajuster selon la durée du scroll
             }
             // Fermeture menu responsive au clic sur un lien 
             if (window.matchMedia("(max-width: 1250px)").matches) {
@@ -56,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
     sectionsToWatch.forEach(section => {
         observer.observe(section)
     });
-
 
     // ========== Menu responsive ========== //
 
