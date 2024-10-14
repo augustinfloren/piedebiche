@@ -56,7 +56,7 @@ function pdb_add_settings_page() {
 }
 add_action('admin_menu', 'pdb_add_settings_page');
 
-// ========== PAGE CONCERT ==========
+// ========== Bouton merch ==========
 
 // Afficher la page de réglages
 function pdb_render_settings_page() {
@@ -91,7 +91,7 @@ function pdb_register_settings() {
 }
 add_action('admin_init', 'pdb_register_settings');
 
-// ========== VIDEO FOND ==========
+// ========== FOND VIDEO ==========
 
 // Ajouter une page de réglages pour la vidéo de fond
 function pdb_add_video_settings_page() {

@@ -413,6 +413,10 @@ main {
     padding: 0.3rem;
 }
 
+.pdb-concert-link.disabled {
+    visibility: hidden;
+}
+
 .pdb-concert-link:hover {
     color: black;
     background-color: var(--mint-white);
