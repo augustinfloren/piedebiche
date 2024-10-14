@@ -210,3 +210,10 @@
         right: 7%;
     }
 }
+
+/* Mobile */
+@media (max-width: 450px) {
+    #carrousel-photo {
+        grid-row: 1 / -1;
+    }
+}
