@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 container.style.scrollSnapType = 'none';
                 const target = document.querySelector(link.getAttribute('href'));
-                console.log(target)
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 // Si un timeout existe déjà, on l'annule
                 if (timeoutId) {
