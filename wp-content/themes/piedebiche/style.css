@@ -456,7 +456,7 @@ main {
     gap: 1em;
 }
 
-#pdb-pro-text-box ul li {
+#pdb-pro-text-box ul li a {
     width: fit-content;
     background-color: var(--mint-white);
     color: black;
