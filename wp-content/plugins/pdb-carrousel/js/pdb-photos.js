@@ -27,9 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             photos.forEach((photo) => {
                 const slide = document.createElement("div");
                 slide.classList.add("swiper-slide");
-                slide.setAttribute("lazy", "true");
                 const imgContainer = document.createElement("div");
-                imgContainer.setAttribute("loading", "lazy");
                 imgContainer.classList.add("photo");
                 imgContainer.style.backgroundImage = `url(${photo.featured_media_src_url})`;
                 slide.appendChild(imgContainer);

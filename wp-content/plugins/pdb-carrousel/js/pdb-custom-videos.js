@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           player.toggleControls(false);
           // Bouton Play
-          console.log(player.elements)
           const playerContainer = player.elements.container;
           const playerWrapper = player.elements.wrapper;
           const playBtnContainer = document.createElement("div");
