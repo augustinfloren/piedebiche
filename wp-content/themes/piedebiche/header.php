@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="POST PUNK - ROCK ÉLECTRO NOISY">
+    <meta name="description" content="Site officiel du groupe post punk indie PIEDEBICHE formé à Marseille.
+    Rock sauvage et émotionnel aux textes en français rebelles et poétiques.">
     <link rel="icon" href="<?php echo get_template_directory_uri() . '/public/images/favicon.ico'?>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title><?php bloginfo('name'); ?></title>
