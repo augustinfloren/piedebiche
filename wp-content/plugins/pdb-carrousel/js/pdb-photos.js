@@ -120,6 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     main.style.overflowY = "hidden";
                     const logo = document.getElementById("pdb-logo-container");
                     const burger = document.getElementById("pdb-burger");
+                    const menu = document.getElementById("pdb-main-menu");
+                    menu.style.zIndex = "unset";
                     burger.style.zIndex = "unset";
                     logo.style.zIndex = "unset";
                     slider.classList.remove("normal");
@@ -166,6 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     main.style.overflowY = "";
                     const logo = document.getElementById("pdb-logo-container");
                     const burger = document.getElementById("pdb-burger");
+                    const menu = document.getElementById("pdb-main-menu");
+                    menu.style.zIndex = "98";
                     burger.style.zIndex = "98";
                     logo.style.zIndex = "98";
                     slider.classList.remove("full-screen");
