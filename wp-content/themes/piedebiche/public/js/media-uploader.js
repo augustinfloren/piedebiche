@@ -16,12 +16,13 @@ jQuery(document).ready(function($){
             button: {
                 text: 'Choisir'
             },
-            multiple: false
+            multiple: false // Permet de sélectionner un seul fichier
         });
 
         // Quand un fichier est sélectionné, on récupère l'URL et on la met dans le champ de texte
         file_frame.on('select', function() {
             var attachment = file_frame.state().get('selection').first().toJSON();
+            // Mettre à jour le champ précédent du bouton cliqué
             $(e.target).prev('input').val(attachment.url);
         });
 

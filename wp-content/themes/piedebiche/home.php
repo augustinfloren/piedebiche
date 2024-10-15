@@ -2,10 +2,17 @@
         <main>
             <section class="sections" id="pdb-home">
                 <div class="pdb-video-container">
-                    <video autoplay muted loop id="pdb-video">
-                        <source src="<?php echo esc_url(get_option('pdb_background_video', get_template_directory_uri() . '/public/videos/pdb-video-bg.mp4')); ?>" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+
+                <?php
+                $video_url = get_option('pdb_background_video');
+
+                if ($video_url) {
+                    echo '<video autoplay muted loop id="pdb-video">';
+                        echo '<source src="' . esc_url($video_url) . '" type="video/mp4">';
+                        echo 'Votre navigateur ne supporte pas la vidéo HTML5.';
+                    echo '</video>';
+                }
+                ?>
                 </div>
             </section>
 

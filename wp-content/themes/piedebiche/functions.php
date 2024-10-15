@@ -120,8 +120,7 @@ function pdb_render_video_settings_page() {
                     <th scope="row">URL de la Vidéo de Fond</th>
                     <td>
                         <input type="text" name="pdb_background_video" value="<?php echo esc_attr(get_option('pdb_background_video')); ?>" />
-                        <p class="description">Ou téléchargez un fichier vidéo.</p>
-                        <input type="file" name="pdb_background_video_file" />
+                        <button class="button pdb-upload-file-button">Choisir une vidéo</button>
                     </td>
                 </tr>
             </table>
@@ -130,6 +129,7 @@ function pdb_render_video_settings_page() {
     </div>
     <?php
 }
+
 
 // Enregistrer les options
 function pdb_register_video_settings() {
