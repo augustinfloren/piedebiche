@@ -21,15 +21,22 @@ if ($query->have_posts()) {
         $pays = get_field('pays');
         $lien = get_field('lien');
 
-        // Conversion de la date au format timestamp
-        $concert_date_timestamp = strtotime($date);
-        $current_date_timestamp = time();
-
-        // Vérification si la date du concert est dans le passé
-        $is_past_concert = $concert_date_timestamp < $current_date_timestamp;
-
-        // Ajout d'une classe CSS si le concert est passé
-        $concert_class = $is_past_concert ? 'concert-passe' : '';
+        // Convertir la date du format d/m/Y au format Y-m-d
+        $date_obj = DateTime::createFromFormat('d/m/Y', $date);
+        
+        if ($date_obj) {
+            $concert_date_timestamp = $date_obj->getTimestamp(); // Convertir en timestamp
+            $current_date_timestamp = time();
+        
+            // Vérification si la date du concert est dans le passé
+            $is_past_concert = $concert_date_timestamp < $current_date_timestamp;
+        
+            // Ajout d'une classe CSS si le concert est passé
+            $concert_class = $is_past_concert ? 'concert-passe' : '';
+        } else {
+            // En cas d'erreur de format, on peut ne pas afficher le concert
+            $concert_class = 'concert-erreur';
+        }
 
         // Affichage du contenu
         echo "<div class='pdb-concert $concert_class'> 
