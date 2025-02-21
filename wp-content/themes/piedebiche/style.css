@@ -251,6 +251,16 @@ main {
     scroll-snap-align: center;
 }
 
+/* ========== Merch ========== */
+#pdb-merch {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, [col-start] 1fr);
+    grid-template-rows: repeat(12, [col-start] 1fr);
+    grid-column-gap: 1vw;
+    grid-row-gap: 1vw;
+}
+
 /* ========== Musique ========== */
 #pdb-music {
     position: relative;
