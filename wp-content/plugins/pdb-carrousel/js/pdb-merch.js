@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    axios.get("http://piedebiche.fr/piedebiche/wp-json/wp/v2/slide_merch")
+    axios.get("https://piedebiche.fr/wp-json/wp/v2/slide_merch")
         .then(response => {
             const products = response.data;
             if (Array.isArray(products) && products.length > 0) {
