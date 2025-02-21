@@ -16,6 +16,9 @@
                 </div>
             </section>
 
+            <section class="sections" id="pdb-merch">
+            </section>
+
             <section class="sections" id="pdb-music">
                 <div id="pdb-unn-img"></div>
                 <?php piedebiche_player_show() ?>
